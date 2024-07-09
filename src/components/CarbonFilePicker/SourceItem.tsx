@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import FolderIcon from "@assets/svgIcons/folder.svg";
 import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
-import { UserFileApi, UserSourceItemApi } from "../../typing/shared";
-import {
-  formatDate,
-  getFileItemType,
-  getSourceItemType,
-} from "../../utils/helper-functions";
+import { UserSourceItemApi } from "../../typing/shared";
+import { formatDate, getSourceItemType } from "../../utils/helper-functions";
 
 export default function SourceItem({
   item,

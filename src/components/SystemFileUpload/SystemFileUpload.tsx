@@ -5,22 +5,13 @@ import {
   DialogTitle,
 } from "@components/common/design-system/Dialog";
 import BackIcon from "@assets/svgIcons/back-icon.svg";
-import AddCircleIconWhite from "@assets/svgIcons/add-circle-icon-white.svg";
 import { IntegrationItemType } from "@utils/integrationModalconstants";
-import AuthForm from "@components/common/AuthForm";
-import UserPlus from "@assets/svgIcons/user-plus.svg";
 import { Button } from "@components/common/design-system/Button";
 import { images } from "@assets/index";
 
-import FileSelector from "@components/CarbonFilePicker/FileSelector";
 import SuccessScreen from "./SuccessScreen";
 
 import FileExtension from "@components/SystemFileUpload/FileExtension/FileExtension";
-import {
-  CircularProgressbar,
-  buildStyles,
-  CircularProgressbarWithChildren,
-} from "react-circular-progressbar";
 import ClickToUpload from "./ClickToUpload";
 
 import {

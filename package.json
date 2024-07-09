@@ -1,7 +1,6 @@
 {
   "name": "carbon-connect",
-  "version": "3.0.0beta1",
-  "source": "src/App.tsx",
+  "version": "3.0.0beta3.4",
   "main": "dist/main.js",
   "module": "dist/module.js",
   "types": "dist/types.d.ts",
@@ -12,6 +11,7 @@
     "watch": "parcel watch --public-url ./ ./src/App.tsx --dist-dir dist --no-cache"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "description": "",
   "devDependencies": {
@@ -20,18 +20,29 @@
     "@parcel/transformer-typescript-tsc": "^2.12.0",
     "@parcel/transformer-typescript-types": "^2.12.0",
     "@parcel/validator-typescript": "^2.12.0",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-slot": "^1.0.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
-    "buffer": "^6.0.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "next-themes": "^0.3.0",
     "parcel": "^2.12.0",
     "parcel-resolver-tspaths": "^0.0.9",
     "postcss": "^8.4.38",
     "process": "^0.11.10",
+    "react-dropzone": "^14.2.3",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-loader-spinner": "^6.1.6",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -39,23 +50,12 @@
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "filepond": "^4.31.1",
-    "filepond-plugin-file-validate-size": "^2.2.8",
-    "filepond-plugin-file-validate-type": "^1.2.9",
-    "filepond-plugin-image-preview": "^4.6.12",
     "next-themes": "^0.3.0",
-    "p-queue": "^8.0.1",
     "react": "^18.3.1",
-    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.3.1",
-    "react-drag-drop-files": "^2.3.10",
     "react-dropzone": "^14.2.3",
-    "react-file-drop": "^3.1.6",
-    "react-filepond": "^7.1.2",
-    "react-files": "^3.0.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^6.1.6",
-    "tailwind-merge": "^2.3.0",
-    "update": "^0.7.4"
+    "tailwind-merge": "^2.3.0"
   }
 }

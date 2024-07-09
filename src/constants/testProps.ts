@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   AutoSyncedSourceTypes,
   CarbonConnectProps,
@@ -7,17 +6,14 @@ import {
 } from "../typing/shared";
 import { ENV } from "./shared";
 
-// const [showDataSourcesModal, toggleDataSourcesModal] = useState(true);
-
 const tokenFetcher = async () => {
   const response = await fetch(
     "https://api.dev.carbon.ai/auth/v1/access_token",
     {
       method: "GET",
       headers: {
-        "customer-id": "swapnil@carbon.ai",
-        authorization:
-          "Bearer bd393e801e24f93e7f231f427895539b0137d4c46d82c6f5aeb366181ad646cb",
+        "customer-id": "id",
+        authorization: "auth",
       },
     }
   );
@@ -131,7 +127,7 @@ export const TEST_PROPS: CarbonConnectProps = {
       // enableAutoSync: true,
       chunkSize: 1100,
       recursionDepth: 10,
-      maxPagesToScrape: 10,
+      maxPagesToScrape: 500,
       // embeddingModel: "COHERE_MULTILINGUAL_V3",
       // cssClassesToSkip: ["some"],
       // htmlTagsToSkip: ["script"],
@@ -188,7 +184,6 @@ export const TEST_PROPS: CarbonConnectProps = {
   onError: (error: any) => {
     console.log("Data on Error: ", error);
   },
-  primaryBackgroundColor: "#525252",
   // navigateBackURL: "https://carbon.ai",
   open: true,
   // theme: "dark",

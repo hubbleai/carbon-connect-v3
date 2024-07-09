@@ -7,7 +7,6 @@ import { DialogFooter } from "@components/common/design-system/Dialog";
 import FolderIcon from "@assets/svgIcons/folder.svg";
 import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import NoResultsIcon from "@assets/svgIcons/no-result.svg";
-import AddCircleIconBlack from "@assets/svgIcons/add-circle-icon-black.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 
 import {

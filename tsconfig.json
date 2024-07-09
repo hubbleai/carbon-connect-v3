@@ -13,7 +13,6 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "declarationMap": true, // Generate source map for .d.ts files
-    "declarationDir": "dist/types",
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {

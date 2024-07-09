@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent } from "@components/common/design-system/Dialog";
-import { emptyFunction, findModifications } from "@utils/helper-functions";
+import { findModifications } from "@utils/helper-functions";
 import IntegrationList from "@components/IntegrationModal/IntegrationList";
 import WebScraper from "@components/WebScraper/WebScraper";
 import CarbonFilePicker from "@components/CarbonFilePicker/CarbonFilePicker";
 import { INTEGRATIONS_LIST } from "@utils/integrationModalconstants";
-import AccessKeyAuth from "@components/AccessKeyAuth/AccessKeyAuth";
 import { useCarbon } from "../../context/CarbonContext";
 import { BASE_URL } from "../../constants/shared";
 import { ActiveStep, IntegrationName } from "../../typing/shared";
-import SystemFileUpload from "@components/SystemFileUpload/SystemFileUpload";
-import SyncedFilesList from "../CarbonFilePicker/SyncedFilesList";
+
 import LocalFilesScreen from "../SystemFileUpload/LocalFilesScreen";
 import ConnectScreen from "@components/CarbonConnect/ConnectScreen";
 
@@ -149,7 +147,6 @@ export function IntegrationModal() {
       case "INTEGRATION_LIST":
         return (
           <IntegrationList
-            activeStep={activeStep}
             setActiveStep={setActiveStep}
             handleBack={
               isIntegrationsEntryPoint

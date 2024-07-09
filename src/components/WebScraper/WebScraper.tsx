@@ -11,11 +11,10 @@ import SitemapTabContent from "./SitemapTabContent";
 import {
   ActiveStep,
   IntegrationName,
-  ProcessedIntegration,
   WebScraperIntegration,
 } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
-import { images } from "../../assets";
+
 import Banner, { BannerState } from "../common/Banner";
 
 export interface WebScraperProps {

@@ -200,10 +200,6 @@ export type CarbonConnectProps = {
   environment?: keyof typeof BASE_URL;
   entryPoint?: IntegrationName | "INTEGRATION_LIST";
   enabledIntegrations?: Integration[];
-  primaryBackgroundColor?: string;
-  primaryTextColor?: string;
-  secondaryBackgroundColor?: string;
-  secondaryTextColor?: string;
   open?: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>> | null;
   chunkSize?: number;
@@ -214,7 +210,6 @@ export type CarbonConnectProps = {
   navigateBackURL?: string | null;
   backButtonText?: string;
   zIndex?: number;
-  enableToasts?: boolean;
   embeddingModel?: EmbeddingGenerators;
   generateSparseVectors?: boolean;
   prependFilenameToChunks?: boolean;

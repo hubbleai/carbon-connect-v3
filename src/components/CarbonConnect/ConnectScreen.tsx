@@ -1,5 +1,4 @@
 import React, { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import { emptyFunction } from "@utils/helper-functions";
 import carbonLogo from "@assets/carbon.svg";
 import LockIcon from "@assets/svgIcons/lock.svg";
 import Shield from "@assets/svgIcons/shield.svg";
@@ -28,10 +27,7 @@ function ConnectScreen({
     tosURL,
     privacyPolicyURL,
     entryPoint,
-    primaryTextColor,
     loading,
-    primaryBackgroundColor,
-    alwaysOpen,
     navigateBackURL,
     manageModalOpenState,
   } = useCarbon();
@@ -96,7 +92,7 @@ function ConnectScreen({
                 </h2>
               ) : (
                 <h2 className="cc-font-medium cc-mb-6 cc-text-2xl cc-tracking-tight dark:cc-text-dark-text-white">
-                  <span className="cc-font-bold">{orgName}</span> usess{" "}
+                  <span className="cc-font-bold">{orgName}</span> uses{" "}
                   <span className="cc-font-bold">Carbon</span> to connect{" "}
                   {entryPointIntegrationObject?.announcementName ? (
                     <span className="cc-font-bold">
@@ -175,14 +171,7 @@ function ConnectScreen({
                   </span>
                 </label>
               </div>
-              <Button
-                size="lg"
-                onClick={handlePrimaryButtonClick}
-                style={{
-                  color: primaryTextColor,
-                  // backgroundColor: primaryBackgroundColor,
-                }}
-              >
+              <Button size="lg" onClick={handlePrimaryButtonClick}>
                 Connect
               </Button>
               <Button

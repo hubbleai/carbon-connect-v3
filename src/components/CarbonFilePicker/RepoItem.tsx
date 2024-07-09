@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import FolderIcon from "@assets/svgIcons/folder.svg";
-import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
-import {
-  GithubRepoItem,
-  UserFileApi,
-  UserSourceItemApi,
-} from "../../typing/shared";
-import {
-  formatDate,
-  getFileItemType,
-  getSourceItemType,
-} from "../../utils/helper-functions";
+import { GithubRepoItem } from "../../typing/shared";
 
 export default function RepoItem({
   item,

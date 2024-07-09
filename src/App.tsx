@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-// import CarbonConnectModal from "./components/CarbonConnect";
 import IntegrationModal from "./components/IntegrationModal";
 
 import "./styles.css";
 import {
-  ActiveStep,
+  IntegrationName,
   CarbonConnectProps,
   EmbeddingGenerators,
-  IntegrationName,
+  AutoSyncedSourceTypes,
 } from "./typing/shared";
 import { CarbonProvider } from "./context/CarbonContext";
-import { TEST_PROPS } from "./constants/testProps";
-import { ENV } from "./constants/shared";
-import "react-circular-progressbar/dist/styles.css";
 
 const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
-  const finalProps = props.environment != ENV.PRODUCTION ? TEST_PROPS : props;
+  // for local testing
+  // const finalProps = props.environment != ENV.PRODUCTION ? TEST_PROPS : props;
+  const finalProps = props;
 
   useEffect(() => {
     if (!finalProps.theme) {
@@ -38,4 +36,9 @@ const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
   );
 };
 
-export default CarbonConnect;
+export {
+  CarbonConnect,
+  IntegrationName,
+  AutoSyncedSourceTypes,
+  EmbeddingGenerators,
+};
