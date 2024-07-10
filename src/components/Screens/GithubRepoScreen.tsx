@@ -4,10 +4,7 @@ import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import { Input } from "@components/common/design-system/Input";
 import { Button } from "@components/common/design-system/Button";
 import { DialogFooter } from "@components/common/design-system/Dialog";
-import FolderIcon from "@assets/svgIcons/folder.svg";
 import SearchIcon from "@assets/svgIcons/search-icon.svg";
-import NoResultsIcon from "@assets/svgIcons/no-result.svg";
-import AddCircleIconBlack from "@assets/svgIcons/add-circle-icon-black.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 
 import { useCarbon } from "../../context/CarbonContext";
@@ -16,12 +13,10 @@ import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   ActiveStep,
   GithubRepoItem,
-  IntegrationName,
   ProcessedIntegration,
-  UserFileApi,
 } from "../../typing/shared";
 import Loader from "../common/Loader";
-import { pluralize } from "../../utils/helper-functions";
+
 import Banner, { BannerState } from "../common/Banner";
 import RepoItem from "../CarbonFilePicker/RepoItem";
 

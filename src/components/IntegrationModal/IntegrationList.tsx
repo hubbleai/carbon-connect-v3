@@ -15,8 +15,8 @@ import { cn } from "@components/common/design-system/utils";
 import {
   ActiveStep,
   IntegrationName,
-  LocalFilesIntegration,
   ProcessedIntegration,
+  LocalFilesIntegration,
   WebScraperIntegration,
 } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";

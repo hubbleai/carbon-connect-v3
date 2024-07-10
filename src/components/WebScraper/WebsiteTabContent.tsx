@@ -27,11 +27,6 @@ import {
 } from "@components/common/design-system/Dialog";
 import SuccessState from "@components/common/SuccessState";
 import {
-  ActionType,
-  IntegrationName,
-  WebScraperIntegration,
-} from "../../typing/shared";
-import {
   BASE_URL,
   DEFAULT_CHUNK_SIZE,
   DEFAULT_OVERLAP_SIZE,
@@ -43,6 +38,11 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import { BannerState } from "../common/Banner";
 import { isValidHttpUrl, removeHttp } from "../../utils/helper-functions";
+import {
+  IntegrationName,
+  ActionType,
+  WebScraperIntegration,
+} from "../../typing/shared";
 
 type WebscrapeInput = {
   url: string;

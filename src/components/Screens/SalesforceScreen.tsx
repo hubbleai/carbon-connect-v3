@@ -5,9 +5,9 @@ import UserPlus from "@assets/svgIcons/user-plus.svg";
 import { Input } from "@components/common/design-system/Input";
 import { Button } from "@components/common/design-system/Button";
 import {
-  ActionType,
   IntegrationName,
   ProcessedIntegration,
+  ActionType,
 } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {

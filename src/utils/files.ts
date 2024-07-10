@@ -7,9 +7,8 @@ import {
   ONE_MB,
 } from "../constants/shared";
 import {
-  CarbonConnectProps,
-  FileType,
   Formats,
+  CarbonConnectProps,
   LocalFilesIntegration,
 } from "../typing/shared";
 

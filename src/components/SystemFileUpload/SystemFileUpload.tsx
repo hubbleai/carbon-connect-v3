@@ -13,13 +13,6 @@ import SuccessScreen from "./SuccessScreen";
 
 import FileExtension from "@components/SystemFileUpload/FileExtension/FileExtension";
 import ClickToUpload from "./ClickToUpload";
-
-import {
-  ActionType,
-  ActiveStep,
-  IntegrationName,
-  LocalFilesIntegration,
-} from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   BASE_URL,
@@ -31,6 +24,12 @@ import {
 } from "../../constants/shared";
 import { generateFileUploadUrl, getFileSizeLimit } from "../../utils/files";
 import Banner, { BannerState } from "../common/Banner";
+import {
+  ActiveStep,
+  IntegrationName,
+  ActionType,
+  LocalFilesIntegration,
+} from "../../typing/shared";
 
 export interface UploadFileData {
   lastModified: number;

@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { CarbonConnect } from "./App.tsx";
+import { CarbonConnect } from "./index.tsx";
 
 const container = document.getElementById("app");
 const root = createRoot(container);

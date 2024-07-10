@@ -4,11 +4,6 @@ import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
 import { Input } from "@components/common/design-system/Input";
 import { Button } from "@components/common/design-system/Button";
-import {
-  ActionType,
-  IntegrationName,
-  ProcessedIntegration,
-} from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
@@ -16,6 +11,11 @@ import {
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV, SYNC_SOURCE_ITEMS } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
+import {
+  ProcessedIntegration,
+  IntegrationName,
+  ActionType,
+} from "../../typing/shared";
 
 export default function S3Screen({
   processedIntegration,

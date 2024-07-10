@@ -4,7 +4,7 @@ import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
 import { Input } from "@components/common/design-system/Input";
 import { Button } from "@components/common/design-system/Button";
-import { ActionType, ProcessedIntegration } from "../../typing/shared";
+import { ProcessedIntegration, ActionType } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,

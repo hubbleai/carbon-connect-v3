@@ -21,10 +21,10 @@ import {
   TWO_STEP_CONNECTORS,
 } from "../../constants/shared";
 import {
-  ActionType,
   ActiveStep,
   IntegrationName,
   ProcessedIntegration,
+  ActionType,
 } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {

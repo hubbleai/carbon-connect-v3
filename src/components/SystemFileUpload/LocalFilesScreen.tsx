@@ -12,12 +12,13 @@ import {
   INTEGRATIONS_LIST,
 } from "@utils/integrationModalconstants";
 
-import { ActiveStep, IntegrationName } from "../../typing/shared";
+import { ActiveStep } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import SyncedFilesList from "../CarbonFilePicker/SyncedFilesList";
 import { SyncingModes } from "../CarbonFilePicker/CarbonFilePicker";
 import SystemFileUpload from "./SystemFileUpload";
 import Banner, { BannerState } from "../common/Banner";
+import { IntegrationName } from "../../typing/shared";
 
 export default function LocalFilesScreen({
   setActiveStep,

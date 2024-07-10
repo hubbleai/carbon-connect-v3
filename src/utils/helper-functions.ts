@@ -9,14 +9,14 @@ import {
 } from "../constants/shared";
 import { useCarbon } from "../context/CarbonContext";
 import {
-  ActionType,
   Formats,
+  ProcessedIntegration,
   IntegrationName,
-  LocalFilesIntegration,
+  UserSourceItemApi,
+  UserFileApi,
+  ActionType,
+  CarbonConnectProps,
 } from "../typing/shared";
-import { UserSourceItemApi } from "../typing/shared";
-import { UserFileApi } from "../typing/shared";
-import { CarbonConnectProps, ProcessedIntegration } from "../typing/shared";
 
 export function isEmpty(obj: any) {
   let isEmpty = false;

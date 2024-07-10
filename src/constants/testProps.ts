@@ -1,8 +1,8 @@
 import {
-  AutoSyncedSourceTypes,
-  CarbonConnectProps,
-  EmbeddingGenerators,
   IntegrationName,
+  EmbeddingGenerators,
+  CarbonConnectProps,
+  AutoSyncedSourceTypes,
 } from "../typing/shared";
 import { ENV } from "./shared";
 

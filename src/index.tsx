@@ -1,7 +1,41 @@
-import { ReactNode } from "react";
-import { BASE_URL } from "../constants/shared";
-import { IntegrationItemType } from "../utils/integrationModalconstants";
+import React, { ReactNode, useEffect, useState } from "react";
+import IntegrationModal from "./components/IntegrationModal";
 
+import "./styles.css";
+import { CarbonProvider } from "./context/CarbonContext";
+import { BASE_URL, ENV } from "./constants/shared";
+import { IntegrationItemType } from "./utils/integrationModalconstants";
+import { TEST_PROPS } from "./constants/testProps";
+
+const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
+  // for local testing
+  const finalProps = props.environment != ENV.PRODUCTION ? TEST_PROPS : props;
+  // const finalProps = props;
+
+  useEffect(() => {
+    if (!finalProps.theme) {
+      const newTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      document.querySelector("html")?.setAttribute("data-mode", newTheme);
+      return;
+    }
+    const newMode = finalProps.theme === "dark" ? "dark" : "light";
+    document.querySelector("html")?.setAttribute("data-mode", newMode);
+  }, [finalProps.theme]);
+
+  return (
+    <>
+      <CarbonProvider {...finalProps}>
+        <IntegrationModal />
+      </CarbonProvider>
+    </>
+  );
+};
+
+export { CarbonConnect };
+
+// NOTE - DON'T IMPORT THESE TYPES FROM HERE. THEY WERE ADDED TO FIX THE PACKAGE NOT EXPORTING TYPES
 export enum SyncStatus {
   READY = "READY",
   QUEUED_FOR_SYNC = "QUEUED_FOR_SYNC",
@@ -222,43 +256,3 @@ export enum IntegrationName {
   GITHUB = "GITHUB",
   SLACK = "SLACK",
 }
-
-export type ProcessedIntegration = IntegrationItemType & Integration;
-
-export type UserFileApi = {
-  id: number;
-  name: string;
-  created_at: Date;
-  sync_status: string;
-  external_url: string | null;
-  file_metadata: {
-    is_folder?: boolean;
-  };
-};
-
-export type UserSourceItemApi = {
-  id: number;
-  external_id: string;
-  name: string;
-  created_at: Date;
-  external_url: string | null;
-  type: string;
-  is_expandable: boolean;
-  is_selectable: boolean;
-};
-
-export type GithubRepoItem = {
-  id: string;
-  name: string;
-  url: string;
-};
-
-export type ActiveStep =
-  | IntegrationName
-  | "INTEGRATION_LIST"
-  | "CONNECT"
-  | "FILE_UPLOAD";
-
-export type Formats = {
-  [index: string]: string[];
-};

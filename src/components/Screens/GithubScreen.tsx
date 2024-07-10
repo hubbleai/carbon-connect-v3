@@ -3,12 +3,9 @@ import { ActiveStep, ProcessedIntegration } from "../../typing/shared";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import GithubAuthScreen from "./GithubAuthScreen";
 import GithubRepoScreen from "./GithubRepoScreen";
-// import GithubRepoScreen from "./GithubRepoScreen";
 
 function GithubScreen({
   setActiveStep,
-  //   pauseDataSourceSelection,
-  //   setPauseDataSourceSelection,
   processedIntegration,
   activeIntegrations,
   setShowFilePicker,

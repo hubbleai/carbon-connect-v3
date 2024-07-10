@@ -19,9 +19,10 @@ import {
 } from "../../constants/shared";
 import { isValidHttpUrl, removeHttp } from "../../utils/helper-functions";
 import Loader from "../common/Loader";
+
 import {
-  ActionType,
   IntegrationName,
+  ActionType,
   WebScraperIntegration,
 } from "../../typing/shared";
 

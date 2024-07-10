@@ -15,9 +15,9 @@ import { BASE_URL, ENV, LOCAL_FILE_TYPES } from "../../constants/shared";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   ActiveStep,
-  IntegrationName,
   ProcessedIntegration,
   UserFileApi,
+  IntegrationName,
 } from "../../typing/shared";
 import FileItem from "./FileItem";
 import { SyncingModes } from "./CarbonFilePicker";
