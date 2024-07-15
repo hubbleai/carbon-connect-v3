@@ -435,7 +435,7 @@ export default function CarbonFilePicker({
                 className="cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
             </Button>
-            {showAdditionalStep ? (
+            {!showAdditionalStep && connectedDataSources?.length ? (
               <>
                 <AccountDropdown
                   dataSources={connectedDataSources}
