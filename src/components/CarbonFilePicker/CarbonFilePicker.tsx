@@ -456,7 +456,20 @@ export default function CarbonFilePicker({
                   isResyncingDataSource={isResyncingDataSource}
                 />{" "}
               </>
-            ) : null}
+            ) :  <>
+            <AccountDropdown
+              dataSources={connectedDataSources}
+              selectedDataSource={selectedDataSource}
+              handleAddAccountClick={handleAddAccountClick}
+              handleAccountChange={handleAccountChange}
+            />
+            <SettingsDropdown
+              revokeDataSource={revokeDataSource}
+              isRevokingDataSource={isRevokingDataSource}
+              resyncDataSource={resyncDataSource}
+              isResyncingDataSource={isResyncingDataSource}
+            />{" "}
+          </>}
           </>
         </div>
       </DialogHeader>
@@ -509,6 +522,9 @@ export default function CarbonFilePicker({
         )) ||
         (integrationName == IntegrationName.SHAREPOINT && (
           <SharepointScreen processedIntegration={processedIntegration} />
+        )) ||
+        (integrationName == IntegrationName.SLACK && (
+          <h1>Shubham</h1>
         )) ||
         (integrationName == IntegrationName.GITHUB && (
           <GithubScreen

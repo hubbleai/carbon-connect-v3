@@ -11,6 +11,7 @@ import { ActiveStep, IntegrationName } from "../../typing/shared";
 
 import LocalFilesScreen from "../SystemFileUpload/LocalFilesScreen";
 import ConnectScreen from "@components/CarbonConnect/ConnectScreen";
+import SlackScreen from "@components/Screens/SlackScreen";
 
 export interface ModalProps {}
 
@@ -167,6 +168,16 @@ export function IntegrationModal() {
           />
         );
 
+      case IntegrationName.SLACK:
+        return(
+          <SlackScreen
+          setActiveStep={setActiveStep}
+          activeStepData={INTEGRATIONS_LIST.find(
+            (item) => item.id === IntegrationName.SLACK
+          )}
+
+          />
+        );
       case IntegrationName.LOCAL_FILES:
         return (
           <LocalFilesScreen
@@ -186,6 +197,7 @@ export function IntegrationModal() {
             onCloseModal={() => manageModalOpenState(false)}
             activeIntegrations={activeIntegrations}
           />
+        
         );
         break;
     }
