@@ -456,20 +456,8 @@ export default function CarbonFilePicker({
                   isResyncingDataSource={isResyncingDataSource}
                 />{" "}
               </>
-            ) :  <>
-            <AccountDropdown
-              dataSources={connectedDataSources}
-              selectedDataSource={selectedDataSource}
-              handleAddAccountClick={handleAddAccountClick}
-              handleAccountChange={handleAccountChange}
-            />
-            <SettingsDropdown
-              revokeDataSource={revokeDataSource}
-              isRevokingDataSource={isRevokingDataSource}
-              resyncDataSource={resyncDataSource}
-              isResyncingDataSource={isResyncingDataSource}
-            />{" "}
-          </>}
+            ) :  null
+          }
           </>
         </div>
       </DialogHeader>
