@@ -56,7 +56,7 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
-        <div className="cc-flex cc-gap-2 sm:cc-gap-3">
+        <div className="cc-flex cc-gap-2 sm:cc-gap-3 md:cc-justify-between">
           {activeTab === "channels" ? (
             <ChannelDropdown
               selectedItem={selectedItem}
@@ -71,7 +71,7 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
             />
           )}
 
-          <div className="cc-p-[8px_12px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-[#00000052] cc-ml-[16px]">
+          <div className="cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-[#00000052] cc-ml-[16px]">
             View synced conversations
           </div>
         </div>

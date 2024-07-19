@@ -1,8 +1,9 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Checkbox } from "../design-system/Checkbox";
 
 import FileSystemChannel from "./FileSystemChannel";
 import FileSystemMessage from "./FileSystemMessage";
+import DatePicker from "./DatePicker";
 
 type propInfo = {
   activeChannel: string;
@@ -39,6 +40,12 @@ const FileSelectionSlack = ({
   selectFilesMessage,
   setSelectFilesMessage,
 }: propInfo) => {
+
+  const [openAll , setOpenAll] = useState<boolean>(false);
+  const [selectedAll, setSelectedAll] = useState<Date | undefined>(undefined);
+  const [storeDateAll , setStoreDateAll] = useState<string | undefined>('');
+  const [selectedAllMessage, setSelectedAllMessage] = useState<Date | undefined>(undefined);
+  const [storeDateAllMessage , setStoreDateAllMessage] = useState<string | undefined>('');
   const channelNames: channelInfo[] = [
     {
       id: 1,
@@ -79,7 +86,7 @@ const FileSelectionSlack = ({
       id: 8,
       name: "#design",
       private: false,
-    },
+    }
   ];
 
   const users: MessageInfo[] = [
@@ -165,11 +172,12 @@ const FileSelectionSlack = ({
   });
 
   useEffect(() => {
+    
   
-  }, [activeChannel, activeMessage]);
+  }, [activeChannel, activeMessage , selectedAll ]);
   return (
     <>
-      <div className="cc-flex cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
+      <div className="cc-flex md:cc-flex-row cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
         {activeTab === "channels" ? (
           <div>
             {selectedFiles.length > 0 ? (
@@ -226,17 +234,25 @@ const FileSelectionSlack = ({
           </div>
         )}
 
-        <div className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer">
+        <div className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer" onClick={()=>{setOpenAll(true)}}>
           Set start date for all
         </div>
+        {
+          openAll && (
+            <DatePicker setOpen={setOpenAll} selected = {activeTab === 'channels'? selectedAll: selectedAllMessage} setSelected={activeTab === 'channels'? setSelectedAll: setSelectedAllMessage} setStoreDate = {activeTab==='channels'? setStoreDateAll:setStoreDateAllMessage}/>
+
+          )
+        }
       </div>
-      <div className="cc-flex cc-flex-wrap cc-gap-x-[28px] ">
+      
+      <div className="cc-flex cc-flex-wrap cc-gap-x-[28px]  ">
         {activeTab === "channels"
           ? filteredChannel.map((item) => {
               const isChecked = selectedFiles.indexOf(item.id) >= 0;
               return (
                 <FileSystemChannel
                   isChecked={isChecked}
+                  storeDateAll = {storeDateAll}
                   list={item}
                   onSelect={() => {
                     setSelectedFiles((prev) => {
@@ -256,6 +272,7 @@ const FileSelectionSlack = ({
               return (
                 <FileSystemMessage
                   isChecked={isChecked}
+                  storeDateAllMessages = {storeDateAllMessage}
                   list={item}
                   onSelect={() => {
                     setSelectFilesMessage((prev) => {
@@ -270,6 +287,8 @@ const FileSelectionSlack = ({
               );
             })}
       </div>
+      
+     
     </>
   );
 };

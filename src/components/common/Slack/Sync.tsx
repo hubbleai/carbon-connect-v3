@@ -14,8 +14,8 @@ const Sync = ({selectedFiles , selectFilesMessage}:PropsInfo) => {
   const [uploadProgress, setUploadProgres] = useState<number>(73);
   return (
     <div className="cc-p-[16px]">
-      <div className="cc-rounded-[12px]  cc-border cc-border-[#ECECED] cc-h-[591px] cc-flex cc-flex-col cc-justify-center cc-items-center cc-gap-[12px]">
-        <div className="cc-w-[56px] cc-h-[56px] md:cc-w-[40px] md:cc-h-[40px]">
+      <div className="cc-rounded-[12px] md:!cc-border-0  cc-border cc-border-[#ECECED] cc-h-[591px] cc-flex cc-flex-col cc-justify-center cc-items-center cc-gap-[12px]">
+        <div className="cc-w-[56px] cc-h-[56px] ">
           <CircularProgressbarWithChildren
             value={uploadProgress}
             styles={buildStyles({

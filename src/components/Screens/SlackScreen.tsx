@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import SlackLogo from "../../assets/logos/slack.svg";
 import { Button } from '@components/common/design-system/Button';
 import { useCarbon } from 'src/context/CarbonContext';
@@ -32,13 +32,13 @@ const SlackScreen = ({
     {
         active === 0 &&
         <div >
-        <div className='  cc-p-[32px] md:cc-mt-[188px]'>
+        <div className='  cc-p-[32px] md:cc-p-[16px] md:cc-mt-[188px]'>
             <img className='cc-w-[50px]' src={SlackLogo} alt="logo" />
             <p className='cc-text-[26px] cc-leading-[40px] cc-font-medium cc-tracking-[-0.26px] cc-text-[#100C20] cc-mt-[24px]  md:cc-mt-[16px] md:cc-text-[20px] md:cc-leading-[32px]'>Your Slack account is connected.</p>
             <p className='cc-text-lg cc-font-semibold cc-text-[#8C8A94] cc-mt-[8px] md:cc-mt-[6px] md:cc-text-[14px] md:cc-leading-[24px]'>You can select from channels and direct messages to sync with your account</p>
 
         </div>
-        <div className='cc-p-[32px] md:cc-border-none cc-border-t-[1px] cc-border-b-[#F3F3F4] md:cc-fixed md:cc-bottom-[0px] md:cc-left-[0px] md:cc-w-full'>
+        <div className='cc-p-[32px] md:cc-p-[16px] md:cc-border-none cc-border-t-[1px] cc-border-b-[#F3F3F4] md:cc-fixed md:cc-bottom-[0px] md:cc-left-[0px] md:cc-w-full'>
            <Button variant='primary' className='cc-w-full  cc-text-base cc-h-[48px] cc-font-extrabold' onClick={handleClick}>
            Select conversations from Slack
            </Button>

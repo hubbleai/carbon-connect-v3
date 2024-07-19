@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox } from "../design-system/Checkbox";
 import { MessageInfo } from "./FileSelectionSlack";
 import userIcon from "@assets/svgIcons/messageUser.svg";
 import calender from "@assets/svgIcons/calendar.svg";
+import DatePicker from "./DatePicker";
+import calenderUpdate from '@assets/svgIcons/calendarUpdate.svg'
+
 
 type PropsInfo = {
   list: MessageInfo;
   isChecked: boolean;
   onSelect: () => void;
+  storeDateAllMessages: string | undefined;
+  
 };
 
-const FileSystemMessage = ({ list, isChecked, onSelect }: PropsInfo) => {
+const FileSystemMessage = ({ list, isChecked, onSelect ,storeDateAllMessages }: PropsInfo) => {
+
+  const [open , setOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Date | undefined>(undefined);
+  const [storeDate , setStoreDate] = useState<string | undefined>('');
+  useEffect(()=>{
+    setStoreDate(storeDateAllMessages)
+  },[selected , storeDateAllMessages])
   return (
-    <div className=" cc-flex cc-p-[16px_0px] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between">
+    <div className=" cc-flex cc-p-[16px_0px] cc-w-[361px] cc-items-center cc-border-t cc-border-[#F3F3F4] cc-justify-between">
       <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20]">
         <Checkbox
           className="cc-mr-[12px]"
@@ -52,16 +64,28 @@ const FileSystemMessage = ({ list, isChecked, onSelect }: PropsInfo) => {
             )}
           </div>
         </div>
-
-        <span className="cc-truncate cc-w-[206px]">
+        <div>
+        <div className="cc-truncate cc-w-[206px]">
           {list.userOne}
           {list.isGroup &&
             `, ${list.userTwo}${
               list.userThree !== "" ? `, ${list.userThree}` : ""
             }`}
-        </span>
+        </div>
+        <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium">{storeDate !== '' && `Starting from ${storeDate}`}</span>
+        </div>
+       
       </div>
-      <img src={calender} alt="calender" />
+      {
+      storeDate !== ''  ? <img src={calenderUpdate} className="cc-cursor-pointer"  onClick={()=>setOpen(true)} alt="calender" />:
+      <img src={calender} className="cc-cursor-pointer"  onClick={()=>setOpen(true)} alt="calender" />
+
+    }
+      {
+    open && (
+      <DatePicker setOpen={setOpen} selected = {selected} setSelected={setSelected} setStoreDate = {setStoreDate}/>
+    )
+  }
     </div>
   );
 };
