@@ -18,7 +18,7 @@ const SlackScreen = ({
   }) => {
     const [active , setActive] = useState(0);
     const { entryPoint , setSlackActive , slackActive } = useCarbon();
-    const [openAccounts , setOpenAccounts] = useState<boolean>(true);
+    const [openAccounts , setOpenAccounts] = useState<boolean>(false);
   
     
     const handleClick = () =>{
