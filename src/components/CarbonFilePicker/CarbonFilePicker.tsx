@@ -511,9 +511,7 @@ export default function CarbonFilePicker({
         (integrationName == IntegrationName.SHAREPOINT && (
           <SharepointScreen processedIntegration={processedIntegration} />
         )) ||
-        (integrationName == IntegrationName.SLACK && (
-          <h1>Shubham</h1>
-        )) ||
+       
         (integrationName == IntegrationName.GITHUB && (
           <GithubScreen
             processedIntegration={processedIntegration}
