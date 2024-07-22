@@ -44,6 +44,7 @@ import S3Screen from "../Screens/S3Screen";
 import ZendeskScreen from "../Screens/ZendeskScreen";
 import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
+import AddAccount from "@components/common/AddAccount";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -99,6 +100,8 @@ export default function CarbonFilePicker({
   });
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
+
+    const [openAccout , setOpenAccount] = useState<boolean>(true);
 
   const { systemTheme } = useTheme();
 
@@ -461,8 +464,10 @@ export default function CarbonFilePicker({
           </>
         </div>
       </DialogHeader>
+
+
       <Banner bannerState={bannerState} setBannerState={setBannerState} />
-      {!isLoading &&
+      {isLoading &&
       connectedDataSources?.length === 0 &&
       !showAdditionalStep ? (
         <div className="cc-h-full cc-flex cc-flex-col cc-items-center cc-justify-center cc-p-4 sm:cc-h-[500px]">
@@ -488,6 +493,8 @@ export default function CarbonFilePicker({
             />
             Connect Account
           </Button>
+         
+         
         </div>
       ) : showAdditionalStep && processedIntegration ? (
         (integrationName == IntegrationName.FRESHDESK && (
@@ -531,7 +538,8 @@ export default function CarbonFilePicker({
           processedIntegration={processedIntegration}
         />
       ) : (
-        <SyncedFilesList
+        
+          openAccout? <AddAccount/>: <SyncedFilesList
           selectedDataSource={selectedDataSource}
           handleUploadFilesClick={handleUploadFilesClick}
           mode={mode}
@@ -540,7 +548,9 @@ export default function CarbonFilePicker({
           bannerState={bannerState}
           setBannerState={setBannerState}
         />
-      )}
+        
+       
+      ) }
     </>
   );
 }
