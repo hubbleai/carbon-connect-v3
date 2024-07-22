@@ -11,13 +11,15 @@ import channelIcon from "@assets/svgIcons/channel.svg";
 import messageIcon from "@assets/svgIcons/messages.svg";
 import { images } from "@assets/index";
 import SlackTab from "./SlackTab";
+import AddAccount from "../AddAccount";
 
 const Channel: React.FC<{
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeStepData?: IntegrationItemType;
   setActive?: React.Dispatch<React.SetStateAction<number>>;
   active: number;
-}> = ({ setActiveStep, activeStepData, setActive, active }) => {
+  openAccount:boolean
+}> = ({ setActiveStep, activeStepData, setActive, active , openAccount }) => {
   const { entryPoint, processedIntegrations } = useCarbon();
   const { setSlackActive, slackActive } = useContext(CarbonContext);
   const [activeChannel , setActiveChannel] = useState(1);
@@ -98,6 +100,7 @@ const Channel: React.FC<{
       
       {
         activeChannel === 1 && (
+          openAccount? <AddAccount/>:
             <div className="cc-flex cc-flex-col cc-items-center">
             {tabValues.map((item) => (
               <div

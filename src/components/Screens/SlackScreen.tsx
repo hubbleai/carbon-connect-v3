@@ -3,6 +3,7 @@ import SlackLogo from "../../assets/logos/slack.svg";
 import { Button } from '@components/common/design-system/Button';
 import { useCarbon } from 'src/context/CarbonContext';
 import { ActiveStep, IntegrationName } from 'src/typing/shared';
+import AddAccount from '@components/common/AddAccount';
 import { IntegrationItemType, INTEGRATIONS_LIST } from '@utils/integrationModalconstants';
 
 import Channel from '@components/common/Slack/Channel';
@@ -17,7 +18,7 @@ const SlackScreen = ({
   }) => {
     const [active , setActive] = useState(0);
     const { entryPoint , setSlackActive , slackActive } = useCarbon();
-   
+    const [openAccounts , setOpenAccounts] = useState<boolean>(true);
   
     
     const handleClick = () =>{
@@ -40,7 +41,7 @@ const SlackScreen = ({
         </div>
         <div className='cc-p-[32px] md:cc-p-[16px] md:cc-border-none cc-border-t-[1px] cc-border-b-[#F3F3F4] md:cc-fixed md:cc-bottom-[0px] md:cc-left-[0px] md:cc-w-full'>
            <Button variant='primary' className='cc-w-full  cc-text-base cc-h-[48px] cc-font-extrabold' onClick={handleClick}>
-           Select conversations from Slack
+           {openAccounts?'Select more accounts': "Select conversations from Slack"}
            </Button>
            <Button
             onClick={() => {
@@ -52,7 +53,7 @@ const SlackScreen = ({
                 size="lg"
                 className='cc-w-full cc-mt-[20px]'
               >
-                Go back
+                { openAccounts? 'View connected accounts':"Go back"}
               </Button>
         </div>
     </div>
@@ -61,14 +62,20 @@ const SlackScreen = ({
         
     {
         active === 1 && (
+         
+        
+           <>
             <Channel
             setActiveStep={setActiveStep}
             setActive = {setActive}
+            openAccount = {openAccounts}
             active= {active}
             activeStepData={INTEGRATIONS_LIST.find(
               (item) => item.id === IntegrationName.SLACK
             )}
             />
+           
+           </>
         )
     }
    
