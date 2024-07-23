@@ -6,7 +6,7 @@
 
 
 
-:root {
+.cc-modal {
   /*font-family: 'Manrope', sans-serif; /*Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
   line-height: 1.5;
   font-weight: 400;
@@ -34,36 +34,29 @@
   --calenderDayOutsideHeight: 40px;
 }
 
-body {
-  @apply cc-font-manrope;
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
 
 
 
 
 
-.cc-custom-radio {
+
+.cc-modal .cc-custom-radio {
   @apply cc-flex cc-items-center cc-justify-center cc-cursor-pointer cc-mr-2;
   position: relative;
 }
 
-.cc-custom-radio::before {
+.cc-modal .cc-custom-radio::before {
   content: "";
   @apply cc-w-[18px] cc-h-[18px] cc-border-2 cc-border-low_em cc-rounded-full cc-mr-3;
   display: inline-block;
 }
 
-.cc-custom-radio.cc-custom-radio-checked::before {
+.cc-modal .cc-custom-radio.cc-custom-radio-checked::before {
   @apply cc-border-surface-info_main cc-bg-surface-info_main;
   display: inline-block;
 }
 
-.cc-custom-radio.cc-custom-radio-checked::after {
+.cc-modal .cc-custom-radio.cc-custom-radio-checked::after {
   content: "";
   @apply cc-w-[8px] cc-h-[8px] cc-bg-white cc-rounded-full dark:cc-bg-dark-bg-black;
   position: absolute;
@@ -71,32 +64,24 @@ body {
   /* Adjust the position as needed */
 }
 
-input[type="radio"]:not(:checked)+.cc-custom-radio::before {
+.cc-modal input[type="radio"]:not(:checked)+.cc-custom-radio::before {
   /* @apply cc-border-gray-400; */
 }
 
-input[type="radio"]:checked+.cc-custom-radio {
+.cc-modal input[type="radio"]:checked+.cc-custom-radio {
   /* @apply cc-bg-gray-300; */
 }
 
-input[type="radio"]:not(:checked)+.cc-custom-radio {
+.cc-modal input[type="radio"]:not(:checked)+.cc-custom-radio {
   /* @apply cc-bg-gray-100; */
 }
 
 
 
-/* a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-  }
-
-  a:hover {
-    color: #535bf2;
-  } */
 
 
-h1 {
+
+.cc-modal h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
@@ -105,31 +90,31 @@ h1 {
 
 
 
-.dark .searchSvg {
+.cc-modal .dark .searchSvg {
   fill: #ffffffc2;
 }
 
-.uploadFileWrapper:hover .delete {
+.cc-modal .uploadFileWrapper:hover .delete {
   display: block;
 
 
 }
 
 @media only screen and (max-width: 768px) {
-  .uploadFileWrapper:hover .delete {
+  .cc-modal .uploadFileWrapper:hover .delete {
     display: none;
   }
 
 }
 
-.uploadFileWrapper:hover .success {
+.cc-modal .uploadFileWrapper:hover .success {
   display: none;
 
 
 }
 
 @media only screen and (max-width: 767px) {
-  .uploadFileWrapper:hover .success {
+  .cc-modal .uploadFileWrapper:hover .success {
     display: block;
 
 
@@ -156,7 +141,7 @@ h1 {
 
 
 
-.rdp-month {
+.cc-modal .rdp-month {
 
   width: var(--calenderWidth);
   border-radius: 20px;
@@ -170,25 +155,25 @@ h1 {
 
 }
 
-.rdp-months {
+.cc-modal .rdp-months {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.rdp-caption {
+.cc-modal .rdp-caption {
   padding: var(--calenderCommanPadding) !important;
   width: 100%;
 }
 
-.rdp-table {
+.cc-modal .rdp-table {
   max-width: 336px !important;
   width: 100%;
 
 }
 
-.rdp-head_cell {
+.cc-modal .rdp-head_cell {
   color: #B3B1B8;
 
   font-size: var(--calenderCommanFontSize);
@@ -197,7 +182,7 @@ h1 {
   line-height: var(--CalenderCommanLineHeight);
 }
 
-.rdp-day_outside {
+.cc-modal .rdp-day_outside {
   color: #B3B1B8 !important;
   /* padding: 8px 12px !important; */
   font-size: var(--calenderCommanFontSize) !important;
@@ -209,13 +194,13 @@ h1 {
   max-width: var(--calenderDayOutsideWidth) !important;
 }
 
-.rdp-cell {
+.cc-modal .rdp-cell {
   width: var(--calenderDayOutsideWidth) !important;
   height: var(--calenderDayOutsideHeight) !important;
   max-width: var(--calenderDayOutsideWidth) !important;
 }
 
-.rdp-day {
+.cc-modal .rdp-day {
   color: #100C20 !important;
   /* padding: 8px 12px !important; */
   font-size: var(--calenderCommanFontSize) !important;
@@ -227,25 +212,25 @@ h1 {
   max-width: var(--calenderDayOutsideWidth) !important;
 }
 
-.rdp-day:hover {
+.cc-modal .rdp-day:hover {
   color: #fff !important;
   background-color: #0BABFB !important;
   border-radius: 12px !important;
 
 }
 
-.rdp-day_selected {
+.cc-modal .rdp-day_selected {
   color: #fff !important;
   background-color: #0BABFB !important;
   border-radius: 12px !important;
 
 }
 
-.rdp-tfoot {
+.cc-modal .rdp-tfoot {
   margin: var(--CalenderCommanLineHeight) !important;
 }
 
-.bottomArea {
+.cc-modal .bottomArea {
   display: flex;
   gap: 15px;
   padding: var(--CalenderCommanLineHeight) 0px;
@@ -253,7 +238,7 @@ h1 {
 
 }
 
-.inputfooter {
+.cc-modal .inputfooter {
   width: 112px;
   border-radius: 12px;
   background-color: #F3F3F4;
@@ -265,11 +250,11 @@ h1 {
   line-height: var(--CalenderCommanLineHeight);
 }
 
-.inputfooter:focus {
+.cc-modal .inputfooter:focus {
   outline: none;
 }
 
-.cancelCta {
+.cc-modal .cancelCta {
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid #ECECED;
@@ -280,7 +265,7 @@ h1 {
   line-height: var(--CalenderCommanLineHeight);
 }
 
-.startDate {
+.cc-modal .startDate {
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid #ECECED;
@@ -291,11 +276,11 @@ h1 {
   line-height: var(--CalenderCommanLineHeight);
 }
 
-.footerWrapper {
+.cc-modal .footerWrapper {
   padding-top: var(--CalenderCommanLineHeight);
 }
 
-.rdp {
+.cc-modal .rdp {
   position: absolute;
   z-index: 30;
   background: #0000007A;
@@ -306,7 +291,7 @@ h1 {
   height: 100%;
 }
 
-.rdp-caption_label {
+.cc-modal .rdp-caption_label {
   font-size: 18px !important;
   color: #100C20 !important;
   font-weight: var(--calenderCommanFontWeight) !important;
@@ -314,7 +299,7 @@ h1 {
   letter-spacing: -0.18px;
 }
 
-.rdp-nav_button {
+.cc-modal .rdp-nav_button {
   padding: 8px 12px !important;
   border-radius: 12px !important;
   background: #F3F3F4 !important;
@@ -322,21 +307,21 @@ h1 {
 
 }
 
-.rdp-nav_button svg {
+.cc-modal .rdp-nav_button svg {
   width: 18px !important;
   height: 18px !important;
 }
 
-.rdp-nav_button_previous {
+.cc-modal .rdp-nav_button_previous {
   margin-right: 20px !important;
 }
 
-.footerNote {
+.cc-modal .footerNote {
   display: none;
 }
 
 @media screen and (max-width:767px) {
-  .footerNote {
+  .cc-modal .footerNote {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -345,7 +330,7 @@ h1 {
 
   }
 
-  .footerNote p {
+  .cc-modal .footerNote p {
     font-size: var(--calenderCommanFontSize);
     line-height: var(--CalenderCommanLineHeight);
     font-weight: 500;

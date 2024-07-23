@@ -38,7 +38,7 @@ const FileSystemChannel = ({ list, isChecked, onSelect , storeDateAll }: propInf
       <div className="cc-flex">
       <span >{list.name}</span>
       {list.private ? (
-        <img className="cc-ml-[8px]" src={privateChannelIcon} alt="icon" />
+        <img className="cc-ml-[8px] cc-mt-[2px] cc-items-center" src={privateChannelIcon} alt="icon" />
       ) : null}
       </div>
       <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium">{storeDate !== ''  && `Starting from ${storeDate}`}</span>

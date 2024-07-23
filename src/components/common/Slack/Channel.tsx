@@ -105,7 +105,7 @@ const Channel: React.FC<{
             {tabValues.map((item) => (
               <div
                 key={item.id}
-                className="cc-flex cc-justify-between cc-p-[12px] cc-border cc-border-[#ECECED] cc-rounded-[12px] cc-w-[96.17%] cc-mt-[16px]"
+                className="cc-flex cc-items-center cc-justify-between cc-p-[12px] cc-border cc-border-[#ECECED] cc-rounded-[12px] cc-w-[96.17%] cc-mt-[16px]"
               >
                 <div className="cc-flex">
                   <img src={item.icon} alt="icon" />
@@ -120,7 +120,7 @@ const Channel: React.FC<{
                   </div>
                 </div>
                 <img
-                  className="cc-cursor-pointer"
+                  className="cc-cursor-pointer cc-w-[32px] cc-h-[32px]"
                   src={images.solidplusIcon}
                   alt="icon"
                   onClick={()=>{
