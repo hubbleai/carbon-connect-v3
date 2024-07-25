@@ -168,16 +168,16 @@ export function IntegrationModal() {
           />
         );
 
-      case IntegrationName.SLACK:
-        return(
-          <SlackScreen
-          setActiveStep={setActiveStep}
-          activeStepData={INTEGRATIONS_LIST.find(
-            (item) => item.id === IntegrationName.SLACK
-          )}
+      // case IntegrationName.SLACK:
+      //   return(
+      //     <SlackScreen
+      //     setActiveStep={setActiveStep}
+      //     activeStepData={INTEGRATIONS_LIST.find(
+      //       (item) => item.id === IntegrationName.SLACK
+      //     )}
 
-          />
-        );
+      //     />
+      //   );
       case IntegrationName.LOCAL_FILES:
         return (
           <LocalFilesScreen
@@ -197,7 +197,6 @@ export function IntegrationModal() {
             onCloseModal={() => manageModalOpenState(false)}
             activeIntegrations={activeIntegrations}
           />
-        
         );
         break;
     }

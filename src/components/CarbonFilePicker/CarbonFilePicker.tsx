@@ -44,6 +44,7 @@ import S3Screen from "../Screens/S3Screen";
 import ZendeskScreen from "../Screens/ZendeskScreen";
 import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
+import SlackScreen from "../Screens/SlackScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -97,6 +98,7 @@ export default function CarbonFilePicker({
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
+  const [accountsAdded, setAccountsAdded] = useState(false);
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
 
@@ -130,6 +132,8 @@ export default function CarbonFilePicker({
       (integration) => integration.data_source_type === activeStepData?.id
     );
     const accountsAdded = connected.length > connectedDataSources.length;
+    setAccountsAdded(accountsAdded);
+
     if (pauseDataSourceSelection || !connected.length) {
       setIsLoading(false);
       return;
@@ -457,8 +461,7 @@ export default function CarbonFilePicker({
                   isResyncingDataSource={isResyncingDataSource}
                 />{" "}
               </>
-            ) :  null
-          }
+            ) : null}
           </>
         </div>
       </DialogHeader>
@@ -512,7 +515,6 @@ export default function CarbonFilePicker({
         (integrationName == IntegrationName.SHAREPOINT && (
           <SharepointScreen processedIntegration={processedIntegration} />
         )) ||
-       
         (integrationName == IntegrationName.GITHUB && (
           <GithubScreen
             processedIntegration={processedIntegration}
