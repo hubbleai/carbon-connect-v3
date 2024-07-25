@@ -3,7 +3,11 @@ import { DialogHeader } from "@components/common/design-system/Dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import CarbonContext, { useCarbon } from "src/context/CarbonContext";
 import { IntegrationItemType } from "@utils/integrationModalconstants";
-import { ActiveStep, IntegrationName } from "src/typing/shared";
+import {
+  ActiveStep,
+  IntegrationName,
+  SlackConversation,
+} from "src/typing/shared";
 import { Button } from "../design-system/Button";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import BackIcon from "@assets/svgIcons/back-icon.svg";
@@ -13,6 +17,8 @@ import { images } from "@assets/index";
 import SlackTab from "./SlackTab";
 import AddAccount from "../AddAccount";
 import { ActiveSlackScreen } from "../../Screens/SlackScreen";
+import { BASE_URL, ENV } from "../../../constants/shared";
+import Loader from "../Loader";
 
 const Channel: React.FC<{
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
@@ -20,39 +26,99 @@ const Channel: React.FC<{
   setActive?: React.Dispatch<React.SetStateAction<ActiveSlackScreen>>;
   activeScreen: ActiveSlackScreen;
   openAccount: boolean;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   setActiveStep,
   activeStepData,
   setActive,
   activeScreen,
   openAccount,
+  setStartCustomSync,
 }) => {
-  const { entryPoint, processedIntegrations } = useCarbon();
-  const { setSlackActive, slackActive } = useContext(CarbonContext);
+  const {
+    entryPoint,
+    processedIntegrations,
+    authenticatedFetch,
+    environment = ENV.PRODUCTION,
+    accessToken,
+  } = useCarbon();
+  const { setSlackActive, slackActive } = useCarbon();
   const [activeChannel, setActiveChannel] = useState(1);
   const localIntegration = processedIntegrations?.find(
     (int) => int.id == IntegrationName.SLACK
   );
   const [activeTab, setActiveTab] = useState<string>("channels");
+  const [convosLoading, setConvosLoading] = useState(true);
+  const [allConversations, setAllConversations] = useState<SlackConversation[]>(
+    []
+  );
+  const dms = allConversations.filter((c) => c.is_im);
+  const mpdms = allConversations.filter((c) => c.is_mpim);
+  const publicChannels = allConversations.filter(
+    (c) => c.is_channel && !c.is_private
+  );
+  const privateChannels = allConversations.filter(
+    (c) => c.is_channel && c.is_private
+  );
+
+  const fetchConvos = async () => {
+    let cursor = null;
+    let firstRequest = true;
+    let allConversations: SlackConversation[] = [];
+    let totalRequests = 0;
+
+    while ((cursor || firstRequest) && totalRequests < 20) {
+      firstRequest = false;
+      totalRequests += 1;
+      let url = `${BASE_URL[environment]}/integrations/slack/conversations?types=public_channel,private_channel,im,mpim`;
+      if (cursor) {
+        url = url + `&cursor=${cursor}`;
+      }
+      const convoRes = await authenticatedFetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (convoRes.status == 200) {
+        const data = await convoRes.json();
+        allConversations = allConversations.concat(data.results);
+        cursor = data.next_cursor;
+      } else {
+        cursor = null;
+      }
+    }
+    setAllConversations(allConversations);
+  };
+
+  useEffect(() => {
+    fetchConvos().then((res) => {
+      setConvosLoading(false);
+    });
+  }, []);
 
   if (!localIntegration) return null;
   const tabValues = [
     {
       id: 1,
       name: "Channels",
-      messagePrimary: "5 Public Channels",
-      messageSecondary: "4 Private Channels found",
+      messagePrimary: `${publicChannels.length} Public Channels`,
+      messageSecondary: `${privateChannels.length} Private Channels found`,
       icon: channelIcon,
     },
     {
       id: 2,
       name: "Messages",
-      messagePrimary: "4 Direct Messages",
-      messageSecondary: "4 Private Channels found",
+      messagePrimary: `${dms.length} Direct Messages`,
+      messageSecondary: `${mpdms.length} Multi-person Direct Messages`,
       icon: messageIcon,
     },
   ];
 
+  if (convosLoading) {
+    return <Loader />;
+  }
   return (
     <>
       {!slackActive && (
@@ -61,9 +127,8 @@ const Channel: React.FC<{
             <button
               className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
               onClick={() => {
-                if (!entryPoint) setActiveStep("INTEGRATION_LIST");
-                else setActiveStep("CONNECT");
-                setSlackActive(true);
+                setActiveStep(IntegrationName.SLACK);
+                setStartCustomSync(false);
               }}
             >
               <img

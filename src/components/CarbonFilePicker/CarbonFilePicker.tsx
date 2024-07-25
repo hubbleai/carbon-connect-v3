@@ -49,7 +49,8 @@ import SlackScreen from "../Screens/SlackScreen";
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
   SYNC_URL = "SYNC_URL",
-  UPLOAD = "UPLOAd",
+  UPLOAD = "UPLOAD",
+  CUSTOM = "CUSTOM",
 }
 
 export default function CarbonFilePicker({
@@ -98,9 +99,10 @@ export default function CarbonFilePicker({
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
-  const [accountsAdded, setAccountsAdded] = useState(false);
+  const [accountsAdded, setAccountsAdded] = useState(false); // to be used later
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
+  const [startCustomSync, setStartCustomSync] = useState(false);
 
   const { systemTheme } = useTheme();
 
@@ -116,6 +118,8 @@ export default function CarbonFilePicker({
       SYNC_URL_SUPPORTED_CONNECTORS.find((c) => c == integrationName)
     ) {
       setMode(SyncingModes.SYNC_URL);
+    } else if (integrationName == IntegrationName.SLACK) {
+      setMode(SyncingModes.CUSTOM);
     }
   });
 
@@ -298,6 +302,8 @@ export default function CarbonFilePicker({
       sendOauthRequest("UPLOAD", selectedDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
+    } else if (mode == SyncingModes.CUSTOM) {
+      setStartCustomSync(true);
     } else {
       setBannerState({
         type: "ERROR",
@@ -370,6 +376,7 @@ export default function CarbonFilePicker({
     setIsResyncingDataSource(false);
   };
 
+  // not being used atm
   if (isUploading.state) {
     return (
       <div className="cc-h-[560px] cc-flex-grow cc-flex cc-flex-col cc-items-center cc-justify-center">
@@ -399,6 +406,19 @@ export default function CarbonFilePicker({
   }
 
   if (!processedIntegration) return null;
+
+  if (startCustomSync) {
+    if (integrationName == IntegrationName.SLACK) {
+      return (
+        <SlackScreen
+          setActiveStep={setActiveStep}
+          activeStepData={processedIntegration}
+          screen="CHANNEL"
+          setStartCustomSync={setStartCustomSync}
+        />
+      );
+    }
+  }
 
   return (
     <>

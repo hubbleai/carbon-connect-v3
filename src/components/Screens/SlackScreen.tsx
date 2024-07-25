@@ -17,10 +17,12 @@ const SlackScreen = ({
   setActiveStep,
   activeStepData,
   screen,
+  setStartCustomSync,
 }: {
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeStepData?: IntegrationItemType;
   screen: ActiveSlackScreen;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [activeScreen, setActiveScreen] = useState(screen);
   const { entryPoint, setSlackActive, slackActive } = useCarbon();
@@ -49,7 +51,7 @@ const SlackScreen = ({
             <Button
               variant="primary"
               className="cc-w-full  cc-text-base cc-h-[48px] cc-font-extrabold"
-              onClick={handleClick}
+              onClick={() => handleClick()}
             >
               {openAccounts
                 ? "Select more accounts"
@@ -81,6 +83,7 @@ const SlackScreen = ({
             activeStepData={INTEGRATIONS_LIST.find(
               (item) => item.id === IntegrationName.SLACK
             )}
+            setStartCustomSync={setStartCustomSync}
           />
         </>
       )}

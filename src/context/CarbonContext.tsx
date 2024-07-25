@@ -24,17 +24,14 @@ type CarbonContextValues = CarbonConnectProps & {
   activeStep?: ActiveStep;
   setActiveStep?: any;
   showModal?: boolean;
-  slackActive?:boolean;
-  setSlackActive?:any
-
+  slackActive?: boolean;
+  setSlackActive?: any;
 };
 
 const CarbonContext: React.Context<CarbonContextValues> = createContext({
   orgName: "",
   brandIcon: "",
 });
-
-
 
 export const CarbonProvider = ({
   orgName,
@@ -103,7 +100,7 @@ export const CarbonProvider = ({
   const [whiteLabelingData, setWhiteLabelingData] = useState(null);
 
   const [requestIds, setRequestIds] = useState({});
-  const [slackActive , setSlackActive] = useState(true);
+  const [slackActive, setSlackActive] = useState(false);
 
   const manageModalOpenState = (modalOpenState: boolean) => {
     if (alwaysOpen) return;
@@ -261,12 +258,11 @@ export const CarbonProvider = ({
     sendDeletionWebhooks,
     fileSyncConfig,
     slackActive,
-    setSlackActive
-    
+    setSlackActive,
   };
 
   return (
-    <CarbonContext.Provider value={contextValues }>
+    <CarbonContext.Provider value={contextValues}>
       {children}
     </CarbonContext.Provider>
   );
