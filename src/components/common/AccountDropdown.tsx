@@ -43,7 +43,7 @@ export default function AccountDropdown({
             return (
               <DropdownMenuItem
                 key={dataSource.id}
-                className="cc-border-b cc-border-outline-base_em cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
+                className="cc-border-b cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
                 onClick={() => handleAccountChange(dataSource.id)}
               >
                 <div>

@@ -336,7 +336,7 @@ export default function SyncedFilesList({
           </div>
           {filesLoading ? (
             <Loader />
-          ) : !files.length ? (
+          ) : !filteredList.length ? (
             <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full">
               <div className="cc-p-2 cc-bg-surface-surface_2 cc-rounded-lg cc-mb-3">
                 <img

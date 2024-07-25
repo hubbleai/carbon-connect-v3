@@ -131,6 +131,7 @@ export default function CarbonFilePicker({
     );
     const accountsAdded = connected.length > connectedDataSources.length;
     if (pauseDataSourceSelection || !connected.length) {
+      setIsLoading(false);
       return;
     }
     setConnectedDataSources(connected);

@@ -49,6 +49,7 @@ interface DialogContentProps
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
+
 >(({ className, children, activeState, ...props }, ref) => {
   const { slackActive } = React.useContext(CarbonContext);
 
@@ -74,6 +75,7 @@ const DialogContent = React.forwardRef<
     </DialogPortal>
   );
 });
+
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({

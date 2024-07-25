@@ -52,6 +52,7 @@ export function IntegrationModal() {
 
   const requestIdsRef = useRef(requestIds);
   const activeIntegrationsRef = useRef(activeIntegrations);
+  const firstFetchCompletedRef = useRef(false);
 
   const [carbonActive, setCarbonActive] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<ActiveStep>(
@@ -71,10 +72,9 @@ export function IntegrationModal() {
           },
         }
       );
-
       if (userIntegrationsResponse.status === 200) {
         const responseBody = await userIntegrationsResponse.json();
-        if (activeIntegrations.length) {
+        if (firstFetchCompletedRef.current) {
           const integrationModifications = findModifications(
             responseBody["active_integrations"],
             activeIntegrationsRef.current,
@@ -86,11 +86,11 @@ export function IntegrationModal() {
               onSuccess && onSuccess(integrationModifications[i]);
             }
           }
-          activeIntegrationsRef.current = responseBody["active_integrations"];
-          setActiveIntegrations(responseBody["active_integrations"]);
         } else {
-          setActiveIntegrations(responseBody["active_integrations"]);
+          firstFetchCompletedRef.current = true;
         }
+        activeIntegrationsRef.current = responseBody["active_integrations"];
+        setActiveIntegrations(responseBody["active_integrations"]);
         return;
       }
     } catch (error) {
@@ -108,7 +108,7 @@ export function IntegrationModal() {
 
   useEffect(() => {
     if (accessToken && showModal) {
-      const intervalId = setInterval(fetchUserIntegrations, 10000);
+      const intervalId = setInterval(fetchUserIntegrations, 8000);
       // Make sure to clear the interval when the component unmounts
       return () => clearInterval(intervalId);
     }

@@ -64,14 +64,8 @@ function ConnectScreen({
             <div className="cc-p-8 cc-border-b cc-border-color-black-7 dark:cc-border-dark-border-color cc-flex-grow cc-overflow-auto">
               <div className="cc-mb-6">
                 <div className="cc-flex cc-pt-8 -cc-space-x-2">
-                  {/* <img
-                    src={brandIcon}
-                    alt={`${orgName} Icon`}
-                    className="cc-h-12 cc-w-21"
-                  /> */}
-                  {/* This is statis brandIcon image  */}
                   <img
-                    src={rubber}
+                    src={brandIcon}
                     alt={`${orgName} Icon`}
                     className="cc-h-12 cc-w-21"
                   />

@@ -109,73 +109,74 @@ function IntegrationList({
           )}
         </div>
         <ul className="cc-grid cc-grid-cols-2 cc-gap-3 sm:cc-grid-cols-3">
-          {listData?.length &&
-            listData.map((integration: ProcessedIntegration) => {
-              const isActive = activeIntegrations.find(
-                (int) => int.data_source_type == integration.data_source_type
-              );
-              return (
-                <li
-                  key={integration.id}
-                  className={`cc-border cc-rounded-xl cc-h-fit dark:cc-text-dark-text-white  dark:cc-bg-dark-bg-black dark:cc-border-[#FFFFFF1F]  cc-items-center cc-p-2 sm:cc-p-3 cc-transition-all ${
-                    !integration.active
-                      ? "cc-bg-gray-200 cc-cursor-not-allowed"
-                      : "cc-bg-white cc-cursor-pointer hover:cc-bg-surface-surface_1 dark:hover:cc-bg-dark-surface_1 dark:hover:cc-border-dark-outline-med_em hover:cc-border-outline-med_em"
-                  }`}
-                  onClick={() => {
-                    setActiveStep(integration?.id);
-                  }}
-                >
-                  <div className="cc-grid cc-grid-cols-[40px,calc(100%_-_52px)] sm:cc-grid-cols-[56px,calc(100%_-_68px)] cc-gap-3 cc-items-center cc-justify-start">
-                    <div className="cc-flex cc-aspect-square cc-items-center cc-justify-center cc-border-2  cc-rounded-md cc-shadow-e2 cc-border-white cc-shrink-0 dark:cc-bg-dark-text-white dark:cc-shadow-[0px_3px_4px_-2px_#0000007A]">
-                      <div
-                        className={cn(
-                          `cc-flex  cc-items-center cc-justify-center cc-h-full cc-w-full cc-rounded-md cc-bg-gray-50`,
-                          integration?.iconBgColor &&
-                            "cc-bg-" + integration?.iconBgColor
-                        )}
-                      >
-                        {integration.icon}
+          {listData?.length
+            ? listData.map((integration: ProcessedIntegration) => {
+                const isActive = activeIntegrations.find(
+                  (int) => int.data_source_type == integration.data_source_type
+                );
+                return (
+                  <li
+                    key={integration.id}
+                    className={`cc-border cc-rounded-xl cc-h-fit dark:cc-text-dark-text-white  dark:cc-bg-dark-bg-black dark:cc-border-[#FFFFFF1F]  cc-items-center cc-p-2 sm:cc-p-3 cc-transition-all ${
+                      !integration.active
+                        ? "cc-bg-gray-200 cc-cursor-not-allowed"
+                        : "cc-bg-white cc-cursor-pointer hover:cc-bg-surface-surface_1 dark:hover:cc-bg-dark-surface_1 dark:hover:cc-border-dark-outline-med_em hover:cc-border-outline-med_em"
+                    }`}
+                    onClick={() => {
+                      setActiveStep(integration?.id);
+                    }}
+                  >
+                    <div className="cc-grid cc-grid-cols-[40px,calc(100%_-_52px)] sm:cc-grid-cols-[56px,calc(100%_-_68px)] cc-gap-3 cc-items-center cc-justify-start">
+                      <div className="cc-flex cc-aspect-square cc-items-center cc-justify-center cc-border-2  cc-rounded-md cc-shadow-e2 cc-border-white cc-shrink-0 dark:cc-bg-dark-text-white dark:cc-shadow-[0px_3px_4px_-2px_#0000007A]">
+                        <div
+                          className={cn(
+                            `cc-flex  cc-items-center cc-justify-center cc-h-full cc-w-full cc-rounded-md cc-bg-gray-50`,
+                            integration?.iconBgColor &&
+                              "cc-bg-" + integration?.iconBgColor
+                          )}
+                        >
+                          {integration.icon}
+                        </div>
+                      </div>
+                      <div className="cc-flex-grow">
+                        <h2 className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-truncate">
+                          <span className="cc-mr-1 cc-inline-block">
+                            {integration.integrationsListViewTitle ||
+                              integration.name}
+                          </span>
+                          {isActive ? (
+                            <span
+                              className={
+                                "cc-h-2 cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
+                              }
+                            />
+                          ) : null}
+                        </h2>
+                        {integration.id == IntegrationName.LOCAL_FILES ? (
+                          <p className="cc-font-semibold dark:cc-text-dark-text-gray cc-text-xs cc-text-low_em cc-mt-1 cc-truncate">
+                            {`max ${
+                              getFileSizeLimit(
+                                integration as LocalFilesIntegration,
+                                whiteLabelingData,
+                                maxFileSize
+                              ) / ONE_MB
+                            }MB per file`}
+                          </p>
+                        ) : null}
+                        {integration.id == IntegrationName.WEB_SCRAPER ? (
+                          <p className="cc-font-semibold dark:cc-text-dark-text-gray cc-text-xs cc-text-low_em cc-mt-1 cc-truncate">
+                            {`max ${
+                              (integration as WebScraperIntegration)
+                                .maxPagesToScrape || MAX_PAGES_TO_SCRAPE
+                            } links to sync`}
+                          </p>
+                        ) : null}
                       </div>
                     </div>
-                    <div className="cc-flex-grow">
-                      <h2 className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-truncate">
-                        <span className="cc-mr-1 cc-inline-block">
-                          {integration.integrationsListViewTitle ||
-                            integration.name}
-                        </span>
-                        {isActive ? (
-                          <span
-                            className={
-                              "cc-h-2 cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
-                            }
-                          />
-                        ) : null}
-                      </h2>
-                      {integration.id == IntegrationName.LOCAL_FILES ? (
-                        <p className="cc-font-semibold dark:cc-text-dark-text-gray cc-text-xs cc-text-low_em cc-mt-1 cc-truncate">
-                          {`max ${
-                            getFileSizeLimit(
-                              integration as LocalFilesIntegration,
-                              whiteLabelingData,
-                              maxFileSize
-                            ) / ONE_MB
-                          }MB per file`}
-                        </p>
-                      ) : null}
-                      {integration.id == IntegrationName.WEB_SCRAPER ? (
-                        <p className="cc-font-semibold dark:cc-text-dark-text-gray cc-text-xs cc-text-low_em cc-mt-1 cc-truncate">
-                          {`max ${
-                            (integration as WebScraperIntegration)
-                              .maxPagesToScrape || MAX_PAGES_TO_SCRAPE
-                          } links to sync`}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
+                  </li>
+                );
+              })
+            : null}
         </ul>
       </div>
     </>
