@@ -330,14 +330,7 @@
 
   }
 
-  .cc-modal .rdp-month {
-    width: 100%;
-  }
 
-  .cc-modal .rdp-months {
-    width: 100%;
-    justify-content: center;
-  }
 
   .cc-modal .footerNote p {
     font-size: var(--calenderCommanFontSize);

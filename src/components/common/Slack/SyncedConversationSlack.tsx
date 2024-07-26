@@ -42,7 +42,7 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
   return (
     <>
       <div className="cc-flex cc-mt-[16px] cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col cc-justify-between sm:cc-flex-row">
-        <label className="cc-relative cc-flex-grow sm:cc-max-w-[220px]">
+        <label className="cc-relative cc-flex-grow sm:cc-max-w-[350px]">
           <img
             src={SearchIcon}
             alt="Search Icon"
@@ -51,7 +51,7 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
           <Input
             type="text"
             placeholder="Search"
-            className="cc-h-8 cc-text-xs !cc-pl-7"
+            className="cc-h-8 cc-text-xs !cc-pl-7 "
             value={serchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
