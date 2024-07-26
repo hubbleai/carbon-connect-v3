@@ -247,7 +247,7 @@ export default function SourceItemsList({
               <Input
                 type="text"
                 placeholder="Search"
-                className="cc-h-8 cc-text-xs cc-pl-7"
+                className="cc-h-8 cc-text-xs !cc-pl-7"
                 value={serchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
