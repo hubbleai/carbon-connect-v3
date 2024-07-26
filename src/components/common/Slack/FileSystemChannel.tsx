@@ -26,7 +26,7 @@ const FileSystemChannel = ({ list, isChecked, onSelect , storeDateAll }: propInf
     
   },[selected , storeDateAll])
   return (
-    <div className=" cc-flex cc-p-[16px_0px] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center">
+    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center">
      <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20] ">
       <Checkbox
         className="cc-mr-[8px]"
