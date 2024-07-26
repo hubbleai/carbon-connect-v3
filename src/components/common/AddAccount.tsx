@@ -65,7 +65,7 @@ const [files, setFiles] = useState<MessageInfo[]>([]);
   return (
     <>
     <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
-      <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-[40px] cc-flex-col sm:cc-flex-row">
+      <div className="cc-flex cc-gap-2 sm:cc-gap-4 cc-mb-[40px] cc-flex-col sm:cc-flex-row">
         <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
           My Accounts
         </p>
@@ -79,7 +79,7 @@ const [files, setFiles] = useState<MessageInfo[]>([]);
             <Input
               type="text"
               placeholder="Search"
-              className="cc-h-8 cc-text-xs !cc-pl-7"
+              className="cc-h-8 cc-text-xs !cc-pl-7 sm:!cc-w-[240px]"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />

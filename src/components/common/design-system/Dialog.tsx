@@ -83,7 +83,7 @@ const DialogHeader = ({
     <DialogPrimitive.Close
       onClick={onCloseModal}
       className={cn(
-        "md:cc-hidden cc-rounded-xl cc-h-10 cc-w-10 cc-shrink-0 cc-flex cc-items-center cc-justify-center cc-opacity-70 cc-ring-offset-background cc-transition-opacity hover:cc-opacity-100 focus:cc-outline-none focus:cc-ring-2 focus:cc-ring-ring focus:cc-ring-offset-2 disabled:cc-pointer-events-none data-[state=open]:cc-bg-accent data-[state=open]:cc-text-muted-foreground cc-ml-auto",
+        " cc-rounded-xl cc-h-10 cc-w-10 cc-shrink-0 cc-flex cc-items-center cc-justify-center cc-opacity-70 cc-ring-offset-background cc-transition-opacity hover:cc-opacity-100 focus:cc-outline-none focus:cc-ring-2 focus:cc-ring-ring focus:cc-ring-offset-2 disabled:cc-pointer-events-none data-[state=open]:cc-bg-accent data-[state=open]:cc-text-muted-foreground cc-ml-auto",
         closeButtonClass
       )}
     >

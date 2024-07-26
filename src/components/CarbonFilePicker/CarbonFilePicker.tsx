@@ -442,7 +442,7 @@ export default function CarbonFilePicker({
               <img
                 src={RefreshIcon}
                 alt="User Plus"
-                className="cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                className="cc-h-[18px] md:cc-none cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
             </Button>
             {!showAdditionalStep && connectedDataSources?.length ? (
