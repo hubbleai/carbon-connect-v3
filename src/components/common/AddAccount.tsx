@@ -65,7 +65,7 @@ const [files, setFiles] = useState<MessageInfo[]>([]);
   return (
     <>
     <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
-      <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col sm:cc-flex-row">
+      <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-[40px] cc-flex-col sm:cc-flex-row">
         <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
           My Accounts
         </p>
@@ -130,7 +130,7 @@ const [files, setFiles] = useState<MessageInfo[]>([]);
       </div>
       <div
         id="scrollableTarget"
-        className="cc-flex cc-flex-col  cc-overflow-y-auto cc-overflow-x-hidden cc-mx-4 cc-px-4 sm:cc-mx-0 sm:cc-px-0 cc-flex-grow "
+        className="cc-flex cc-flex-col  cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0 sm:cc-px-0 cc-flex-grow "
       >
        
         {filesLoading ? (
