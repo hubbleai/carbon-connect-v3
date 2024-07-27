@@ -8,6 +8,7 @@ import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
   getConnectRequestProps,
+  getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV, SYNC_SOURCE_ITEMS } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
@@ -39,6 +40,8 @@ export default function S3Screen({
     authenticatedFetch,
     environment = ENV.PRODUCTION,
     accessToken,
+    whiteLabelingData,
+    orgName,
   } = carbonProps;
 
   const connectS3 = async () => {
@@ -182,10 +185,11 @@ export default function S3Screen({
             className="cc-w-5 cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
           />
           <p className="cc-text-low_em cc-font-semibold cc-text-sm dark:cc-text-dark-text-white">
-            By connecting to {processedIntegration.name}, you are providing us
-            with access to your {processedIntegration.name} account. We will use
-            this access to import your data into Carbon. We will not modify your
-            data in any way.
+            {getIntegrationDisclaimer(
+              processedIntegration,
+              whiteLabelingData,
+              orgName
+            )}
           </p>
         </div>
         <Button

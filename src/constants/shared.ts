@@ -89,6 +89,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.GITHUB,
 ];
 
+// note - this excludes RAW_TEXT
 export const LOCAL_FILE_TYPES = [
   "TEXT",
   "CSV",
@@ -101,7 +102,6 @@ export const LOCAL_FILE_TYPES = [
   "RTF",
   "JSON",
   "HTML",
-  "RAW_TEXT",
   "JPG",
   "JPEG",
   "PNG",
