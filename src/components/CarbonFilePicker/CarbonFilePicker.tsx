@@ -434,7 +434,7 @@ export default function CarbonFilePicker({
             <Button
               size="sm"
               variant="gray"
-              className="cc-rounded-xl cc-shrink-0 sm:cc-hidden"
+              className="cc-rounded-xl cc-shrink-0 cc-hidden"
             >
               <img
                 src={RefreshIcon}

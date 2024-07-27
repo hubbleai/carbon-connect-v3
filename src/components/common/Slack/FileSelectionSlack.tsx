@@ -177,7 +177,7 @@ const FileSelectionSlack = ({
   }, [activeChannel, activeMessage , selectedAll ]);
   return (
     <>
-      <div className="cc-flex md:cc-flex-row cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
+      <div className="cc-flex md:!cc-flex-row cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
         {activeTab === "channels" ? (
           <div>
             {selectedFiles.length > 0 ? (

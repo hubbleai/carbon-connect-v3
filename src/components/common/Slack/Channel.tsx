@@ -84,12 +84,12 @@ const Channel: React.FC<{
             <Button
               size="sm"
               variant="gray"
-              className="cc-rounded-xl cc-shrink-0 sm:cc-hidden"
+              className="cc-rounded-xl cc-shrink-0 cc-hidden"
             >
               <img
                 src={RefreshIcon}
                 alt="User Plus"
-                className="cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                className=" cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
             </Button>
           </>
