@@ -65,11 +65,11 @@ const [files, setFiles] = useState<MessageInfo[]>([]);
   return (
     <>
     <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
-      <div className="cc-flex cc-gap-2 sm:cc-gap-4 cc-mb-[40px] cc-flex-col sm:cc-flex-row">
+      <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-[40px] cc-flex-col sm:cc-flex-row">
         <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
           My Accounts
         </p>
-        <div className="cc-flex cc-gap-2 sm:cc-gap-3">
+        <div className="cc-flex cc-gap-2 sm:cc-gap-[1.75rem]">
           <label className="cc-relative cc-flex-grow sm:cc-max-w-[220px]">
             <img
               src={SearchIcon}
