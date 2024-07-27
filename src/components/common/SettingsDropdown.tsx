@@ -12,6 +12,7 @@ import {
 } from "@components/common/design-system/Dropdown";
 import DisconnectModal from "@components/common/DisconnectModal";
 import { IntegrationAPIResponse } from "../IntegrationModal";
+import { useCarbon } from "src/context/CarbonContext";
 
 export default function SettingsDropdown({
   revokeDataSource,
@@ -26,6 +27,7 @@ export default function SettingsDropdown({
 }) {
   const [showDisconnectModal, setShowDisconnectModal] =
     useState<boolean>(false);
+ 
 
   return (
     <>
@@ -48,7 +50,7 @@ export default function SettingsDropdown({
             />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="cc-w-[208px]">
+        <DropdownMenuContent align="end" className="cc-w-[208px]" >
           <DropdownMenuGroup>
             <DropdownMenuItem
               onClick={() => {
