@@ -13,7 +13,6 @@ import {
 } from "@components/common/design-system/Dropdown";
 import DropboxAccountReady from "@components/common/DropboxAccountReady";
 import { IntegrationAPIResponse } from "../IntegrationModal";
-import { useCarbon } from "src/context/CarbonContext";
 
 export default function AccountDropdown({
   dataSources,
@@ -29,8 +28,6 @@ export default function AccountDropdown({
   const [isDropboxAccountReady, setIsDropboxAccountReady] =
     useState<boolean>(false);
 
-    
-
   const getAccountEmail = (dataSource: IntegrationAPIResponse | null) => {
     return (
       dataSource?.data_source_external_id.split("|")[1] ||
@@ -40,7 +37,7 @@ export default function AccountDropdown({
 
   const commonMenuConponent = () => {
     return (
-      <DropdownMenuContent align="end" className="cc-w-[232px]" >
+      <DropdownMenuContent align="end" className="cc-w-[232px]">
         <DropdownMenuGroup>
           {dataSources.map((dataSource) => {
             return (
