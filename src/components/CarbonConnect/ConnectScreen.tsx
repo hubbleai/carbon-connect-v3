@@ -55,13 +55,13 @@ function ConnectScreen({
   };
 
   return (
-    <div className="sm:cc-max-h-[90vh] sm:cc-w-[415px] sm:cc-h-[703px] cc-gap-0 sm:cc-rounded-[20px]">
+    <div className="sm:cc-max-h-[100%] sm:cc-w-[415px] sm:cc-h-[703px] cc-gap-0 sm:cc-rounded-[20px]">
       <div>
         {loading ? (
           <Loader />
         ) : (
           <>
-            <div className="cc-p-8 cc-border-b cc-border-color-black-7 dark:cc-border-dark-border-color cc-flex-grow cc-overflow-auto">
+            <div className="cc-p-8  cc-flex-grow cc-overflow-auto">
               <div className="cc-mb-6">
                 <div className="cc-flex cc-pt-8 -cc-space-x-2">
                   <img
@@ -143,7 +143,7 @@ function ConnectScreen({
                 </div>
               </div>
             </div>
-            <div className="cc-px-8 cc-pt-6 cc-pb-8 cc-flex cc-flex-col cc-gap-y-5">
+            <div className="cc-px-8 cc-pt-6 cc-pb-8 cc-flex cc-flex-col cc-gap-y-5 cc-border-t cc-border-color-black-7 dark:cc-border-dark-border-color">
               <div className="">
                 <label className="cc-flex">
                   <span className="cc-text-sm cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">

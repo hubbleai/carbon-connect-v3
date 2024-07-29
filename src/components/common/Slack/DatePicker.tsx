@@ -10,10 +10,12 @@ type PropsInfo ={
     setStoreDate: Dispatch<string | undefined>;
 }
 const DatePicker = ({setOpen , selected ,setSelected , setStoreDate}:PropsInfo) => {
+
+  const [currentDate , setCurrentDate] = useState(new Date());
     
   return (
     <>
-     <DayPicker mode="single" selected={selected} showOutsideDays onSelect={setSelected}   footer={ <CalenderFooter selected={selected} setOpen={setOpen} setStoreDate={setStoreDate}/> } />
+     <DayPicker mode="single" selected={selected} showOutsideDays onSelect={setSelected}   footer={ <CalenderFooter selected={selected} setOpen={setOpen} setStoreDate={setStoreDate} currentDate={currentDate}/> } />
     </>
   )
 }

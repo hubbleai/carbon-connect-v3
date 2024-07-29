@@ -5,14 +5,16 @@ type PropsInfo = {
     selected:Date | undefined
     setOpen: Dispatch<SetStateAction<boolean>>
     setStoreDate: Dispatch<string | undefined>;
+    currentDate: Date
 }
 
-const CalenderFooter = ({selected , setOpen , setStoreDate}:PropsInfo) => {
+const CalenderFooter = ({selected , setOpen , setStoreDate , currentDate}:PropsInfo) => {
   return (
     <div className='footerWrapper'>
       <div className=' bottomArea gap-[16px]'>
-        <input type="text" value={selected?.toLocaleDateString()} className='inputfooter w-[112px] text-[#494656] rounded-[12px] bg-[#F3F3F4]' readOnly />
-        <button className='cancelCta' onClick={()=>setOpen(false)}>cancel</button>
+      
+        <button className='cancelCta' onClick={()=>setOpen(false)}>Cancel</button>
+        <input type="text" placeholder={currentDate?.toLocaleDateString()}  value={selected?.toLocaleDateString()} className='inputfooter w-[112px] text-[#494656] rounded-[12px] bg-[#F3F3F4]' readOnly />
         <button className='startDate' onClick={()=>{
           setStoreDate(selected?.toLocaleDateString())
         }}>Set start date</button>
