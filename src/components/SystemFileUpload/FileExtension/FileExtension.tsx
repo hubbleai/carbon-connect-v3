@@ -2,7 +2,6 @@ import React from "react";
 import { images } from "@assets/index";
 
 const getFileIcon = (fileName: string): string => {
-  console.log(fileName)
   const extension = fileName.split(".").pop();
 
   const image = fileName.split("/").pop();
@@ -62,7 +61,7 @@ const getFileIcon = (fileName: string): string => {
       return images.rtf;
     case "tsv":
       return images.tsv;
-      case 'plain': 
+    case "plain":
       return images.txt;
 
     case "json":
