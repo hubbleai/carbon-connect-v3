@@ -1,23 +1,51 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
-import { DayPicker } from 'react-day-picker'
-import CalenderFooter from './CalenderFooter'
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { DayClickEventHandler, DayPicker } from "react-day-picker";
+import CalenderFooter from "./CalenderFooter";
 
+type PropsInfo = {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  selected: Date | undefined;
+  setSelected: Dispatch<SetStateAction<Date | undefined>>;
+  setStoreDate: Dispatch<string | undefined>;
+};
+const DatePicker = ({
+  setOpen,
+  selected,
+  setSelected,
+  setStoreDate,
+}: PropsInfo) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-type PropsInfo ={
-    setOpen: Dispatch<SetStateAction<boolean>>;
-    selected: Date | undefined; 
-    setSelected: Dispatch<SetStateAction<Date | undefined>>;
-    setStoreDate: Dispatch<string | undefined>;
-}
-const DatePicker = ({setOpen , selected ,setSelected , setStoreDate}:PropsInfo) => {
+  useEffect(() => {
+    const mainContainer = document.querySelector(".rdp");
+    const newElement = document.createElement("div");
+    newElement.setAttribute("class", "innerLayer");
+    mainContainer?.appendChild(newElement);
 
-  const [currentDate , setCurrentDate] = useState(new Date());
-    
+    const innerLayer = document.querySelector(".innerLayer");
+    innerLayer?.addEventListener("click", () => {
+      setOpen(false);
+    });
+  }, []);
+
   return (
     <>
-     <DayPicker mode="single" selected={selected} showOutsideDays onSelect={setSelected}   footer={ <CalenderFooter selected={selected} setOpen={setOpen} setStoreDate={setStoreDate} currentDate={currentDate}/> } />
+      <DayPicker
+        mode="single"
+        selected={selected}
+        showOutsideDays
+        onSelect={setSelected}
+        footer={
+          <CalenderFooter
+            selected={selected}
+            setOpen={setOpen}
+            setStoreDate={setStoreDate}
+            currentDate={currentDate}
+          />
+        }
+      />
     </>
-  )
-}
+  );
+};
 
-export default DatePicker
+export default DatePicker;

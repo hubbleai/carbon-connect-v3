@@ -291,6 +291,11 @@
   height: 100%;
 }
 
+.cc-modal .innerLayer {
+  width: 100%;
+  height: 100%;
+}
+
 .cc-modal .rdp-caption_label {
   font-size: 18px !important;
   color: #100C20 !important;

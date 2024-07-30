@@ -20,7 +20,7 @@ export default function SourceItem({
   return (
     <li
       key={item.id}
-      className="cc-flex sm:cc-px-4 cc-transition-all cc-font-semibold dark:hover:cc-bg-[#464646]/25  cc-text-high_em cc-text-sm hover:cc-bg-gray-25 cc-cursor-pointer"
+      className="cc-flex cc-px-4 md:!cc-px-[0px] cc-transition-all cc-font-semibold cc-text-high_em cc-text-sm hover:cc-bg-gray-25 cc-cursor-pointer dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]"
     >
       <div className="cc-gap-2 cc-flex cc-items-start cc-w-full  cc-border-b cc-border-outline-base_em cc-py-3">
         <Checkbox

@@ -319,7 +319,7 @@ export default function SyncedFilesList({
         </div>
         <div
           id="scrollableTarget"
-          className=" dark:cc-border-[#FFFFFF1F] md:!cc-border-none cc-border-t cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden -cc-mx-4 cc-px-4 sm:cc-mx-0 sm:cc-px-0 cc-flex-grow sm:cc-border sm:cc-rounded-xl"
+          className=" dark:cc-border-[#FFFFFF1F] md:cc-border-x-0 md:cc-border-b-0   cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0 sm:cc-px-0 cc-flex-grow cc-border cc-rounded-xl md:cc-rounded-[0px] md:!cc-border-t md:cc-border-outline-base_em "
         >
           <div className="cc-bg-surface-surface_1 cc-hidden md:cc-hidden sm:cc-flex dark:cc-bg-dark-border-color">
             <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow dark:cc-text-dark-input-text">
@@ -361,7 +361,7 @@ export default function SyncedFilesList({
               loader={loadingMore ? <Loader /> : null}
               scrollableTarget="scrollableTarget"
             >
-              <ul className="cc-pb-2">
+              <ul className="cc-pb-2 ">
                 {filteredList.map((item) => {
                   const isChecked = selectedFiles.indexOf(item.id) >= 0;
 
