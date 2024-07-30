@@ -54,7 +54,6 @@ export default function AccountDropdown({
               </DropdownMenuItem>
             );
           })}
-          
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -102,7 +101,9 @@ export default function AccountDropdown({
             className="cc-font-semibold cc-px-3 cc-gap-3 sm:cc-min-w-[180px] cc-rounded-xl cc-hidden sm:cc-flex cc-shrink-0"
           >
             <span className="cc-flex-grow cc-text-left dark:cc-text-dark-text-white">
-              {getAccountEmail(selectedDataSource)}
+              {selectedDataSource !== null
+                ? getAccountEmail(selectedDataSource)
+                : "Connect Account"}
             </span>
             <img
               src={DownChevIcon}
