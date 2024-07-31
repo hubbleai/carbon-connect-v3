@@ -9,17 +9,19 @@ type FileListItemProps = {
   isChecked: boolean;
   onSelect: () => void;
   item: UserFileApi;
+  onClick: (item: UserFileApi) => void;
 };
 
 export default function FileItem({
   item,
   isChecked,
   onSelect,
+  onClick,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
 
   return (
-    <li
+      <li
       key={item.id}
       className="cc-flex cc-px-4 md:!cc-px-[0px] cc-transition-all cc-font-semibold cc-text-high_em cc-text-sm hover:cc-bg-gray-25 cc-cursor-pointer dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]"
     >

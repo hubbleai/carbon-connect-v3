@@ -163,7 +163,18 @@ export const getConnectRequestProps = (
 };
 
 export const getFileItemType = (item: UserFileApi) => {
-  if (item.file_metadata?.is_folder) {
+  let isFolder = false;
+  const fileType = item.file_metadata?.type;
+  // for now only folder type data sources are considered
+  if (item.file_metadata?.is_folder) isFolder = true;
+  // if (item.file_metadata?.is_shortcut) isFolder = true;
+  // if (item.file_metadata?.bucket) isFolder = true;
+  // if (item.file_metadata?.is_query) isFolder = true;
+  // if (item.file_metadata?.is_feed_url) isFolder = true;
+  // if (item.file_metadata?.is_thread) isFolder = true;
+  // if (fileType && ["SPACE", "DIRECTORY", "HELP_CENTER"].indexOf(fileType) != -1)
+  //   isFolder = true;
+  if (isFolder) {
     return "FOLDER";
   } else {
     return "FILE";
@@ -311,6 +322,14 @@ export const isValidHttpUrl = (string: string) => {
 
 export const removeHttp = (string: string) => {
   return string.replace("https://", "").replace("http://", "");
+};
+
+export const truncateString = (str: string, n: number) => {
+  if (str.length > n) {
+    return str.substring(0, n) + "...";
+  } else {
+    return str;
+  }
 };
 
 export const getIntegrationDisclaimer = (

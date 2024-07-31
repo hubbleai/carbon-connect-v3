@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/common/design-system/Dropdown";
 import DisconnectModal from "@components/common/DisconnectModal";
-import { IntegrationAPIResponse } from "../IntegrationModal";
 
 export default function SettingsDropdown({
   revokeDataSource,

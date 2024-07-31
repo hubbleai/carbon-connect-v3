@@ -134,3 +134,11 @@ export const DEFAULT_FILE_SIZE = DEFAULT_SIZE_MB * ONE_MB;
 
 export const DEFAULT_MAX_FILES = 10;
 export const MAX_FILES_LIMIT = 50;
+
+export const FOLDER_BASED_CONNECTORS = [
+  IntegrationName.BOX,
+  IntegrationName.DROPBOX,
+  IntegrationName.ONEDRIVE,
+  IntegrationName.GOOGLE_DRIVE,
+  IntegrationName.SHAREPOINT,
+];

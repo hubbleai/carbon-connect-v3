@@ -4,6 +4,7 @@ import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import { Input } from "@components/common/design-system/Input";
 import { Button } from "@components/common/design-system/Button";
 import { DialogFooter } from "@components/common/design-system/Dialog";
+import FolderIcon from "@assets/svgIcons/folder.svg";
 
 import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import NoResultsIcon from "@assets/svgIcons/no-result.svg";
@@ -11,7 +12,12 @@ import AddCircleIconBlack from "@assets/svgIcons/add-circle-icon-black.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 
 import { useCarbon } from "../../context/CarbonContext";
-import { BASE_URL, ENV, LOCAL_FILE_TYPES } from "../../constants/shared";
+import {
+  BASE_URL,
+  ENV,
+  FOLDER_BASED_CONNECTORS,
+  LOCAL_FILE_TYPES,
+} from "../../constants/shared";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   ActiveStep,
@@ -22,10 +28,29 @@ import {
 import FileItem from "./FileItem";
 import { SyncingModes } from "./CarbonFilePicker";
 import Loader from "../common/Loader";
-import { pluralize } from "../../utils/helper-functions";
+import {
+  getFileItemType,
+  pluralize,
+  truncateString,
+} from "../../utils/helper-functions";
 import { BannerState } from "../common/Banner";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../common/design-system/Breadcrumb";
 
 const PER_PAGE = 20;
+
+type BreadcrumbType = {
+  parentId: number | null;
+  name: string;
+  accountId: number | undefined;
+  refreshes: number;
+  root_files_only: boolean;
+};
 
 export default function SyncedFilesList({
   selectedDataSource,
@@ -61,23 +86,85 @@ export default function SyncedFilesList({
   const [loadingMore, setLoadingMore] = useState(false);
   const [actionInProgress, setActionInProgress] = useState(false);
   const isLocalFiles = processedIntegration.id == IntegrationName.LOCAL_FILES;
+  const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbType[]>([
+    {
+      parentId: null,
+      name: "All Files",
+      accountId: undefined,
+      refreshes: 0,
+      root_files_only: true,
+    },
+  ]);
+
+  const filteredList = files.filter((item) =>
+    item.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (!selectedDataSource && !isLocalFiles) return;
+    setSearchValue("");
+    setBreadcrumbs([
+      {
+        parentId: null,
+        name: "All Files",
+        accountId: selectedDataSource?.id,
+        refreshes: syncedFilesRefreshes,
+        root_files_only: true,
+      },
+    ]);
+  }, [selectedDataSource?.id, syncedFilesRefreshes]);
+
+  useEffect(() => {
+    if (breadcrumbs.length) {
+      setOffset(0);
+      setFiles([]);
+      setHasMoreFiles(true);
+      const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
+      if (lastBreadcrumb.accountId || isLocalFiles) {
+        setFilesLoading(true);
+        loadInitialData(selectedDataSource, lastBreadcrumb).then(() =>
+          setFilesLoading(false)
+        );
+      }
+    }
+  }, [JSON.stringify(breadcrumbs)]);
+
+  const getUserFilesFilters = (
+    breadcrumb: BreadcrumbType,
+    selectedDataSource: IntegrationAPIResponse | null
+  ) => {
+    if (selectedDataSource) {
+      if (
+        FOLDER_BASED_CONNECTORS.includes(selectedDataSource.data_source_type)
+      ) {
+        return {
+          organization_user_data_source_id: [selectedDataSource.id],
+          root_files_only: breadcrumb.root_files_only,
+          ...(breadcrumb.parentId && {
+            parent_file_ids: [breadcrumb.parentId],
+          }),
+        };
+      } else {
+        return { organization_user_data_source_id: [selectedDataSource.id] };
+      }
+    } else {
+      return {
+        source: LOCAL_FILE_TYPES,
+      };
+    }
+  };
 
   const getUserFiles = async (
     selectedDataSource: IntegrationAPIResponse | null,
-    offset: number
+    offset: number,
+    breadcrumb: BreadcrumbType
   ) => {
     const requestBody = {
       pagination: {
         offset: offset,
         limit: PER_PAGE,
       },
-      filters: selectedDataSource
-        ? {
-            organization_user_data_source_id: [selectedDataSource.id],
-          }
-        : {
-            source: LOCAL_FILE_TYPES,
-          },
+      filters: getUserFilesFilters(breadcrumb, selectedDataSource),
       order_by: "created_at",
       order_dir: "desc",
     };
@@ -105,9 +192,14 @@ export default function SyncedFilesList({
   };
 
   const loadInitialData = async (
-    selectedDataSource: IntegrationAPIResponse | null
+    selectedDataSource: IntegrationAPIResponse | null,
+    breadcrumb: BreadcrumbType
   ) => {
-    const { count, userFiles } = await getUserFiles(selectedDataSource, 0);
+    const { count, userFiles } = await getUserFiles(
+      selectedDataSource,
+      0,
+      breadcrumb
+    );
     setFiles([...userFiles]);
     setOffset(userFiles.length);
 
@@ -121,7 +213,12 @@ export default function SyncedFilesList({
   const loadMoreRows = async () => {
     if (!selectedDataSource && !isLocalFiles) return;
     setLoadingMore(true);
-    const { count, userFiles } = await getUserFiles(selectedDataSource, offset);
+    const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
+    const { count, userFiles } = await getUserFiles(
+      selectedDataSource,
+      offset,
+      lastBreadcrumb
+    );
     const newFiles = [...files, ...userFiles];
     setFiles(newFiles);
     setOffset(offset + userFiles.length);
@@ -134,19 +231,27 @@ export default function SyncedFilesList({
     setLoadingMore(false);
   };
 
-  useEffect(() => {
-    if (!selectedDataSource && !isLocalFiles) return;
-    setOffset(0);
-    setFiles([]);
-    setSearchValue("");
-    setHasMoreFiles(true);
-    setFilesLoading(true);
-    loadInitialData(selectedDataSource).then(() => setFilesLoading(false));
-  }, [selectedDataSource?.id, syncedFilesRefreshes]);
-
-  const filteredList = files.filter((item) =>
-    item.name.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const onItemClick = (item: UserFileApi) => {
+    if (
+      filesLoading ||
+      !selectedDataSource ||
+      !FOLDER_BASED_CONNECTORS.includes(selectedDataSource?.data_source_type)
+    )
+      return;
+    if (getFileItemType(item) == "FOLDER") {
+      // setParentId(item.external_id);
+      setBreadcrumbs((prev) => [
+        ...prev,
+        {
+          parentId: item.id,
+          name: item.name,
+          accountId: selectedDataSource?.id,
+          refreshes: syncedFilesRefreshes,
+          root_files_only: false,
+        },
+      ]);
+    }
+  };
 
   const handleDeleteFiles = async () => {
     setActionInProgress(true);
@@ -242,12 +347,23 @@ export default function SyncedFilesList({
     });
   };
 
+  const onBreadcrumbClick = (index: number) => {
+    if (
+      !selectedDataSource ||
+      !FOLDER_BASED_CONNECTORS.includes(selectedDataSource.data_source_type)
+    )
+      return;
+    // Navigate to the clicked directory in the breadcrumb
+    const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
+    setBreadcrumbs(newBreadcrumbs);
+  };
+
   return (
     <>
       <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
         <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col sm:cc-flex-row">
           <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
-            All Files
+            Synced Files
           </p>
           <div className="cc-flex cc-gap-2 sm:cc-gap-3">
             <label className="cc-relative cc-flex-grow sm:cc-max-w-[220px]">
@@ -294,6 +410,32 @@ export default function SyncedFilesList({
           </div>
         </div>
         <div className="cc-flex cc-flex-col sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
+          <div className="cc-overflow-auto cc-pb-4 sm:cc-pb-0 cc-px-4 -cc-mx-4 cc-flex-grow ">
+            <Breadcrumb className="cc-text-nowrap cc-whitespace-nowrap cc-flex-nowrap">
+              <BreadcrumbList className="cc-flex-nowrap">
+                {breadcrumbs.map((crumb, index) => (
+                  <React.Fragment key={index}>
+                    <BreadcrumbItem
+                      className="cc-shrink-0"
+                      onClick={() => onBreadcrumbClick(index)}
+                    >
+                      <BreadcrumbPage className="hover:cc-opacity-70 cc-cursor-pointer cc-transition-all cc-gap-1.5 cc-flex cc-shrink-0 cc-items-center dark:cc-text-dark-text-white">
+                        <img
+                          src={FolderIcon}
+                          alt="Folder Icon"
+                          className="cc-w-5 cc-shrink-0"
+                        />
+                        {truncateString(crumb.name, 15)}
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                    {breadcrumbs.length > index + 1 ? (
+                      <BreadcrumbSeparator className="cc-shrink-0" />
+                    ) : null}
+                  </React.Fragment>
+                ))}
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
           {selectedFiles.length > 0 ? (
             <button
               onClick={() => setSelectedFiles([])}
@@ -379,6 +521,7 @@ export default function SyncedFilesList({
                           }
                         });
                       }}
+                      onClick={onItemClick}
                     />
                   );
                 })}

@@ -233,6 +233,12 @@ export type UserFileApi = {
   external_url: string | null;
   file_metadata: {
     is_folder?: boolean;
+    is_shortcut?: boolean;
+    is_query?: boolean;
+    bucket?: string;
+    type?: string;
+    is_feed_url?: boolean;
+    is_thread?: boolean;
   };
 };
 

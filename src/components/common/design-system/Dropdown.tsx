@@ -2,6 +2,7 @@ import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 
 import { cn } from "@components/common/design-system/utils";
+import { useCarbon } from "src/context/CarbonContext";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -55,19 +56,24 @@ DropdownMenuSubContent.displayName =
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-xl cc-font-semibold cc-text-xs cc-border cc-bg-white  cc-text-high_em cc-shadow-e3 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2 dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color ",
-        className
-      )}
-      {...props}
-    />
-  </DropdownMenuPrimitive.Portal>
-));
+>(({ className, sideOffset = 4, ...props }, ref) => {
+  const { zIndex } = useCarbon();
+  const finalIndex = (zIndex !== undefined ? zIndex : 50) + 15;
+  return (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        style={{ zIndex: finalIndex }}
+        className={cn(
+          "cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-xl cc-font-semibold cc-text-xs cc-border cc-bg-white  cc-text-high_em cc-shadow-e3 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2 dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color ",
+          className
+        )}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
+  );
+});
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
 const DropdownMenuItem = React.forwardRef<
