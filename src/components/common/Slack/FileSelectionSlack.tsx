@@ -234,7 +234,7 @@ const FileSelectionSlack = ({
           </div>
         )}
 
-        <div className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer" onClick={()=>{setOpenAll(true)}}>
+        <div className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]" onClick={()=>{setOpenAll(true)}}>
           Set start date for all
         </div>
         {

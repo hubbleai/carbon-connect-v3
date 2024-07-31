@@ -24,7 +24,7 @@ const FileSystemMessage = ({ list, isChecked, onSelect ,storeDateAllMessages }: 
     setStoreDate(storeDateAllMessages)
   },[selected , storeDateAllMessages])
   return (
-    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-items-center cc-border-t cc-border-[#F3F3F4] cc-justify-between">
+    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-items-center cc-border-t cc-border-[#F3F3F4] dark:cc-border-[#ffffff7a] cc-justify-between  dark:hover:cc-bg-[#464646]">
       <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20]">
         <Checkbox
           className="cc-mr-[12px]"
@@ -65,14 +65,14 @@ const FileSystemMessage = ({ list, isChecked, onSelect ,storeDateAllMessages }: 
           </div>
         </div>
         <div>
-        <div className="cc-truncate cc-w-[206px]">
+        <div className="cc-truncate cc-w-[206px] dark:cc-text-dark-text-white">
           {list.userOne}
           {list.isGroup &&
             `, ${list.userTwo}${
               list.userThree !== "" ? `, ${list.userThree}` : ""
             }`}
         </div>
-        <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium">{storeDate !== '' && `Starting from ${storeDate}`}</span>
+        <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium dark:cc-text-dark-text-white">{storeDate !== '' && `Starting from ${storeDate}`}</span>
         </div>
        
       </div>

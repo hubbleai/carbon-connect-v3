@@ -105,15 +105,15 @@ const Channel: React.FC<{
             {tabValues.map((item) => (
               <div
                 key={item.id}
-                className="cc-flex cc-items-center cc-justify-between cc-p-[12px] cc-border cc-border-[#ECECED] cc-rounded-[12px] cc-w-[96.17%] cc-mt-[16px]"
+                className="cc-flex cc-items-center cc-justify-between dark:cc-border-[#ffffff7a] cc-p-[12px] cc-border cc-border-[#ECECED] cc-rounded-[12px] cc-w-[96.17%] cc-mt-[16px]"
               >
                 <div className="cc-flex">
                   <img src={item.icon} alt="icon" />
                   <div className="cc-ml-[12px]">
-                    <p className="cc-text-[14px] cc-leading-[24px] cc-font-semibold cc-text-[#100C20]">
+                    <p className="cc-text-[14px] cc-leading-[24px] cc-font-semibold cc-text-[#100C20] dark:cc-text-dark-text-white">
                       {item.name}
                     </p>
-                    <div className="cc-text-xs cc-font-medium cc-text-[#8C8A94]">
+                    <div className="cc-text-xs cc-font-medium cc-text-[#8C8A94] dark:cc-text-dark-text-white">
                       <p>{`${item.messagePrimary} &`}</p>
                       <p>{item.messageSecondary}</p>
                     </div>

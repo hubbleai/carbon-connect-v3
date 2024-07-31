@@ -31,7 +31,7 @@ const Sync = ({selectedFiles , selectFilesMessage}:PropsInfo) => {
             )}%`}</div>
           </CircularProgressbarWithChildren>
         </div>
-        <p className="cc-text-base cc-font-semibold">
+        <p className="cc-text-base cc-font-semibold  dark:cc-text-dark-text-white ">
         Syncing{" "}
               {selectedFiles.length > 0 && `${selectedFiles.length} Channel`}{" "}
             

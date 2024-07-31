@@ -73,7 +73,7 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
 
           
 
-          <div className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold !cc-text-black cc-ml-[16px]">
+          <div className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-black cc-ml-[16px] dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]">
             View synced conversations
           </div>
         </div>

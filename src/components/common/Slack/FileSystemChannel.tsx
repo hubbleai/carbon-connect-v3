@@ -26,7 +26,8 @@ const FileSystemChannel = ({ list, isChecked, onSelect , storeDateAll }: propInf
     
   },[selected , storeDateAll])
   return (
-    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center">
+    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] dark:cc-border-[#ffffff7a] cc-justify-between cc-items-center  dark:hover:cc-bg-[#464646]
+    ">
      <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20] ">
       <Checkbox
         className="cc-mr-[8px]"
@@ -35,13 +36,13 @@ const FileSystemChannel = ({ list, isChecked, onSelect , storeDateAll }: propInf
       />
      
      <div className="cc-flex cc-flex-col">
-      <div className="cc-flex">
+      <div className="cc-flex dark:cc-text-dark-text-white ">
       <span >{list.name}</span>
       {list.private ? (
         <img className="cc-ml-[8px] cc-mt-[2px] cc-items-center" src={privateChannelIcon} alt="icon" />
       ) : null}
       </div>
-      <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium">{storeDate !== ''  && `Starting from ${storeDate}`}</span>
+      <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium dark:cc-text-dark-text-white ">{storeDate !== ''  && `Starting from ${storeDate}`}</span>
       </div>
      
      
