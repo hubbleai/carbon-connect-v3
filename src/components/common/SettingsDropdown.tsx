@@ -33,6 +33,7 @@ export default function SettingsDropdown({
         isOpen={showDisconnectModal}
         onOpenChange={setShowDisconnectModal}
         revokeDataSource={revokeDataSource}
+        
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

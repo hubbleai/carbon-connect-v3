@@ -83,7 +83,7 @@ export default function AccountDropdown({
         <DropdownMenuTrigger asChild>
           <Button
             variant="gray"
-            className="cc-font-semibold cc-px-0 cc-gap-3 sm:cc-min-w-[180px] cc-rounded-xl sm:cc-hidden cc-shrink-0"
+            className="cc-font-semibold cc-px-0  cc-gap-3 sm:cc-min-w-[180px] cc-rounded-xl sm:cc-hidden cc-shrink-0  "
           >
             <img
               src={UserIcon}
@@ -98,7 +98,7 @@ export default function AccountDropdown({
         <DropdownMenuTrigger asChild>
           <Button
             variant="gray"
-            className="cc-font-semibold cc-px-3 cc-gap-3 sm:cc-min-w-[180px] cc-rounded-xl cc-hidden sm:cc-flex cc-shrink-0"
+            className="cc-font-semibold !cc-px-3 cc-gap-3 sm:cc-min-w-[180px] cc-rounded-xl cc-hidden sm:cc-flex cc-shrink-0  "
           >
             <span className="cc-flex-grow cc-text-left dark:cc-text-dark-text-white">
               {selectedDataSource !== null
