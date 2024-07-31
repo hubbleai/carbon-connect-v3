@@ -84,6 +84,7 @@ export const CarbonProvider = ({
   parsePdfTablesWithOcr = false,
   sendDeletionWebhooks = false,
   fileSyncConfig = {},
+  filesTabColumns,
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -254,6 +255,7 @@ export const CarbonProvider = ({
     loading,
     sendDeletionWebhooks,
     fileSyncConfig,
+    filesTabColumns,
   };
 
   return (

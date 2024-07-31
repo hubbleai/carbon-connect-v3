@@ -14,6 +14,7 @@ import { Checkbox } from "@components/common/design-system/Checkbox";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   BASE_URL,
+  DEFAULT_FILES_TAB_COLUMNS,
   ENV,
   FOLDER_BASED_CONNECTORS,
   LOCAL_FILE_TYPES,
@@ -76,6 +77,7 @@ export default function SyncedFilesList({
     environment = ENV.PRODUCTION,
     accessToken,
     sendDeletionWebhooks,
+    filesTabColumns,
   } = useCarbon();
 
   const [files, setFiles] = useState<UserFileApi[]>([]);
@@ -99,6 +101,11 @@ export default function SyncedFilesList({
   const filteredList = files.filter((item) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const columnsToDisplay =
+    processedIntegration?.filesTabColumns ||
+    filesTabColumns ||
+    DEFAULT_FILES_TAB_COLUMNS;
 
   useEffect(() => {
     if (!selectedDataSource && !isLocalFiles) return;
@@ -464,17 +471,26 @@ export default function SyncedFilesList({
           className=" dark:cc-border-[#FFFFFF1F] cc-border-t cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden -cc-mx-4 cc-px-4 sm:cc-mx-0 sm:cc-px-0 cc-flex-grow sm:cc-border sm:cc-rounded-xl"
         >
           <div className="cc-bg-surface-surface_1 cc-hidden sm:cc-flex dark:cc-bg-dark-border-color">
-            <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow dark:cc-text-dark-input-text">
-              FILE NAME
-            </div>
-            {filteredList[0]?.sync_status && (
+            {columnsToDisplay.includes("name") ? (
+              <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow dark:cc-text-dark-input-text">
+                FILE NAME
+              </div>
+            ) : null}
+            {columnsToDisplay.includes("status") ? (
               <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow cc-text-right sm:cc-w-[100px] dark:cc-text-dark-input-text">
                 STATUS
               </div>
-            )}
-            <div className="cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px] dark:cc-text-dark-input-text">
-              <p className="cc-px-4">CREATED AT</p>
-            </div>
+            ) : null}
+            {columnsToDisplay.includes("created_at") ? (
+              <div className="cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px] dark:cc-text-dark-input-text">
+                <p className="cc-px-4">CREATED AT</p>
+              </div>
+            ) : null}
+            {columnsToDisplay.includes("external_url") ? (
+              <div className="cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px] dark:cc-text-dark-input-text">
+                <p className="cc-px-4">EXTERNAL URL</p>
+              </div>
+            ) : null}
           </div>
           {filesLoading ? (
             <Loader />
@@ -522,6 +538,7 @@ export default function SyncedFilesList({
                         });
                       }}
                       onClick={onItemClick}
+                      columnsToDisplay={columnsToDisplay}
                     />
                   );
                 })}
