@@ -259,7 +259,7 @@
 
 .cc-modal .bottomArea {
   display: flex;
-  gap: 15px;
+  gap: 14px;
   padding: var(--CalenderCommanLineHeight) 0px;
   border-top: 1px solid #F3F3F4;
 
@@ -323,6 +323,11 @@
   left: 0;
   top: 0;
   margin: 0 !important;
+  height: 100%;
+}
+
+.cc-modal .innerLayer {
+  width: 100%;
   height: 100%;
 }
 
