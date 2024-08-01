@@ -68,7 +68,7 @@ const AddAccount = () => {
           <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
             My Accounts
           </p>
-          <div className="cc-flex cc-gap-4 md:cc-gap-[1.75rem]">
+          <div className="cc-flex cc-gap-3 md:cc-gap-[1.75rem]">
             <label className="cc-relative cc-flex-grow ">
               <img
                 src={SearchIcon}
