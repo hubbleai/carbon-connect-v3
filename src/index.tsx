@@ -154,6 +154,7 @@ export type BaseIntegration = {
   fileSyncConfig?: FileSyncConfig;
   useCarbonFilePicker?: boolean;
   filesTabColumns?: FileTabColumns[];
+  incrementalSync?: boolean;
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -214,6 +215,7 @@ export type CarbonConnectProps = {
   fileSyncConfig?: FileSyncConfig;
   theme?: "dark" | "light";
   filesTabColumns?: FileTabColumns[];
+  incrementalSync?: boolean;
 };
 
 export enum AutoSyncedSourceTypes {

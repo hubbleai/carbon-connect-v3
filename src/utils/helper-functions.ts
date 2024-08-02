@@ -107,6 +107,7 @@ export const getConnectRequestProps = (
     setPageAsBoundary,
     useOcr,
     parsePdfTablesWithOcr,
+    incrementalSync,
   } = carbonProps;
 
   const chunkSizeValue =
@@ -139,6 +140,8 @@ export const getConnectRequestProps = (
     processedIntegration?.parsePdfTablesWithOcr ||
     parsePdfTablesWithOcr ||
     false;
+  const incrementalSyncValue =
+    processedIntegration?.incrementalSync || incrementalSync || false;
 
   return {
     ...additionalProps,
@@ -159,6 +162,7 @@ export const getConnectRequestProps = (
     set_page_as_boundary: setPageAsBoundaryValue,
     use_ocr: useOcrValue,
     parse_pdf_tables_with_ocr: parsePdfTablesWithOcrValue,
+    incremental_sync: incrementalSyncValue,
   };
 };
 

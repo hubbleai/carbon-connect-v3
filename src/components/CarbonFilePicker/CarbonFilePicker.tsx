@@ -280,10 +280,10 @@ export default function CarbonFilePicker({
         extraParams.salesforce_domain = getDataSourceDomain(selectedDataSource);
       } else if (dataSourceType == IntegrationName.ZENDESK) {
         extraParams.zendesk_subdomain = getDataSourceDomain(selectedDataSource);
-      } else if (dataSourceType == "CONFLUENCE") {
+      } else if (dataSourceType == IntegrationName.CONFLUENCE) {
         extraParams.confluence_subdomain =
           getDataSourceDomain(selectedDataSource);
-      } else if (dataSourceType == "SHAREPOINT") {
+      } else if (dataSourceType == IntegrationName.SHAREPOINT) {
         const workspace = getDataSourceDomain(selectedDataSource) || "";
         const parts = workspace.split("/");
         if (parts.length == 2) {
@@ -455,6 +455,12 @@ export default function CarbonFilePicker({
                   isRevokingDataSource={isRevokingDataSource}
                   resyncDataSource={resyncDataSource}
                   isResyncingDataSource={isResyncingDataSource}
+                  showSelectMorePages={
+                    mode == SyncingModes.FILE_PICKER &&
+                    integrationName == IntegrationName.NOTION
+                  }
+                  sendOauthRequest={sendOauthRequest}
+                  dataSourceId={selectedDataSource?.id}
                 />{" "}
               </>
             ) : null}
