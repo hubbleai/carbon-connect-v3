@@ -223,6 +223,7 @@ export enum IntegrationName {
   SALESFORCE = "SALESFORCE",
   GITHUB = "GITHUB",
   SLACK = "SLACK",
+  GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
 }
 
 export type ProcessedIntegration = IntegrationItemType & Integration;
