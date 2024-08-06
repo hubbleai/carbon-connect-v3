@@ -212,6 +212,8 @@ export type CarbonConnectProps = {
   fileSyncConfig?: FileSyncConfig;
   theme?: "dark" | "light";
   incrementalSync?: boolean;
+  width?: number;
+  height?: number;
 };
 
 export enum AutoSyncedSourceTypes {

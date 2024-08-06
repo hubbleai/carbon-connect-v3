@@ -85,6 +85,8 @@ export const CarbonProvider = ({
   sendDeletionWebhooks = false,
   fileSyncConfig = {},
   incrementalSync = false,
+  width = 784,
+  height = 703,
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -256,6 +258,8 @@ export const CarbonProvider = ({
     sendDeletionWebhooks,
     fileSyncConfig,
     incrementalSync,
+    width,
+    height,
   };
 
   return (
