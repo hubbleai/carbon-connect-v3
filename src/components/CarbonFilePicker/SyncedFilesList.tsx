@@ -468,27 +468,27 @@ export default function SyncedFilesList({
         </div>
         <div
           id="scrollableTarget"
-          className=" dark:cc-border-[#FFFFFF1F] cc-border-t cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden -cc-mx-4 cc-px-4 sm:cc-mx-0 sm:cc-px-0 cc-flex-grow sm:cc-border sm:cc-rounded-xl"
+          className="dark:cc-border-[#FFFFFF1F] md:cc-border-x-0 md:cc-border-b-0   cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0 sm:cc-px-0  cc-border cc-rounded-xl md:cc-rounded-[0px] md:!cc-border-t md:cc-border-outline-base_em "
         >
-          <div className="cc-bg-surface-surface_1 cc-hidden sm:cc-flex dark:cc-bg-dark-border-color">
+          <div className="cc-bg-surface-surface_1 cc-px-4 cc-justify-between cc-hidden md:cc-hidden sm:cc-flex dark:cc-bg-dark-border-color">
             {columnsToDisplay.includes("name") ? (
-              <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow dark:cc-text-dark-input-text">
+              <div className=" cc-py-2 cc-w-[35%] cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
                 FILE NAME
               </div>
             ) : null}
             {columnsToDisplay.includes("status") ? (
-              <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow cc-text-right sm:cc-w-[100px] dark:cc-text-dark-input-text">
+              <div className=" cc-py-2 cc-w-[15%] cc-text-right cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold    dark:cc-text-dark-input-text">
                 STATUS
               </div>
             ) : null}
             {columnsToDisplay.includes("created_at") ? (
-              <div className="cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px] dark:cc-text-dark-input-text">
-                <p className="cc-px-4">CREATED AT</p>
+              <div className="cc-py-2 cc-w-[20%] cc-text-xs cc-text-right cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0   dark:cc-text-dark-input-text">
+                CREATED AT
               </div>
             ) : null}
             {columnsToDisplay.includes("external_url") ? (
-              <div className="cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px] dark:cc-text-dark-input-text">
-                <p className="cc-px-4">EXTERNAL URL</p>
+              <div className="cc-py-2 cc-w-[30%] cc-text-right cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0  dark:cc-text-dark-input-text">
+                EXTERNAL URL
               </div>
             ) : null}
           </div>
