@@ -43,7 +43,12 @@ export default function S3Screen({
     accessToken,
     whiteLabelingData,
     orgName,
+    enabledIntegrations,
   } = carbonProps;
+
+  const digitalOceanEnabled = enabledIntegrations?.find(
+    (ei) => ei.id == IntegrationName.DIGITAL_OCEAN_SPACES
+  );
 
   const connectS3 = async () => {
     try {
@@ -163,8 +168,10 @@ export default function S3Screen({
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
             access key secret
           </span>
-          of the acount you wish to connect. If you are connecting a
-          DigitalOcean Space, please provide the endpoint URL as well.
+          of the acount you wish to connect.{" "}
+          {digitalOceanEnabled &&
+            `If you are connecting a
+          DigitalOcean Space, please provide the endpoint URL as well.`}
         </div>
         <Input
           type="text"
@@ -180,13 +187,15 @@ export default function S3Screen({
           onChange={(e) => setAccessKeySecret(e.target.value)}
           className="cc-mb-4"
         />
-        <Input
-          type="text"
-          placeholder="Endpoint URL (<region>.digitaloceanspaces.com)"
-          value={endpointUrl || ""}
-          onChange={(e) => setEndpointUrl(e.target.value)}
-          className="cc-mb-32"
-        />
+        {digitalOceanEnabled ? (
+          <Input
+            type="text"
+            placeholder="Endpoint URL (<region>.digitaloceanspaces.com)"
+            value={endpointUrl || ""}
+            onChange={(e) => setEndpointUrl(e.target.value)}
+            className="cc-mb-32"
+          />
+        ) : null}
       </div>
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">

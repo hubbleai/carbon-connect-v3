@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { emptyFunction, isEmpty } from "@utils/helper-functions";
+import {
+  emptyFunction,
+  getIntegrationName,
+  isEmpty,
+} from "@utils/helper-functions";
 import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import { INTEGRATIONS_LIST } from "@utils/integrationModalconstants";
 import {
@@ -45,6 +49,7 @@ function IntegrationList({
     processedIntegrations,
     whiteLabelingData,
     maxFileSize = DEFAULT_FILE_SIZE,
+    enabledIntegrations,
   } = useCarbon();
 
   const listData = processedIntegrations
@@ -141,8 +146,10 @@ function IntegrationList({
                       <div className="cc-flex-grow">
                         <h2 className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-truncate">
                           <span className="cc-mr-1 cc-inline-block">
-                            {integration.integrationsListViewTitle ||
-                              integration.name}
+                            {getIntegrationName(
+                              integration,
+                              enabledIntegrations
+                            )}
                           </span>
                           {isActive ? (
                             <span

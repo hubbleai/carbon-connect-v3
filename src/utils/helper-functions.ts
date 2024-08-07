@@ -1,3 +1,4 @@
+import { Integration } from "..";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
   DEFAULT_CHUNK_SIZE,
@@ -348,4 +349,21 @@ export const getIntegrationDisclaimer = (
     removeBranding && orgName ? `into ${orgName}` : "into Carbon"
   }. We will not modify your
   data in any way.`;
+};
+
+export const getIntegrationName = (
+  integration: ProcessedIntegration,
+  enabledIntegrations?: Integration[]
+) => {
+  let name = integration.integrationsListViewTitle || integration.name;
+  if (integration.id == IntegrationName.S3) {
+    if (
+      enabledIntegrations?.find(
+        (pi) => pi.id == IntegrationName.DIGITAL_OCEAN_SPACES
+      )
+    ) {
+      return integration.name + "/DigitalOcean";
+    }
+  }
+  return name;
 };

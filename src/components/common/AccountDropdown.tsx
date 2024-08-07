@@ -29,10 +29,13 @@ export default function AccountDropdown({
     useState<boolean>(false);
 
   const getAccountEmail = (dataSource: IntegrationAPIResponse | null) => {
-    return (
+    let email =
       dataSource?.data_source_external_id.split("|")[1] ||
-      dataSource?.data_source_external_id.split("-")[1]
-    );
+      dataSource?.data_source_external_id.split("-")[1];
+    if (dataSource?.data_source_metadata?.type) {
+      email += ` (${dataSource?.data_source_metadata?.type})`;
+    }
+    return email;
   };
 
   const commonMenuConponent = () => {
