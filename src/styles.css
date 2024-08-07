@@ -1,14 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
-
 @tailwind base;
-@tailwind components;
 @tailwind utilities;
 
-body {
-  @apply cc-font-manrope;
-}
 
-:root {
+.cc-modal {
   /*font-family: 'Manrope', sans-serif; /*Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
   line-height: 1.5;
   font-weight: 400;
@@ -23,89 +18,85 @@ body {
   box-sizing: border-box;
   --invert-dark: invert(1);
   --hue-dark: hue-rotate(180);
-  --customGradient: background:(
-    linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
-    linear-gradient(0deg, rgba(31, 123, 245, 0.1), rgba(31, 123, 245, 0.1))
-  );
+  --customGradient: background:(linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+      linear-gradient(0deg, rgba(31, 123, 245, 0.1), rgba(31, 123, 245, 0.1)));
 }
 
 
 
 
-.dark .searchSvg {
+.cc-modal .dark .searchSvg {
   fill: #ffffffc2;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
 
-h1 {
+.cc-modal h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
 /* Custom radio button styles */
-.cc-custom-radio {
+.cc-modal .cc-custom-radio {
   @apply cc-flex cc-items-center cc-justify-center cc-cursor-pointer cc-mr-2;
   position: relative;
 }
 
-.cc-custom-radio::before {
+.cc-modal .cc-custom-radio::before {
   content: "";
   @apply cc-w-[18px] cc-h-[18px] cc-border-2 cc-border-low_em cc-rounded-full cc-mr-3;
   display: inline-block;
 }
 
-.cc-custom-radio.cc-custom-radio-checked::before {
+.cc-modal .cc-custom-radio.cc-custom-radio-checked::before {
   @apply cc-border-surface-info_main cc-bg-surface-info_main;
   display: inline-block;
 }
 
-.cc-custom-radio.cc-custom-radio-checked::after {
+.cc-modal .cc-custom-radio.cc-custom-radio-checked::after {
   content: "";
   @apply cc-w-[8px] cc-h-[8px] cc-bg-white cc-rounded-full dark:cc-bg-dark-bg-black;
   position: absolute;
-  left: 5px; /* Adjust the position as needed */
+  left: 5px;
+  /* Adjust the position as needed */
 }
 
-input[type="radio"]:not(:checked) + .cc-custom-radio::before {
+.cc-modal input[type="radio"]:not(:checked)+.cc-custom-radio::before {
   /* @apply cc-border-gray-400; */
 }
 
-input[type="radio"]:checked + .cc-custom-radio {
+.cc-modal input[type="radio"]:checked+.cc-custom-radio {
   /* @apply cc-bg-gray-300; */
 }
 
-input[type="radio"]:not(:checked) + .cc-custom-radio {
+.cc-modal input[type="radio"]:not(:checked)+.cc-custom-radio {
   /* @apply cc-bg-gray-100; */
 }
 
-.uploadFileWrapper:hover .delete {
+.cc-modal .uploadFileWrapper:hover .delete {
   display: block;
-  @media (max-width: 767) {
-    display: none;
-  }
+
 }
 
-.uploadFileWrapper:hover .success {
+@media only screen and (max-width: 767px) {
+
+  .cc-modal .uploadFileWrapper:hover .delete {
+    display: none;
+  }
+
+}
+
+.cc-modal .uploadFileWrapper:hover .success {
   display: none;
-  @media (max-width: 767) {
+
+}
+
+@media only screen and (max-width: 767px) {
+
+  .cc-modal .uploadFileWrapper:hover .success {
     display: block;
   }
+
 }
 
 /* .dark img.dark:cc-invert-[1] dark:cc-hue-rotate-180 {

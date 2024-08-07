@@ -9,12 +9,14 @@ type FileListItemProps = {
   isChecked: boolean;
   onSelect: () => void;
   item: UserFileApi;
+  onClick: (item: UserFileApi) => void;
 };
 
 export default function FileItem({
   item,
   isChecked,
   onSelect,
+  onClick,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
   return (
@@ -42,7 +44,10 @@ export default function FileItem({
             className="cc-w-5 cc-shrink-0"
           />
         )}
-        <div className="cc-flex cc-flex-grow cc-gap-x-4 cc-gap-y-1 cc-flex-wrap cc-items-start">
+        <div
+          className="cc-flex cc-flex-grow cc-gap-x-4 cc-gap-y-1 cc-flex-wrap cc-items-start"
+          onClick={() => onClick(item)}
+        >
           <p className="cc-flex-grow cc-w-[350px] cc-max-w-[350px] cc-break-words ">
             {item.name}
           </p>

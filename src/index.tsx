@@ -153,6 +153,7 @@ export type BaseIntegration = {
   sendDeletionWebhooks?: boolean;
   fileSyncConfig?: FileSyncConfig;
   useCarbonFilePicker?: boolean;
+  incrementalSync?: boolean;
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -210,6 +211,7 @@ export type CarbonConnectProps = {
   sendDeletionWebhooks?: boolean;
   fileSyncConfig?: FileSyncConfig;
   theme?: "dark" | "light";
+  incrementalSync?: boolean;
 };
 
 export enum AutoSyncedSourceTypes {
