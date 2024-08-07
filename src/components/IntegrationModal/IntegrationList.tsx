@@ -117,7 +117,7 @@ function IntegrationList({
                 return (
                   <li
                     key={integration.id}
-                    className={`cc-border cc-rounded-xl cc-h-fit dark:cc-text-dark-text-white  dark:cc-bg-dark-bg-black dark:cc-border-[#FFFFFF1F]  cc-items-center cc-p-2 sm:cc-p-3 cc-transition-all ${
+                    className={`cc-border cc-rounded-xl cc-h-fit dark:cc-text-dark-text-white  dark:cc-bg-dark-bg-black dark:cc-border-[#FFFFFF1F] cc-relative  cc-items-center cc-p-2 sm:cc-p-3 cc-transition-all ${
                       !integration.active
                         ? "cc-bg-gray-200 cc-cursor-not-allowed"
                         : "cc-bg-white cc-cursor-pointer hover:cc-bg-surface-surface_1 dark:hover:cc-bg-dark-surface_1 dark:hover:cc-border-dark-outline-med_em hover:cc-border-outline-med_em"
@@ -139,19 +139,20 @@ function IntegrationList({
                         </div>
                       </div>
                       <div className="cc-flex-grow">
-                        <h2 className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-truncate">
-                          <span className="cc-mr-1 cc-inline-block">
+                        <div className="cc-flex cc-items-center">
+                          <div className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-break-words ">
                             {integration.integrationsListViewTitle ||
                               integration.name}
-                          </span>
+                          </div>
                           {isActive ? (
-                            <span
+                            <div
                               className={
-                                "cc-h-2 cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
+                                "cc-h-2 cc-absolute cc-top-[10px] cc-right-[10px] cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
                               }
                             />
                           ) : null}
-                        </h2>
+                        </div>
+
                         {integration.id == IntegrationName.LOCAL_FILES ? (
                           <p className="cc-font-semibold dark:cc-text-dark-text-gray cc-text-xs cc-text-low_em cc-mt-1 cc-truncate">
                             {`max ${
