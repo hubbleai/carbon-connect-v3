@@ -120,6 +120,7 @@ export type BaseIntegration = {
   fileSyncConfig?: FileSyncConfig;
   useCarbonFilePicker?: boolean;
   incrementalSync?: boolean;
+  enableDigitalOcean?: boolean;
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -224,7 +225,6 @@ export enum IntegrationName {
   GITHUB = "GITHUB",
   SLACK = "SLACK",
   GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
-  DIGITAL_OCEAN_SPACES = "DIGITAL_OCEAN_SPACES",
 }
 
 export type ProcessedIntegration = IntegrationItemType & Integration;

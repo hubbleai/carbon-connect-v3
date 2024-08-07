@@ -146,10 +146,7 @@ function IntegrationList({
                       <div className="cc-flex-grow">
                         <div className="cc-flex cc-items-center">
                           <div className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-break-words ">
-                            {getIntegrationName(
-                              integration,
-                              enabledIntegrations
-                            )}
+                            {getIntegrationName(integration)}
                           </div>
                           {isActive ? (
                             <div

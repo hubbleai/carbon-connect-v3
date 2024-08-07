@@ -18,6 +18,7 @@ import {
   ActionType,
   CarbonConnectProps,
 } from "../typing/shared";
+import { IntegrationItemType } from "./integrationModalconstants";
 
 export function isEmpty(obj: any) {
   let isEmpty = false;
@@ -351,17 +352,10 @@ export const getIntegrationDisclaimer = (
   data in any way.`;
 };
 
-export const getIntegrationName = (
-  integration: ProcessedIntegration,
-  enabledIntegrations?: Integration[]
-) => {
+export const getIntegrationName = (integration: ProcessedIntegration) => {
   let name = integration.integrationsListViewTitle || integration.name;
   if (integration.id == IntegrationName.S3) {
-    if (
-      enabledIntegrations?.find(
-        (pi) => pi.id == IntegrationName.DIGITAL_OCEAN_SPACES
-      )
-    ) {
+    if (integration.enableDigitalOcean) {
       return integration.name + "/DigitalOcean";
     }
   }

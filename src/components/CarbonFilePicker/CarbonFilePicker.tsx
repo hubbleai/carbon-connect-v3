@@ -429,7 +429,7 @@ export default function CarbonFilePicker({
             justifyModification={false}
             className="cc-flex-grow cc-text-left "
           >
-            {getIntegrationName(processedIntegration, enabledIntegrations)}
+            {getIntegrationName(processedIntegration)}
           </DialogTitle>
           {/* {step > 1 && ( */}
           <>

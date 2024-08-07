@@ -325,18 +325,4 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     requiresOAuth: true,
     multiStep: false,
   },
-  {
-    id: IntegrationName.DIGITAL_OCEAN_SPACES,
-    subpath: "digital ocean",
-    name: "DigitalOcean Spaces",
-    description:
-      "Lets your users connect their DigitalOcean Spaces accounts to Carbon.",
-    announcementName: "to connect DigitalOcean Spaces",
-    icon: <img src={S3Logo} className="cc-w-7 cc-h-7" />,
-    logo: S3Logo,
-    active: false,
-    data_source_type: IntegrationName.S3,
-    requiresOAuth: true,
-    multiStep: false,
-  },
 ];

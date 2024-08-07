@@ -17,6 +17,7 @@ import {
   IntegrationName,
   ActionType,
 } from "../../typing/shared";
+import { IntegrationItemType } from "../../utils/integrationModalconstants";
 
 export default function S3Screen({
   processedIntegration,
@@ -46,9 +47,7 @@ export default function S3Screen({
     enabledIntegrations,
   } = carbonProps;
 
-  const digitalOceanEnabled = enabledIntegrations?.find(
-    (ei) => ei.id == IntegrationName.DIGITAL_OCEAN_SPACES
-  );
+  const digitalOceanEnabled = processedIntegration.enableDigitalOcean;
 
   const connectS3 = async () => {
     try {
