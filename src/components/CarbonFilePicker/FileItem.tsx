@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FolderIcon from "@assets/svgIcons/folder.svg";
 import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
@@ -21,6 +21,9 @@ export default function FileItem({
   columnsToDisplay,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
+  useEffect(()=>{
+   console.log(columnsToDisplay.length)
+  },[])
   return (
     <li
       key={item.id}
@@ -52,7 +55,7 @@ export default function FileItem({
           onClick={() => onClick(item)}
         >
           {columnsToDisplay.includes("name") ? (
-            <div className="cc-flex cc-justify-between cc-w-[26.69%] md:cc-w-[60%] cc-items-start">
+            <div className={`cc-flex cc-justify-between  md:cc-w-[60%] cc-items-start ${!columnsToDisplay.includes('external_url') && !columnsToDisplay.includes('created_at')? 'cc-w-[70%]': !columnsToDisplay.includes('status') && !columnsToDisplay.includes('external_url')?'cc-w-[70%]':!columnsToDisplay.includes('status') && !columnsToDisplay.includes('created_at')?'cc-w-[45%]': 'cc-w-[26.69%]'}`}>
               <p className=" cc-w-[100%] md:cc-max-w-[100%] cc-max-w-[100%] cc-break-all ">
                 {item.name}
               </p>
@@ -103,13 +106,13 @@ export default function FileItem({
 
           {columnsToDisplay.includes("external_url") ? (
             <div
-              className={`cc-flex cc-justify-end cc-w-[25%] ${
-                columnsToDisplay.includes("status")
-                  ? "md:!cc-w-[75%]"
-                  : "md:!cc-w-full"
+              className={`cc-flex cc-justify-end  ${
+                columnsToDisplay.includes("status") && !columnsToDisplay.includes('created_at')
+                  ? "md:cc-w-[75%]" : !columnsToDisplay.includes('status') && !columnsToDisplay.includes('created_at')? 'cc-w-[50%] md:cc-w-full'
+                  : "md:cc-w-full cc-w-[25%]"
               }`}
             >
-              <p className="cc-w-full cc-break-all cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:cc-w-full sm:text-sm sm:cc-text-right cc-line-clamp-2 md:cc-text-left sm:cc-text-sm dark:cc-text-dark-text-white">
+              <p title={item.external_url ?? undefined} className="cc-w-full cc-break-all cc-text-left md:cc-text-xs md:!cc-text-low_em sm:cc-text-high_em sm:cc-w-full sm:text-sm sm:cc-text-right cc-line-clamp-3  md:cc-text-left sm:cc-text-sm dark:cc-text-dark-text-white">
                 {item.external_url || "NA"}
               </p>
             </div>
