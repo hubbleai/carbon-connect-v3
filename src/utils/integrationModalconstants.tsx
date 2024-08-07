@@ -21,6 +21,7 @@ import GitbookLogo from "../assets/logos/gitbook.svg";
 import GithubLogo from "../assets/logos/github.svg";
 import SalesforceLogo from "../assets/logos/salesforce.svg";
 import SlackLogo from "../assets/logos/slack.svg";
+import GCSLogo from "../assets/logos/gcs-logo.svg";
 import { IntegrationName } from "../typing/shared";
 
 export interface IntegrationItemType {
@@ -124,6 +125,21 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     data_source_type: IntegrationName.GOOGLE_DRIVE,
     requiresOAuth: true,
     integrationsListViewTitle: "Google Drive",
+  },
+  {
+    id: IntegrationName.GOOGLE_CLOUD_STORAGE,
+    subpath: "gcs",
+    name: "Google Cloud Storage",
+    description:
+      "Lets your users connect their Google Cloud Storage to Carbon.",
+    announcementName: "to connect Google Cloud Storage",
+    icon: <img src={GCSLogo} className="cc-w-7 cc-h-7" />,
+    iconBgColor: "gray-50",
+    logo: GCSLogo,
+    active: true,
+    data_source_type: IntegrationName.GOOGLE_CLOUD_STORAGE,
+    requiresOAuth: true,
+    integrationsListViewTitle: "Google Cloud Storage",
   },
   {
     id: IntegrationName.NOTION,

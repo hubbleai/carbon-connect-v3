@@ -31,6 +31,7 @@ import {
   generateRequestId,
   getConnectRequestProps,
   getDataSourceDomain,
+  getIntegrationName,
 } from "../../utils/helper-functions";
 import FreshdeskScreen from "../Screens/FreshdeskScreen";
 
@@ -74,6 +75,7 @@ export default function CarbonFilePicker({
     environment = ENV.PRODUCTION,
     entryPoint,
     onSuccess,
+    enabledIntegrations,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -430,7 +432,7 @@ export default function CarbonFilePicker({
             justifyModification={false}
             className="cc-flex-grow cc-text-left "
           >
-            {activeStepData?.name}
+            {getIntegrationName(processedIntegration)}
           </DialogTitle>
           {/* {step > 1 && ( */}
           <>
