@@ -21,9 +21,6 @@ export default function FileItem({
   columnsToDisplay,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
-  useEffect(() => {
-    console.log(columnsToDisplay.length);
-  }, []);
   return (
     <li
       key={item.id}
