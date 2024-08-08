@@ -21,9 +21,9 @@ export default function FileItem({
   columnsToDisplay,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
-  useEffect(()=>{
-   console.log(columnsToDisplay.length)
-  },[])
+  useEffect(() => {
+    console.log(columnsToDisplay.length);
+  }, []);
   return (
     <li
       key={item.id}
@@ -55,7 +55,28 @@ export default function FileItem({
           onClick={() => onClick(item)}
         >
           {columnsToDisplay.includes("name") ? (
-            <div className={`cc-flex cc-justify-between  md:cc-w-[60%] cc-items-start ${!columnsToDisplay.includes('external_url') && !columnsToDisplay.includes('created_at')? 'cc-w-[70%]': !columnsToDisplay.includes('status') && !columnsToDisplay.includes('external_url')?'cc-w-[70%]':!columnsToDisplay.includes('status') && !columnsToDisplay.includes('created_at')?'cc-w-[45%]': 'cc-w-[26.69%]'}`}>
+            <div
+              className={`cc-flex cc-justify-between  md:cc-w-[60%] cc-items-start ${
+                !columnsToDisplay.includes("external_url") &&
+                !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[70%]"
+                  : !columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("external_url")
+                  ? "cc-w-[70%]"
+                  : !columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[45%]"
+                  : !columnsToDisplay.includes("external_url") &&
+                    columnsToDisplay.includes("status") &&
+                    columnsToDisplay.includes("created_at")
+                  ? "cc-w-[37%]"
+                  : columnsToDisplay.includes("external_url") &&
+                    columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[37%]"
+                  : "cc-w-[26.69%] "
+              }`}
+            >
               <p className=" cc-w-[100%] md:cc-max-w-[100%] cc-max-w-[100%] cc-break-all ">
                 {item.name}
               </p>
@@ -68,8 +89,14 @@ export default function FileItem({
                 columnsToDisplay.includes("external_url") &&
                 columnsToDisplay.includes("created_at")
                   ? "cc-w-[16%]"
-                  : !columnsToDisplay.includes("created_at")
-                  ? "cc-w-[12%]"
+                  : !columnsToDisplay.includes("external_url") &&
+                    columnsToDisplay.includes("status") &&
+                    columnsToDisplay.includes("created_at")
+                  ? "cc-w-[9%]"
+                  : columnsToDisplay.includes("external_url") &&
+                    columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[9%]"
                   : "cc-w-[20%]"
               }`}
             >
@@ -107,12 +134,23 @@ export default function FileItem({
           {columnsToDisplay.includes("external_url") ? (
             <div
               className={`cc-flex cc-justify-end  ${
-                columnsToDisplay.includes("status") && !columnsToDisplay.includes('created_at')
-                  ? "md:cc-w-[75%]" : !columnsToDisplay.includes('status') && !columnsToDisplay.includes('created_at')? 'cc-w-[50%] md:cc-w-full'
+                columnsToDisplay.includes("status") &&
+                !columnsToDisplay.includes("created_at")
+                  ? "md:cc-w-[75%] cc-w-[32%]"
+                  : !columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[50%] md:cc-w-full"
+                  : columnsToDisplay.includes("external_url") &&
+                    columnsToDisplay.includes("status") &&
+                    !columnsToDisplay.includes("created_at")
+                  ? "cc-w-[32%]"
                   : "md:cc-w-full cc-w-[25%]"
               }`}
             >
-              <p title={item.external_url ?? undefined} className="cc-w-full cc-break-all cc-text-left md:cc-text-xs md:!cc-text-low_em sm:cc-text-high_em sm:cc-w-full sm:text-sm sm:cc-text-right cc-line-clamp-3  md:cc-text-left sm:cc-text-sm dark:cc-text-dark-text-white">
+              <p
+                title={item.external_url ?? undefined}
+                className="cc-w-full cc-break-all cc-text-left md:cc-text-xs md:!cc-text-low_em sm:cc-text-high_em sm:cc-w-full sm:text-sm sm:cc-text-right cc-line-clamp-3  md:cc-text-left sm:cc-text-sm dark:cc-text-dark-text-white"
+              >
                 {item.external_url || "NA"}
               </p>
             </div>
