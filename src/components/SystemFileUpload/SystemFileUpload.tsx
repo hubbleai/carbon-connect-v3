@@ -59,12 +59,14 @@ export default function SystemFileUpload({
   bannerState,
   setBannerState,
   setScreen,
+  shouldShowFilesTab,
 }: {
   activeStepData?: IntegrationItemType;
   setActiveStep: (val: ActiveStep) => void;
   bannerState: BannerState;
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
   setScreen: React.Dispatch<React.SetStateAction<"FILES" | "UPLOAD">>;
+  shouldShowFilesTab: boolean;
 }) {
   const [step, setStep] = useState<"ADD" | "SUCCESS" | "UPLOAD">("ADD");
   // state variable for file upload
@@ -99,6 +101,7 @@ export default function SystemFileUpload({
     environment = ENV.PRODUCTION,
     onSuccess,
     onError,
+    entryPoint,
   } = carbonProps;
 
   useEffect(() => {
@@ -338,7 +341,12 @@ export default function SystemFileUpload({
               if (step != "ADD") {
                 setStep("ADD");
               } else {
-                setScreen("FILES");
+                if (shouldShowFilesTab) {
+                  setScreen("FILES");
+                } else {
+                  if (!entryPoint) setActiveStep("INTEGRATION_LIST");
+                  else setActiveStep("CONNECT");
+                }
               }
             }}
           >

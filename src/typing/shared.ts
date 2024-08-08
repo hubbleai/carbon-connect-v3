@@ -121,6 +121,7 @@ export type BaseIntegration = {
   useCarbonFilePicker?: boolean;
   incrementalSync?: boolean;
   enableDigitalOcean?: boolean;
+  showFilesTab?: boolean;
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -179,6 +180,7 @@ export type CarbonConnectProps = {
   fileSyncConfig?: FileSyncConfig;
   theme?: "dark" | "light";
   incrementalSync?: boolean;
+  showFilesTab?: boolean;
 };
 
 export enum AutoSyncedSourceTypes {

@@ -192,7 +192,7 @@ export const getSourceItemType = (item: UserSourceItemApi) => {
   return "FILE";
 };
 
-export const formatDate = (data: Date) => {
+export const formatDate = (data: Date, includeTime: boolean = true) => {
   const dateString = new Date(data).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -205,7 +205,7 @@ export const formatDate = (data: Date) => {
     // second: '2-digit',
     hour12: true,
   });
-  return `${dateString} ${timeString}`;
+  return includeTime ? `${dateString} ${timeString}` : dateString;
 };
 
 export function getDataSourceDomain(dataSource: IntegrationAPIResponse) {
@@ -360,4 +360,16 @@ export const getIntegrationName = (integration: ProcessedIntegration) => {
     }
   }
   return name;
+};
+
+export const getAccountIdentifier = (
+  dataSource: IntegrationAPIResponse | null
+) => {
+  let identifier =
+    dataSource?.data_source_external_id.split("|")[1] ||
+    dataSource?.data_source_external_id.split("-")[1];
+  if (dataSource?.data_source_metadata?.type) {
+    identifier += ` (${dataSource?.data_source_metadata?.type})`;
+  }
+  return identifier;
 };

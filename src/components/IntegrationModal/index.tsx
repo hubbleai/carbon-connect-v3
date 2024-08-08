@@ -27,6 +27,7 @@ export type IntegrationAPIResponse = {
   source_items_synced_at: Date;
   files_synced_at: Date;
   data_source_metadata: any;
+  created_at: Date;
 };
 
 export function IntegrationModal() {

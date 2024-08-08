@@ -27,14 +27,18 @@ export default function LocalFilesScreen({
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeStepData?: IntegrationItemType;
 }) {
-  const { entryPoint, processedIntegrations } = useCarbon();
-  const [activeScreen, setActiveScreen] = useState<"FILES" | "UPLOAD">("FILES");
+  const { entryPoint, processedIntegrations, showFilesTab } = useCarbon();
+
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
 
   const localIntegration = processedIntegrations?.find(
     (int) => int.id == IntegrationName.LOCAL_FILES
+  );
+  const shouldShowFilesTab = showFilesTab || localIntegration?.showFilesTab;
+  const [activeScreen, setActiveScreen] = useState<"FILES" | "UPLOAD">(
+    shouldShowFilesTab ? "FILES" : "UPLOAD"
   );
 
   if (!localIntegration) return null;
