@@ -14,14 +14,14 @@ type PropsInfo = {
 
 const FileSystemAccount = ({ list, isChecked, onSelect }: PropsInfo) => {
   return (
-    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[360px] cc-border-t cc-border-[#F3F3F4] cc-justify-between dark:cc-border-[#ffffff7a]">
-    <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20]">
+    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[360px] cc-border-t cc-border-[#F3F3F4] cc-justify-between dark:cc-border-[#ffffff7a] cc-items-center ">
+    <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20] md:!cc-w-[90%]">
       <Checkbox
         className="cc-mr-[12px]"
         checked={isChecked}
         onCheckedChange={onSelect}
       />
-      <div className='cc-flex'>
+      <div className='cc-flex md:cc-w-full'>
         <div className="iconArea cc-flex cc-mr-[8px] cc-items-center">
           <div
             className="cc-p-[2.5px] cc-rounded-[5px] "
@@ -31,7 +31,7 @@ const FileSystemAccount = ({ list, isChecked, onSelect }: PropsInfo) => {
           </div>
          
         </div>
-        <span className="cc-truncate cc-w-[206px] cc-flex cc-flex-col dark:cc-text-dark-text-white">
+        <span className="cc-break-all cc-w-[206px] cc-flex cc-flex-col dark:cc-text-dark-text-white md:!cc-w-[100%]">
         {list.accountName}
         <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium">{`Connected on ${list.connectOn}`}</span>
        
