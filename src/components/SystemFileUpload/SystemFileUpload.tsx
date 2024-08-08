@@ -66,7 +66,7 @@ export default function SystemFileUpload({
   bannerState: BannerState;
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
   setScreen: React.Dispatch<React.SetStateAction<"FILES" | "UPLOAD">>;
-  shouldShowFilesTab: boolean;
+  shouldShowFilesTab?: boolean;
 }) {
   const [step, setStep] = useState<"ADD" | "SUCCESS" | "UPLOAD">("ADD");
   // state variable for file upload

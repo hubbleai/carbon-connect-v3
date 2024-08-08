@@ -52,6 +52,7 @@ export default function LocalFilesScreen({
       bannerState={bannerState}
       setBannerState={setBannerState}
       setScreen={setActiveScreen}
+      shouldShowFilesTab={shouldShowFilesTab}
     />
   ) : (
     <>
