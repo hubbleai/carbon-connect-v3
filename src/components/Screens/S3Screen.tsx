@@ -17,6 +17,7 @@ import {
   IntegrationName,
   ActionType,
 } from "../../typing/shared";
+import { IntegrationItemType } from "../../utils/integrationModalconstants";
 
 export default function S3Screen({
   processedIntegration,
@@ -25,6 +26,7 @@ export default function S3Screen({
 }) {
   const [accessKey, setAccessKey] = useState("");
   const [accessKeySecret, setAccessKeySecret] = useState("");
+  const [endpointUrl, setEndpointUrl] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
@@ -42,7 +44,10 @@ export default function S3Screen({
     accessToken,
     whiteLabelingData,
     orgName,
+    enabledIntegrations,
   } = carbonProps;
+
+  const digitalOceanEnabled = processedIntegration.enableDigitalOcean;
 
   const connectS3 = async () => {
     try {
@@ -84,6 +89,7 @@ export default function S3Screen({
         access_key_secret: accessKeySecret,
         sync_source_items:
           processedIntegration?.syncSourceItems ?? SYNC_SOURCE_ITEMS,
+        ...(endpointUrl && { endpoint_url: endpointUrl }),
       };
 
       const response = await authenticatedFetch(
@@ -107,6 +113,7 @@ export default function S3Screen({
         });
         setAccessKey("");
         setAccessKeySecret("");
+        setEndpointUrl("");
       } else {
         setBannerState({ type: "ERROR", message: responseData.detail });
         onError &&
@@ -152,7 +159,7 @@ export default function S3Screen({
           />
         </div>
         <div className="cc-text-base cc-font-semibold cc-mb-5 dark:cc-text-dark-text-white">
-          Please enter {processedIntegration.name}{" "}
+          Please enter
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
             access key
           </span>
@@ -160,7 +167,10 @@ export default function S3Screen({
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
             access key secret
           </span>
-          of the acount you wish to connect.
+          of the acount you wish to connect.{" "}
+          {digitalOceanEnabled &&
+            `If you are connecting a
+          DigitalOcean Space, please provide the endpoint URL as well.`}
         </div>
         <Input
           type="text"
@@ -174,8 +184,17 @@ export default function S3Screen({
           placeholder="Access Key Secret"
           value={accessKeySecret}
           onChange={(e) => setAccessKeySecret(e.target.value)}
-          className="cc-mb-32"
+          className="cc-mb-4"
         />
+        {digitalOceanEnabled ? (
+          <Input
+            type="text"
+            placeholder="Endpoint URL (<region>.digitaloceanspaces.com)"
+            value={endpointUrl || ""}
+            onChange={(e) => setEndpointUrl(e.target.value)}
+            className="cc-mb-32"
+          />
+        ) : null}
       </div>
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">

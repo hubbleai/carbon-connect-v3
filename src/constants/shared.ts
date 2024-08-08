@@ -54,6 +54,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.SALESFORCE,
   IntegrationName.S3,
   IntegrationName.GITHUB,
+  IntegrationName.GOOGLE_CLOUD_STORAGE,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -87,6 +88,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.SALESFORCE,
   IntegrationName.S3,
   IntegrationName.GITHUB,
+  IntegrationName.GOOGLE_CLOUD_STORAGE,
 ];
 
 // note - this excludes RAW_TEXT

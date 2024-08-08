@@ -1,3 +1,4 @@
+import { Integration } from "..";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
   DEFAULT_CHUNK_SIZE,
@@ -17,6 +18,7 @@ import {
   ActionType,
   CarbonConnectProps,
 } from "../typing/shared";
+import { IntegrationItemType } from "./integrationModalconstants";
 
 export function isEmpty(obj: any) {
   let isEmpty = false;
@@ -348,4 +350,14 @@ export const getIntegrationDisclaimer = (
     removeBranding && orgName ? `into ${orgName}` : "into Carbon"
   }. We will not modify your
   data in any way.`;
+};
+
+export const getIntegrationName = (integration: ProcessedIntegration) => {
+  let name = integration.integrationsListViewTitle || integration.name;
+  if (integration.id == IntegrationName.S3) {
+    if (integration.enableDigitalOcean) {
+      return integration.name + "/DigitalOcean";
+    }
+  }
+  return name;
 };
