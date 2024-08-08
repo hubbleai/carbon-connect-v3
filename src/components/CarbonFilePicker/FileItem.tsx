@@ -92,11 +92,11 @@ export default function FileItem({
                   : !columnsToDisplay.includes("external_url") &&
                     columnsToDisplay.includes("status") &&
                     columnsToDisplay.includes("created_at")
-                  ? "cc-w-[9%]"
+                  ? "cc-w-[8%]"
                   : columnsToDisplay.includes("external_url") &&
                     columnsToDisplay.includes("status") &&
                     !columnsToDisplay.includes("created_at")
-                  ? "cc-w-[9%]"
+                  ? "cc-w-[8%]"
                   : "cc-w-[20%]"
               }`}
             >
