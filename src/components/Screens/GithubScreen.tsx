@@ -9,7 +9,7 @@ function GithubScreen({
   processedIntegration,
   activeIntegrations,
   setShowFilePicker,
-  setShowAdditinalStep,
+  setShowAdditionalStep,
   setSelectedDataSource,
   dataSource,
   setPauseDataSourceSelection,
@@ -18,7 +18,7 @@ function GithubScreen({
   processedIntegration: ProcessedIntegration;
   activeIntegrations: IntegrationAPIResponse[];
   setShowFilePicker: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowAdditinalStep: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAdditionalStep: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedDataSource: React.Dispatch<
     React.SetStateAction<IntegrationAPIResponse | null>
   >;
@@ -45,7 +45,7 @@ function GithubScreen({
         setActiveStep={setActiveStep}
         activeIntegrations={activeIntegrations}
         setShowFilePicker={setShowFilePicker}
-        setShowAdditinalStep={setShowAdditinalStep}
+        setShowAdditionalStep={setShowAdditionalStep}
         setSelectedDataSource={setSelectedDataSource}
         dataSource={dataSource}
         setPauseDataSourceSelection={setPauseDataSourceSelection}

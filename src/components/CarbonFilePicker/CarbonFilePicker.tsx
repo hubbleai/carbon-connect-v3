@@ -571,7 +571,7 @@ export default function CarbonFilePicker({
             setActiveStep={setActiveStep}
             activeIntegrations={activeIntegrations}
             setShowFilePicker={setShowFilePicker}
-            setShowAdditinalStep={setShowAdditionalStep}
+            setShowAdditionalStep={setShowAdditionalStep}
             setSelectedDataSource={setSelectedDataSource}
             dataSource={selectedDataSource}
             setPauseDataSourceSelection={setPauseDataSourceSelection}
