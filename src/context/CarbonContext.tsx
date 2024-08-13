@@ -91,6 +91,7 @@ export const CarbonProvider = ({
   incrementalSync = false,
   showFilesTab = true,
   dataSourcePollingInterval,
+  openFilesTabTo = "FILES_LIST",
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -267,6 +268,7 @@ export const CarbonProvider = ({
     dataSourcePollingInterval,
     lastModifications,
     setLastModifications,
+    openFilesTabTo,
   };
 
   return (

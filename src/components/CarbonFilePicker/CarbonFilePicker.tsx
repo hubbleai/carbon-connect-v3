@@ -76,6 +76,7 @@ export default function CarbonFilePicker({
     entryPoint,
     onSuccess,
     showFilesTab,
+    openFilesTabTo,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -175,7 +176,11 @@ export default function CarbonFilePicker({
   // show file selector by default if
   useEffect(() => {
     if (!selectedDataSource || !mode) return;
-    if (integrationName && mode == SyncingModes.FILE_PICKER) {
+    if (
+      integrationName &&
+      mode == SyncingModes.FILE_PICKER &&
+      (openFilesTabTo == "FILE_PICKER" || !selectedDataSource.files_synced_at)
+    ) {
       setShowFilePicker(true);
     } else {
       setShowFilePicker(false);

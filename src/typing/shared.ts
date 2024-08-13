@@ -190,6 +190,7 @@ export type CarbonConnectProps = {
   incrementalSync?: boolean;
   showFilesTab?: boolean;
   dataSourcePollingInterval?: number;
+  openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
 };
 
 export enum AutoSyncedSourceTypes {
