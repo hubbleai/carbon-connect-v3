@@ -109,6 +109,7 @@ export default function CarbonFilePicker({
 
   // if user specified that they want to use file picker or if sync url is not supported
   useEffect(() => {
+    if (!processedIntegration) return;
     if (
       FILE_PICKER_SUPPORTED_CONNECTORS.find((c) => c == integrationName) &&
       (processedIntegration?.useCarbonFilePicker ||
@@ -120,7 +121,7 @@ export default function CarbonFilePicker({
     ) {
       setMode(SyncingModes.SYNC_URL);
     }
-  });
+  }, [processedIntegration]);
 
   useEffect(() => {
     setProcessedIntegration(
@@ -170,21 +171,16 @@ export default function CarbonFilePicker({
     }
     setIsLoading(false);
   }, [JSON.stringify(activeIntegrations), pauseDataSourceSelection]);
-  console.log(connectedDataSources);
 
   // show file selector by default if
   useEffect(() => {
-    if (!selectedDataSource) return;
-    if (
-      integrationName &&
-      !selectedDataSource.files_synced_at &&
-      mode == SyncingModes.FILE_PICKER
-    ) {
+    if (!selectedDataSource || !mode) return;
+    if (integrationName && mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(true);
     } else {
       setShowFilePicker(false);
     }
-  }, [selectedDataSource?.id]);
+  }, [selectedDataSource?.id, mode]);
 
   const sendOauthRequest = async (
     mode = "CONNECT",
@@ -545,25 +541,46 @@ export default function CarbonFilePicker({
         </div>
       ) : showAdditionalStep && processedIntegration ? (
         (integrationName == IntegrationName.FRESHDESK && (
-          <FreshdeskScreen processedIntegration={processedIntegration} />
+          <FreshdeskScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.SALESFORCE && (
-          <SalesforceScreen processedIntegration={processedIntegration} />
+          <SalesforceScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.GITBOOK && (
-          <GitbookScreen processedIntegration={processedIntegration} />
+          <GitbookScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.CONFLUENCE && (
-          <ConfluenceScreen processedIntegration={processedIntegration} />
+          <ConfluenceScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.S3 && (
-          <S3Screen processedIntegration={processedIntegration} />
+          <S3Screen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.ZENDESK && (
-          <ZendeskScreen processedIntegration={processedIntegration} />
+          <ZendeskScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.SHAREPOINT && (
-          <SharepointScreen processedIntegration={processedIntegration} />
+          <SharepointScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.GITHUB && (
           <GithubScreen

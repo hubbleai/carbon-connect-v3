@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { DialogFooter } from "@components/common/design-system/Dialog";
 import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
@@ -20,8 +20,10 @@ import Banner, { BannerState } from "../common/Banner";
 
 export default function GitbookScreen({
   processedIntegration,
+  setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
+  setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
   const [organization, setOrganization] = useState("");
   const [gbToken, setGBToken] = useState("");
@@ -101,9 +103,13 @@ export default function GitbookScreen({
       const responseData = await response.json();
 
       if (response.status === 200) {
-        setBannerState({ message: "Gitbook sync initiated.", type: "SUCCESS" });
+        setBannerState({
+          message: "Gitbook sync initiated, you will be redirected shortly!",
+          type: "SUCCESS",
+        });
         setGBToken("");
         setOrganization("");
+        setTimeout(() => setShowAdditionalStep(false), 3000);
       } else {
         setBannerState({ type: "ERROR", message: responseData.detail });
         onError &&

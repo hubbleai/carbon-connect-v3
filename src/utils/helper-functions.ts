@@ -1,4 +1,4 @@
-import { Integration } from "..";
+import { Integration, OnSuccessData } from "..";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
   DEFAULT_CHUNK_SIZE,
@@ -372,4 +372,17 @@ export const getAccountIdentifier = (
     identifier += ` (${dataSource?.data_source_metadata?.type})`;
   }
   return identifier;
+};
+
+export const wasAccountAdded = (
+  modifications: OnSuccessData[],
+  name: IntegrationName
+) => {
+  if (modifications.length) {
+    const addModification = modifications.find(
+      (m) => m.action == "ADD" && m.integration == name
+    );
+    return !!addModification;
+  }
+  return false;
 };

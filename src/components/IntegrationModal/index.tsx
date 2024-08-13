@@ -44,6 +44,8 @@ export function IntegrationModal() {
     environment = "PRODUCTION",
     authenticatedFetch,
     manageModalOpenState,
+    dataSourcePollingInterval,
+    setLastModifications,
   } = useCarbon();
 
   const [activeIntegrations, setActiveIntegrations] = useState<
@@ -86,6 +88,7 @@ export function IntegrationModal() {
               onSuccess && onSuccess(integrationModifications[i]);
             }
           }
+          setLastModifications(integrationModifications);
         } else {
           firstFetchCompletedRef.current = true;
         }
@@ -108,7 +111,10 @@ export function IntegrationModal() {
 
   useEffect(() => {
     if (accessToken && showModal) {
-      const intervalId = setInterval(fetchUserIntegrations, 8000);
+      const pollingInterval = dataSourcePollingInterval
+        ? Math.max(dataSourcePollingInterval, 3000)
+        : 8000;
+      const intervalId = setInterval(fetchUserIntegrations, pollingInterval);
       // Make sure to clear the interval when the component unmounts
       return () => clearInterval(intervalId);
     }

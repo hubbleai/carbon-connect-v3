@@ -127,6 +127,8 @@ export type FileType = {
   generateSparseVectors?: boolean;
   parsePdfTablesWithOcr?: boolean;
   splitRows?: boolean;
+  transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export type FileSyncConfig = {
@@ -135,6 +137,7 @@ export type FileSyncConfig = {
   detect_audio_language?: boolean;
   split_rows?: boolean;
   transcription_service?: TranscriptionService;
+  include_speaker_labels?: boolean;
 };
 
 export type BaseIntegration = {
@@ -166,6 +169,7 @@ export type LocalFilesIntegration = BaseIntegration & {
   allowedFileTypes?: FileType[];
   splitRows?: boolean;
   transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export interface WebScraperIntegration extends BaseIntegration {
@@ -221,6 +225,7 @@ export type CarbonConnectProps = {
   filesTabColumns?: FileTabColumns[];
   incrementalSync?: boolean;
   showFilesTab?: boolean;
+  dataSourcePollingInterval?: number;
 };
 
 export enum AutoSyncedSourceTypes {

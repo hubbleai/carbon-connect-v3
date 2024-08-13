@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DialogFooter } from "@components/common/design-system/Dialog";
 import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
@@ -14,14 +14,17 @@ import {
   generateRequestId,
   getConnectRequestProps,
   getIntegrationDisclaimer,
+  wasAccountAdded,
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 
 export default function SharepointScreen({
   processedIntegration,
+  setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
+  setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
   const [microsoftTenant, setMicrosoftTenant] = useState("");
   const [sharepointSiteName, setSharepointSiteName] = useState("");
@@ -42,7 +45,14 @@ export default function SharepointScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    lastModifications,
   } = carbonProps;
+
+  useEffect(() => {
+    if (wasAccountAdded(lastModifications || [], IntegrationName.SHAREPOINT)) {
+      setShowAdditionalStep(false);
+    }
+  }, [JSON.stringify(lastModifications)]);
 
   const fetchOauthURL = async () => {
     try {

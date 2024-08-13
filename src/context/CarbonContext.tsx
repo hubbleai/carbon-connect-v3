@@ -7,6 +7,7 @@ import {
   IntegrationName,
   EmbeddingGenerators,
   CarbonConnectProps,
+  OnSuccessData,
 } from "../typing/shared";
 import { INTEGRATIONS_LIST } from "../utils/integrationModalconstants";
 
@@ -24,6 +25,8 @@ type CarbonContextValues = CarbonConnectProps & {
   activeStep?: ActiveStep;
   setActiveStep?: any;
   showModal?: boolean;
+  lastModifications?: OnSuccessData[];
+  setLastModifications?: any;
 };
 
 const CarbonContext: React.Context<CarbonContextValues> = createContext({
@@ -87,6 +90,7 @@ export const CarbonProvider = ({
   filesTabColumns,
   incrementalSync = false,
   showFilesTab = true,
+  dataSourcePollingInterval,
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -99,8 +103,8 @@ export const CarbonProvider = ({
   const [entryPointIntegrationObject, setEntryPointIntegrationObject] =
     useState<ProcessedIntegration | null>(null);
   const [whiteLabelingData, setWhiteLabelingData] = useState(null);
-
   const [requestIds, setRequestIds] = useState({});
+  const [lastModifications, setLastModifications] = useState([]);
 
   const manageModalOpenState = (modalOpenState: boolean) => {
     if (alwaysOpen) return;
@@ -260,6 +264,9 @@ export const CarbonProvider = ({
     filesTabColumns,
     incrementalSync,
     showFilesTab,
+    dataSourcePollingInterval,
+    lastModifications,
+    setLastModifications,
   };
 
   return (
