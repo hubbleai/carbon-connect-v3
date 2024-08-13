@@ -18,6 +18,7 @@ import {
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
+import Loader from "../common/Loader";
 
 export default function SharepointScreen({
   processedIntegration,
@@ -32,6 +33,7 @@ export default function SharepointScreen({
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
+  const [connectingAccount, setConnectingAccount] = useState(false);
 
   const carbonProps = useCarbon();
   const {
@@ -51,6 +53,7 @@ export default function SharepointScreen({
   useEffect(() => {
     if (wasAccountAdded(lastModifications || [], IntegrationName.SHAREPOINT)) {
       setShowAdditionalStep(false);
+      setConnectingAccount(false);
     }
   }, [JSON.stringify(lastModifications)]);
 
@@ -135,6 +138,7 @@ export default function SharepointScreen({
         setSharepointSiteName("");
 
         oauthWindow.location.href = oAuthURLResponseData.oauth_url;
+        setConnectingAccount(true);
       } else {
         oauthWindow.document.body.innerHTML = oAuthURLResponseData.detail;
       }
@@ -155,6 +159,12 @@ export default function SharepointScreen({
         });
     }
   };
+
+  useEffect(() => {
+    if (connectingAccount) {
+      setTimeout(() => setConnectingAccount(false), 20000);
+    }
+  }, [connectingAccount]);
 
   return (
     <>
@@ -189,6 +199,7 @@ export default function SharepointScreen({
           className="cc-mb-4"
         />
       </div>
+      {connectingAccount ? <Loader /> : null}
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">
           <img

@@ -18,6 +18,7 @@ import {
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
+import Loader from "../common/Loader";
 
 export default function SalesforceScreen({
   processedIntegration,
@@ -31,6 +32,7 @@ export default function SalesforceScreen({
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
+  const [connectingAccount, setConnectingAccount] = useState(false);
 
   const carbonProps = useCarbon();
   const {
@@ -50,6 +52,7 @@ export default function SalesforceScreen({
   useEffect(() => {
     if (wasAccountAdded(lastModifications || [], IntegrationName.SALESFORCE)) {
       setShowAdditionalStep(false);
+      setConnectingAccount(false);
     }
   }, [JSON.stringify(lastModifications)]);
 
@@ -140,6 +143,7 @@ export default function SalesforceScreen({
         setSalesforceDomain("");
 
         oauthWindow.location.href = oAuthURLResponseData.oauth_url;
+        setConnectingAccount(true);
       } else {
         oauthWindow.document.body.innerHTML = oAuthURLResponseData.detail;
       }
@@ -160,6 +164,12 @@ export default function SalesforceScreen({
         });
     }
   };
+
+  useEffect(() => {
+    if (connectingAccount) {
+      setTimeout(() => setConnectingAccount(false), 20000);
+    }
+  }, [connectingAccount]);
 
   return (
     <>
@@ -188,6 +198,7 @@ export default function SalesforceScreen({
           className="cc-mb-4"
         />
       </div>
+      {connectingAccount ? <Loader /> : null}
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">
           <img
