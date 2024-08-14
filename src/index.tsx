@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import IntegrationModal from "./components/IntegrationModal";
 
 import "./styles.css";
+
 import { CarbonProvider } from "./context/CarbonContext";
 import { BASE_URL, ENV } from "./constants/shared";
 import { IntegrationItemType } from "./utils/integrationModalconstants";

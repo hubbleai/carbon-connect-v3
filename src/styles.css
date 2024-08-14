@@ -1,10 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
-@tailwind base;
+
+
+@tailwind components;
 @tailwind utilities;
+@tailwind base;
+
 
 
 .cc-modal {
-  /*font-family: 'Manrope', sans-serif; /*Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
+  font-family: 'Manrope', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #000;
@@ -99,6 +103,200 @@
 
 }
 
-/* .dark img.dark:cc-invert-[1] dark:cc-hue-rotate-180 {
-  filter: invert(1) hue-rotate(180deg);
+/* .cc-modal *,
+.cc-modal ::before,
+.cc-modal ::after {
+  box-sizing: border-box;
+
+}
+
+.cc-modal ::before,
+.cc-modal ::after {
+  --tw-content: '';
+}
+
+
+
+.cc-modal hr {
+  height: 0;
+
+
+}
+
+.cc-modal abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+
+
+
+.cc-modal b,
+.cc-modal strong {
+  font-weight: bolder;
+}
+
+.cc-modal code,
+.cc-modal kbd,
+.cc-modal samp,
+.cc-modal pre {
+  font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  font-size: 1em;
+}
+
+.cc-modal small {
+  font-size: 80%;
+}
+
+.cc-modal sub,
+.cc-modal sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.cc-modal sub {
+  bottom: -0.25em;
+}
+
+.cc-modal sup {
+  top: -0.5em;
+}
+
+.cc-modal table {
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+}
+
+
+.cc-modal input,
+.cc-modal optgroup,
+.cc-modal select,
+.cc-modal textarea {
+  margin: 0;
+  padding: 0;
+}
+
+.cc-modal button,
+.cc-modal select {
+  text-transform: none;
+}
+
+.cc-modal button,
+.cc-modal [type='button'],
+.cc-modal [type='reset'],
+.cc-modal [type='submit'] {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+
+.cc-modal :-moz-focusring {
+  outline: auto;
+}
+
+.cc-modal :-moz-ui-invalid {
+  box-shadow: none;
+}
+
+.cc-modal progress {
+  vertical-align: baseline;
+}
+
+.cc-modal ::-webkit-inner-spin-button,
+.cc-modal ::-webkit-outer-spin-button {
+  height: auto;
+}
+
+
+
+.cc-modal ::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.cc-modal ::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+.cc-modal summary {
+  display: list-item;
+}
+
+.cc-modal blockquote,
+.cc-modal dl,
+.cc-modal dd,
+.cc-modal h1,
+.cc-modal h2,
+.cc-modal h3,
+.cc-modal h4,
+.cc-modal h5,
+.cc-modal h6,
+.cc-modal hr,
+.cc-modal figure,
+.cc-modal p,
+.cc-modal pre {
+  margin: 0;
+}
+
+.cc-modal fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+.cc-modal legend {
+  padding: 0;
+}
+
+.cc-modal ol,
+.cc-modal ul,
+.cc-modal menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cc-modal dialog {
+  padding: 0;
+}
+
+.cc-modal textarea {
+  resize: vertical;
+}
+
+.cc-modal input::placeholder,
+.cc-modal textarea::placeholder {
+  opacity: 1;
+
+}
+
+.cc-modal button,
+.cc-modal [role="button"] {
+  cursor: pointer;
+}
+
+.cc-modal :disabled {
+  cursor: default;
+}
+
+.cc-modal img,
+.cc-modal svg,
+.cc-modal video,
+.cc-modal canvas,
+.cc-modal audio,
+.cc-modal iframe,
+.cc-modal embed,
+.cc-modal object {
+  display: block;
+  vertical-align: middle;
+}
+
+.cc-modal img,
+.cc-modal video {
+  max-width: 100%;
+  height: auto;
+}
+
+.cc-modal [hidden] {
+  display: none;
 } */

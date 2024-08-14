@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+import {
+  scopedPreflightStyles,
+  isolateInsideOfContainer,
+} from "tailwindcss-scoped-preflight";
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
 
@@ -81,9 +85,14 @@ module.exports = {
       screens: {
         md: { max: "767px" },
         // => @media (max-width: 767px) { ... }
-        tab: {min:'768px' , max:"783px"}
-            },
+        tab: { min: "768px", max: "783px" },
+      },
     },
   },
-  plugins: [],
+
+  plugins: [
+    scopedPreflightStyles({
+      isolationStrategy: isolateInsideOfContainer(".cc-modal"),
+    }),
+  ],
 };
