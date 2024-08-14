@@ -44,7 +44,9 @@ export default function GitbookScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    showFilesTab,
   } = carbonProps;
+  const shouldShowFilesTab = showFilesTab || processedIntegration?.showFilesTab;
 
   const connectGithub = async () => {
     try {
@@ -101,7 +103,7 @@ export default function GitbookScreen({
         if (processedIntegration?.syncSourceItems) {
           setUsername("");
         } else {
-          setStep("repo_sync");
+          shouldShowFilesTab && setStep("repo_sync");
         }
         setGHToken("");
       } else {

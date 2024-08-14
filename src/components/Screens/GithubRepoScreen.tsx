@@ -28,7 +28,7 @@ export default function GithubRepoScreen({
   setActiveStep,
   activeIntegrations,
   setShowFilePicker,
-  setShowAdditinalStep,
+  setShowAdditionalStep,
   setSelectedDataSource,
   dataSource,
   setPauseDataSourceSelection,
@@ -38,7 +38,7 @@ export default function GithubRepoScreen({
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeIntegrations: IntegrationAPIResponse[];
   setShowFilePicker: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowAdditinalStep: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAdditionalStep: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedDataSource: React.Dispatch<
     React.SetStateAction<IntegrationAPIResponse | null>
   >;
@@ -172,7 +172,7 @@ export default function GithubRepoScreen({
         setPauseDataSourceSelection(false);
         setTimeout(() => {
           setShowFilePicker(true);
-          setShowAdditinalStep(false);
+          setShowAdditionalStep(false);
         }, 3000);
       } else {
         setBannerState({

@@ -31,6 +31,7 @@ import {
   generateRequestId,
   getConnectRequestProps,
   getDataSourceDomain,
+  getIntegrationName,
 } from "../../utils/helper-functions";
 import FreshdeskScreen from "../Screens/FreshdeskScreen";
 
@@ -44,6 +45,7 @@ import S3Screen from "../Screens/S3Screen";
 import ZendeskScreen from "../Screens/ZendeskScreen";
 import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
+import AccountManagement from "@components/common/AccountManagement";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -73,6 +75,8 @@ export default function CarbonFilePicker({
     environment = ENV.PRODUCTION,
     entryPoint,
     onSuccess,
+    showFilesTab,
+    openFilesTabTo,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -80,7 +84,6 @@ export default function CarbonFilePicker({
     state: boolean;
     percentage: number;
   }>({ state: false, percentage: 0 });
-  const [step, setStep] = useState<number>(1);
   const [connectedDataSources, setConnectedDataSources] = useState<
     IntegrationAPIResponse[]
   >([]);
@@ -99,11 +102,15 @@ export default function CarbonFilePicker({
   });
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
+  const [performingAction, setPerformingAction] = useState(false);
+
+  const shouldShowFilesTab = showFilesTab || processedIntegration?.showFilesTab;
 
   const { systemTheme } = useTheme();
 
   // if user specified that they want to use file picker or if sync url is not supported
   useEffect(() => {
+    if (!processedIntegration) return;
     if (
       FILE_PICKER_SUPPORTED_CONNECTORS.find((c) => c == integrationName) &&
       (processedIntegration?.useCarbonFilePicker ||
@@ -115,7 +122,7 @@ export default function CarbonFilePicker({
     ) {
       setMode(SyncingModes.SYNC_URL);
     }
-  });
+  }, [processedIntegration]);
 
   useEffect(() => {
     setProcessedIntegration(
@@ -130,11 +137,12 @@ export default function CarbonFilePicker({
       (integration) => integration.data_source_type === activeStepData?.id
     );
     const accountsAdded = connected.length > connectedDataSources.length;
+    setConnectedDataSources(connected);
+
     if (pauseDataSourceSelection || !connected.length) {
       setIsLoading(false);
       return;
     }
-    setConnectedDataSources(connected);
 
     const currDataSource = connected.find(
       (c) => c.id == selectedDataSource?.id
@@ -167,17 +175,17 @@ export default function CarbonFilePicker({
 
   // show file selector by default if
   useEffect(() => {
-    if (!selectedDataSource) return;
+    if (!selectedDataSource || !mode) return;
     if (
       integrationName &&
-      !selectedDataSource.files_synced_at &&
-      mode == SyncingModes.FILE_PICKER
+      mode == SyncingModes.FILE_PICKER &&
+      (openFilesTabTo == "FILE_PICKER" || !selectedDataSource.files_synced_at)
     ) {
       setShowFilePicker(true);
     } else {
       setShowFilePicker(false);
     }
-  }, [selectedDataSource?.id]);
+  }, [selectedDataSource?.id, mode]);
 
   const sendOauthRequest = async (
     mode = "CONNECT",
@@ -280,10 +288,10 @@ export default function CarbonFilePicker({
         extraParams.salesforce_domain = getDataSourceDomain(selectedDataSource);
       } else if (dataSourceType == IntegrationName.ZENDESK) {
         extraParams.zendesk_subdomain = getDataSourceDomain(selectedDataSource);
-      } else if (dataSourceType == "CONFLUENCE") {
+      } else if (dataSourceType == IntegrationName.CONFLUENCE) {
         extraParams.confluence_subdomain =
           getDataSourceDomain(selectedDataSource);
-      } else if (dataSourceType == "SHAREPOINT") {
+      } else if (dataSourceType == IntegrationName.SHAREPOINT) {
         const workspace = getDataSourceDomain(selectedDataSource) || "";
         const parts = workspace.split("/");
         if (parts.length == 2) {
@@ -302,9 +310,9 @@ export default function CarbonFilePicker({
     }
   };
 
-  const revokeDataSource = async () => {
-    setIsRevokingDataSource(true);
-    if (!selectedDataSource) return;
+  const revokeDataSource = async (id?: number, bulk: boolean = false) => {
+    !bulk && setIsRevokingDataSource(true);
+    if (!selectedDataSource && !id) return;
 
     const revokeAccessResponse = await authenticatedFetch(
       `${BASE_URL[environment]}/revoke_access_token`,
@@ -314,30 +322,34 @@ export default function CarbonFilePicker({
           Authorization: `Token ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data_source_id: selectedDataSource.id }),
+        body: JSON.stringify({ data_source_id: id || selectedDataSource?.id }),
       }
     );
-
-    if (revokeAccessResponse.status === 200) {
-      setBannerState({
-        type: "SUCCESS",
-        message: "Successfully disconnected account",
-      });
-      setSelectedDataSource(null);
-      setActiveStep(entryPoint ? "CONNECT" : "INTEGRATION_LIST");
-    } else {
-      setBannerState({
-        type: "ERROR",
-        message: "Error disconnecting account",
-      });
+    if (!bulk) {
+      if (revokeAccessResponse.status === 200) {
+        setBannerState({
+          type: "SUCCESS",
+          message: "Successfully disconnected account",
+        });
+        setSelectedDataSource(null);
+        setActiveStep(entryPoint ? "CONNECT" : "INTEGRATION_LIST");
+      } else {
+        setBannerState({
+          type: "ERROR",
+          message: "Error disconnecting account",
+        });
+      }
     }
-    setIsRevokingDataSource(false);
+
+    !bulk && setIsRevokingDataSource(false);
+    return revokeAccessResponse;
   };
-  const resyncDataSource = async () => {
-    if (!selectedDataSource) return;
-    setIsResyncingDataSource(true);
+
+  const resyncDataSource = async (id?: number, bulk: boolean = false) => {
+    if (!selectedDataSource && !id) return;
+    !bulk && setIsResyncingDataSource(true);
     const requestBody = {
-      data_source_id: selectedDataSource.id,
+      data_source_id: id || selectedDataSource?.id,
     };
 
     const resyncDataSourceResponse = await authenticatedFetch(
@@ -352,18 +364,52 @@ export default function CarbonFilePicker({
       }
     );
 
-    if (resyncDataSourceResponse.status === 200) {
-      setBannerState({
-        type: "SUCCESS",
-        message: "Your connection is being synced",
-      });
-    } else {
-      setBannerState({
-        type: "ERROR",
-        message: "Error resyncing connection",
-      });
+    if (!bulk) {
+      if (resyncDataSourceResponse.status === 200) {
+        setBannerState({
+          type: "SUCCESS",
+          message: "Your connection is being synced",
+        });
+      } else {
+        setBannerState({
+          type: "ERROR",
+          message: "Error resyncing connection",
+        });
+      }
     }
-    setIsResyncingDataSource(false);
+
+    !bulk && setIsResyncingDataSource(false);
+    return resyncDataSourceResponse;
+  };
+
+  const performBulkAction = (
+    ids: number[],
+    message: string,
+    func: Function
+  ) => {
+    setPerformingAction(true);
+    const promises: any = [];
+    for (let id of ids) {
+      promises.push(func(id, true));
+    }
+    Promise.all(promises).then(function (values) {
+      let successCount = 0;
+      let failedCount = 0;
+      for (let value of values) {
+        if (value.status == 200) {
+          successCount += 1;
+        } else {
+          failedCount += 1;
+        }
+      }
+      const state = failedCount > 0 ? "ERROR" : "SUCCESS";
+      setBannerState({
+        message: message,
+        type: state,
+        additionalInfo: `${successCount} succeeded, ${failedCount} failed`,
+      });
+    });
+    setPerformingAction(false);
   };
 
   if (isUploading.state) {
@@ -427,7 +473,7 @@ export default function CarbonFilePicker({
             justifyModification={false}
             className="cc-flex-grow cc-text-left "
           >
-            {activeStepData?.name}
+            {getIntegrationName(processedIntegration)}
           </DialogTitle>
           {/* {step > 1 && ( */}
           <>
@@ -439,10 +485,12 @@ export default function CarbonFilePicker({
               <img
                 src={RefreshIcon}
                 alt="User Plus"
-                className="cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                className="cc-h-[18px] md:cc-none cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
             </Button>
-            {!showAdditionalStep && connectedDataSources?.length ? (
+            {!showAdditionalStep &&
+            connectedDataSources?.length &&
+            shouldShowFilesTab ? (
               <>
                 <AccountDropdown
                   dataSources={connectedDataSources}
@@ -455,6 +503,12 @@ export default function CarbonFilePicker({
                   isRevokingDataSource={isRevokingDataSource}
                   resyncDataSource={resyncDataSource}
                   isResyncingDataSource={isResyncingDataSource}
+                  showSelectMorePages={
+                    mode == SyncingModes.FILE_PICKER &&
+                    integrationName == IntegrationName.NOTION
+                  }
+                  sendOauthRequest={sendOauthRequest}
+                  dataSourceId={selectedDataSource?.id}
                 />{" "}
               </>
             ) :  null
@@ -462,6 +516,7 @@ export default function CarbonFilePicker({
           </>
         </div>
       </DialogHeader>
+
       <Banner bannerState={bannerState} setBannerState={setBannerState} />
       {!isLoading &&
       connectedDataSources?.length === 0 &&
@@ -492,25 +547,46 @@ export default function CarbonFilePicker({
         </div>
       ) : showAdditionalStep && processedIntegration ? (
         (integrationName == IntegrationName.FRESHDESK && (
-          <FreshdeskScreen processedIntegration={processedIntegration} />
+          <FreshdeskScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.SALESFORCE && (
-          <SalesforceScreen processedIntegration={processedIntegration} />
+          <SalesforceScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.GITBOOK && (
-          <GitbookScreen processedIntegration={processedIntegration} />
+          <GitbookScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.CONFLUENCE && (
-          <ConfluenceScreen processedIntegration={processedIntegration} />
+          <ConfluenceScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.S3 && (
-          <S3Screen processedIntegration={processedIntegration} />
+          <S3Screen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.ZENDESK && (
-          <ZendeskScreen processedIntegration={processedIntegration} />
+          <ZendeskScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
         (integrationName == IntegrationName.SHAREPOINT && (
-          <SharepointScreen processedIntegration={processedIntegration} />
+          <SharepointScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
         )) ||
        
         (integrationName == IntegrationName.GITHUB && (
@@ -519,7 +595,7 @@ export default function CarbonFilePicker({
             setActiveStep={setActiveStep}
             activeIntegrations={activeIntegrations}
             setShowFilePicker={setShowFilePicker}
-            setShowAdditinalStep={setShowAdditionalStep}
+            setShowAdditionalStep={setShowAdditionalStep}
             setSelectedDataSource={setSelectedDataSource}
             dataSource={selectedDataSource}
             setPauseDataSourceSelection={setPauseDataSourceSelection}
@@ -531,6 +607,15 @@ export default function CarbonFilePicker({
           setShowFilePicker={setShowFilePicker}
           selectedDataSource={selectedDataSource}
           processedIntegration={processedIntegration}
+        />
+      ) : !shouldShowFilesTab ? (
+        <AccountManagement
+          accounts={connectedDataSources}
+          handleAddAccountClick={handleAddAccountClick}
+          resyncDataSource={resyncDataSource}
+          revokeDataSource={revokeDataSource}
+          performBulkAction={performBulkAction}
+          performingAction={performingAction}
         />
       ) : (
         <SyncedFilesList

@@ -78,6 +78,15 @@ export const generateFileUploadUrl = (
   const splitRowsValue =
     fileTypeConfigValue?.splitRows || filesConfig?.splitRows || false;
 
+  const transcriptionServiceValue =
+    fileTypeConfigValue?.transcriptionService ||
+    filesConfig?.transcriptionService;
+
+  const includeSpeakerLabelsValue =
+    fileTypeConfigValue?.includeSpeakerLabels ||
+    filesConfig?.includeSpeakerLabels ||
+    false;
+
   const apiUrl = new URL(`${BASE_URL[environment]}/uploadfile`);
 
   apiUrl.searchParams.append(
@@ -106,6 +115,18 @@ export const generateFileUploadUrl = (
     prependFilenameToChunksValue.toString()
   );
   apiUrl.searchParams.append("split_rows", splitRowsValue.toString());
+
+  transcriptionServiceValue &&
+    apiUrl.searchParams.append(
+      "transcription_service",
+      transcriptionServiceValue.toString()
+    );
+
+  apiUrl.searchParams.append(
+    "include_speaker_labels",
+    includeSpeakerLabelsValue.toString()
+  );
+
   if (maxItemsPerChunkValue) {
     apiUrl.searchParams.append(
       "max_items_per_chunk",

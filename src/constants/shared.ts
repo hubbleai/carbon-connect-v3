@@ -1,4 +1,4 @@
-import { IntegrationName } from "../typing/shared";
+import { FileTabColumns, IntegrationName } from "../typing/shared";
 
 export enum ENV {
   PRODUCTION = "PRODUCTION",
@@ -54,6 +54,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.SALESFORCE,
   IntegrationName.S3,
   IntegrationName.GITHUB,
+  IntegrationName.GOOGLE_CLOUD_STORAGE,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -87,6 +88,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.SALESFORCE,
   IntegrationName.S3,
   IntegrationName.GITHUB,
+  IntegrationName.GOOGLE_CLOUD_STORAGE,
 ];
 
 // note - this excludes RAW_TEXT
@@ -141,4 +143,10 @@ export const FOLDER_BASED_CONNECTORS = [
   IntegrationName.ONEDRIVE,
   IntegrationName.GOOGLE_DRIVE,
   IntegrationName.SHAREPOINT,
+];
+
+export const DEFAULT_FILES_TAB_COLUMNS: FileTabColumns[] = [
+  "name",
+  "status",
+  "created_at",
 ];

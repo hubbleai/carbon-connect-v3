@@ -93,6 +93,8 @@ export type FileType = {
   generateSparseVectors?: boolean;
   parsePdfTablesWithOcr?: boolean;
   splitRows?: boolean;
+  transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export type FileSyncConfig = {
@@ -119,6 +121,10 @@ export type BaseIntegration = {
   sendDeletionWebhooks?: boolean;
   fileSyncConfig?: FileSyncConfig;
   useCarbonFilePicker?: boolean;
+  filesTabColumns?: FileTabColumns[];
+  incrementalSync?: boolean;
+  enableDigitalOcean?: boolean;
+  showFilesTab?: boolean;
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -126,6 +132,8 @@ export type LocalFilesIntegration = BaseIntegration & {
   maxFilesCount?: number;
   allowedFileTypes?: FileType[];
   splitRows?: boolean;
+  transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export interface WebScraperIntegration extends BaseIntegration {
@@ -141,6 +149,8 @@ export type Integration =
   | LocalFilesIntegration
   | WebScraperIntegration
   | BaseIntegration;
+
+export type FileTabColumns = "name" | "status" | "created_at" | "external_url";
 
 export type CarbonConnectProps = {
   orgName: string;
@@ -176,6 +186,11 @@ export type CarbonConnectProps = {
   sendDeletionWebhooks?: boolean;
   fileSyncConfig?: FileSyncConfig;
   theme?: "dark" | "light";
+  filesTabColumns?: FileTabColumns[];
+  incrementalSync?: boolean;
+  showFilesTab?: boolean;
+  dataSourcePollingInterval?: number;
+  openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
 };
 
 export enum AutoSyncedSourceTypes {
@@ -221,6 +236,7 @@ export enum IntegrationName {
   SALESFORCE = "SALESFORCE",
   GITHUB = "GITHUB",
   SLACK = "SLACK",
+  GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
 }
 
 export type ProcessedIntegration = IntegrationItemType & Integration;
@@ -268,3 +284,8 @@ export type ActiveStep =
 export type Formats = {
   [index: string]: string[];
 };
+
+export enum TranscriptionService {
+  ASSEMBLYAI = "assemblyai",
+  DEEPGRAM = "deepgram",
+}

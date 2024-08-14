@@ -1,3 +1,4 @@
+import { Integration, OnSuccessData } from "..";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
   DEFAULT_CHUNK_SIZE,
@@ -17,6 +18,7 @@ import {
   ActionType,
   CarbonConnectProps,
 } from "../typing/shared";
+import { IntegrationItemType } from "./integrationModalconstants";
 
 export function isEmpty(obj: any) {
   let isEmpty = false;
@@ -107,6 +109,7 @@ export const getConnectRequestProps = (
     setPageAsBoundary,
     useOcr,
     parsePdfTablesWithOcr,
+    incrementalSync,
   } = carbonProps;
 
   const chunkSizeValue =
@@ -139,6 +142,8 @@ export const getConnectRequestProps = (
     processedIntegration?.parsePdfTablesWithOcr ||
     parsePdfTablesWithOcr ||
     false;
+  const incrementalSyncValue =
+    processedIntegration?.incrementalSync || incrementalSync || false;
 
   return {
     ...additionalProps,
@@ -159,6 +164,7 @@ export const getConnectRequestProps = (
     set_page_as_boundary: setPageAsBoundaryValue,
     use_ocr: useOcrValue,
     parse_pdf_tables_with_ocr: parsePdfTablesWithOcrValue,
+    incremental_sync: incrementalSyncValue,
   };
 };
 
@@ -186,7 +192,7 @@ export const getSourceItemType = (item: UserSourceItemApi) => {
   return "FILE";
 };
 
-export const formatDate = (data: Date) => {
+export const formatDate = (data: Date, includeTime: boolean = true) => {
   const dateString = new Date(data).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -199,7 +205,7 @@ export const formatDate = (data: Date) => {
     // second: '2-digit',
     hour12: true,
   });
-  return `${dateString} ${timeString}`;
+  return includeTime ? `${dateString} ${timeString}` : dateString;
 };
 
 export function getDataSourceDomain(dataSource: IntegrationAPIResponse) {
@@ -344,4 +350,39 @@ export const getIntegrationDisclaimer = (
     removeBranding && orgName ? `into ${orgName}` : "into Carbon"
   }. We will not modify your
   data in any way.`;
+};
+
+export const getIntegrationName = (integration: ProcessedIntegration) => {
+  let name = integration.integrationsListViewTitle || integration.name;
+  if (integration.id == IntegrationName.S3) {
+    if (integration.enableDigitalOcean) {
+      return integration.name + "/DigitalOcean";
+    }
+  }
+  return name;
+};
+
+export const getAccountIdentifier = (
+  dataSource: IntegrationAPIResponse | null
+) => {
+  let identifier =
+    dataSource?.data_source_external_id.split("|")[1] ||
+    dataSource?.data_source_external_id.split("-")[1];
+  if (dataSource?.data_source_metadata?.type) {
+    identifier += ` (${dataSource?.data_source_metadata?.type})`;
+  }
+  return identifier;
+};
+
+export const wasAccountAdded = (
+  modifications: OnSuccessData[],
+  name: IntegrationName
+) => {
+  if (modifications.length) {
+    const addModification = modifications.find(
+      (m) => m.action == "ADD" && m.integration == name
+    );
+    return !!addModification;
+  }
+  return false;
 };

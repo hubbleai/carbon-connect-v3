@@ -81,9 +81,11 @@ module.exports = {
       screens: {
         md: { max: "767px" },
         // => @media (max-width: 767px) { ... }
+
         tab:{min: '768px' , max:'783px'},
         desktop:{min:'1025px' , max:'1280'}
       },
+
     },
   },
   plugins: [],

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DialogFooter } from "@components/common/design-system/Dialog";
 import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
@@ -14,20 +14,25 @@ import {
   generateRequestId,
   getConnectRequestProps,
   getIntegrationDisclaimer,
+  wasAccountAdded,
 } from "../../utils/helper-functions";
 import { BASE_URL, ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
+import Loader from "../common/Loader";
 
 export default function ZendeskScreen({
   processedIntegration,
+  setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
+  setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
   const [zendeskDomain, setZendeskDomain] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
+  const [connectingAccount, setConnectingAccount] = useState(false);
 
   const carbonProps = useCarbon();
   const {
@@ -41,7 +46,15 @@ export default function ZendeskScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    lastModifications,
   } = carbonProps;
+
+  useEffect(() => {
+    if (wasAccountAdded(lastModifications || [], IntegrationName.ZENDESK)) {
+      setShowAdditionalStep(false);
+      setConnectingAccount(false);
+    }
+  }, [JSON.stringify(lastModifications)]);
 
   const fetchOauthURL = async () => {
     try {
@@ -123,6 +136,7 @@ export default function ZendeskScreen({
         setZendeskDomain("");
 
         oauthWindow.location.href = oAuthURLResponseData.oauth_url;
+        setConnectingAccount(true);
       } else {
         oauthWindow.document.body.innerHTML = oAuthURLResponseData.detail;
       }
@@ -143,6 +157,12 @@ export default function ZendeskScreen({
         });
     }
   };
+
+  useEffect(() => {
+    if (connectingAccount) {
+      setTimeout(() => setConnectingAccount(false), 20000);
+    }
+  }, [connectingAccount]);
 
   return (
     <>
@@ -170,6 +190,7 @@ export default function ZendeskScreen({
           className="cc-mb-4"
         />
       </div>
+      {connectingAccount ? <Loader /> : null}
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">
           <img
