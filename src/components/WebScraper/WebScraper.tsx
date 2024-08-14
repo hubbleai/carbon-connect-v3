@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { emptyFunction } from "@utils/helper-functions";
 import {
   DialogHeader,
@@ -16,6 +16,9 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 
 import Banner, { BannerState } from "../common/Banner";
+import SyncedFilesList from "../CarbonFilePicker/SyncedFilesList";
+import { SyncingModes } from "../CarbonFilePicker/CarbonFilePicker";
+import { IntegrationItemType } from "../../utils/integrationModalconstants";
 
 export interface WebScraperProps {
   activeStep?: string;
@@ -32,14 +35,19 @@ function WebScraper({
   setActiveStep,
   onCloseModal,
 }: WebScraperProps) {
+  const { processedIntegrations, entryPoint, showFilesTab } = useCarbon();
   const [activeTab, setActiveTab] = useState<string>("website");
-  const [service, setService] = useState<WebScraperIntegration | undefined>(
-    undefined
-  );
+  const [service, setService] = useState<
+    (WebScraperIntegration & IntegrationItemType) | undefined
+  >(undefined);
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
-  const { processedIntegrations, entryPoint } = useCarbon();
+
+  const shouldShowFilesTab = showFilesTab || service?.showFilesTab;
+  const [activeScreen, setActiveScreen] = useState<"FILES" | "UPLOAD">(
+    shouldShowFilesTab ? "FILES" : "UPLOAD"
+  );
 
   useEffect(() => {
     setService(
@@ -50,6 +58,7 @@ function WebScraper({
   }, [processedIntegrations]);
 
   const sitemapEnabled = service ? service?.sitemapEnabled ?? true : false;
+  if (!service) return;
 
   return (
     <>
@@ -61,9 +70,13 @@ function WebScraper({
         <div className="cc-flex-grow cc-flex cc-gap-3 cc-items-center">
           <button
             className="cc-pr-1 cc-h-10 cc-w-auto"
-            onClick={() =>
-              setActiveStep(entryPoint ? "CONNECT" : "INTEGRATION_LIST")
-            }
+            onClick={() => {
+              if (showFilesTab && activeScreen == "UPLOAD") {
+                setActiveScreen("FILES");
+              } else {
+                setActiveStep(entryPoint ? "CONNECT" : "INTEGRATION_LIST");
+              }
+            }}
           >
             <img
               src={BackIcon}
@@ -77,21 +90,35 @@ function WebScraper({
         </div>
       </DialogHeader>
       <Banner bannerState={bannerState} setBannerState={setBannerState} />
-      {activeTab === "website" && service && (
-        <WebsiteTabContent
-          setActiveTab={setActiveTab}
-          sitemapEnabled={sitemapEnabled}
-          service={service}
-          setBannerState={setBannerState}
-        />
-      )}
-      {activeTab === "sitemap" && (
-        <SitemapTabContent
-          setActiveTab={setActiveTab}
-          sitemapEnabled={sitemapEnabled}
-          processedIntegration={processedIntegrations?.find(
-            (p) => p.id == IntegrationName.WEB_SCRAPER
+      {activeScreen == "UPLOAD" ? (
+        <>
+          {activeTab === "website" && (
+            <WebsiteTabContent
+              setActiveTab={setActiveTab}
+              sitemapEnabled={sitemapEnabled}
+              service={service}
+              setBannerState={setBannerState}
+            />
           )}
+          {activeTab === "sitemap" && (
+            <SitemapTabContent
+              setActiveTab={setActiveTab}
+              sitemapEnabled={sitemapEnabled}
+              processedIntegration={processedIntegrations?.find(
+                (p) => p.id == IntegrationName.WEB_SCRAPER
+              )}
+            />
+          )}
+        </>
+      ) : (
+        <SyncedFilesList
+          setActiveStep={setActiveStep}
+          mode={SyncingModes.UPLOAD}
+          handleUploadFilesClick={() => setActiveScreen("UPLOAD")}
+          processedIntegration={service}
+          selectedDataSource={null}
+          bannerState={bannerState}
+          setBannerState={setBannerState}
         />
       )}
     </>

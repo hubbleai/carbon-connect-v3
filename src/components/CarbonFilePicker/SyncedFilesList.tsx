@@ -87,7 +87,9 @@ export default function SyncedFilesList({
   const [filesLoading, setFilesLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [actionInProgress, setActionInProgress] = useState(false);
+
   const isLocalFiles = processedIntegration.id == IntegrationName.LOCAL_FILES;
+  const isWebscrape = processedIntegration.id == IntegrationName.WEB_SCRAPER;
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbType[]>([
     {
       parentId: null,
@@ -108,7 +110,7 @@ export default function SyncedFilesList({
     DEFAULT_FILES_TAB_COLUMNS;
 
   useEffect(() => {
-    if (!selectedDataSource && !isLocalFiles) return;
+    if (!selectedDataSource && !isLocalFiles && !isWebscrape) return;
     setSearchValue("");
     setBreadcrumbs([
       {
@@ -127,7 +129,7 @@ export default function SyncedFilesList({
       setFiles([]);
       setHasMoreFiles(true);
       const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
-      if (lastBreadcrumb.accountId || isLocalFiles) {
+      if (lastBreadcrumb.accountId || isLocalFiles || isWebscrape) {
         setFilesLoading(true);
         loadInitialData(selectedDataSource, lastBreadcrumb).then(() =>
           setFilesLoading(false)
@@ -154,9 +156,13 @@ export default function SyncedFilesList({
       } else {
         return { organization_user_data_source_id: [selectedDataSource.id] };
       }
-    } else {
+    } else if (isLocalFiles) {
       return {
         source: LOCAL_FILE_TYPES,
+      };
+    } else {
+      return {
+        source: "WEB_SCRAPE",
       };
     }
   };
@@ -218,7 +224,7 @@ export default function SyncedFilesList({
   };
 
   const loadMoreRows = async () => {
-    if (!selectedDataSource && !isLocalFiles) return;
+    if (!selectedDataSource && !isLocalFiles && !isWebscrape) return;
     setLoadingMore(true);
     const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
     const { count, userFiles } = await getUserFiles(
