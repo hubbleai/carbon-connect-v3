@@ -211,6 +211,7 @@ export type CarbonConnectProps = {
   navigateBackURL?: string | null;
   backButtonText?: string;
   zIndex?: number;
+
   embeddingModel?: EmbeddingGenerators;
   generateSparseVectors?: boolean;
   prependFilenameToChunks?: boolean;
