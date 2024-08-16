@@ -162,6 +162,10 @@ export default function SyncedFilesList({
       };
     } else {
       return {
+        root_files_only: breadcrumb.root_files_only,
+        ...(breadcrumb.parentId && {
+          parent_file_ids: [breadcrumb.parentId],
+        }),
         source: "WEB_SCRAPE",
       };
     }
@@ -245,10 +249,11 @@ export default function SyncedFilesList({
   };
 
   const onItemClick = (item: UserFileApi) => {
+    if (filesLoading) return;
     if (
-      filesLoading ||
-      !selectedDataSource ||
-      !FOLDER_BASED_CONNECTORS.includes(selectedDataSource?.data_source_type)
+      !isWebscrape &&
+      (!selectedDataSource ||
+        !FOLDER_BASED_CONNECTORS.includes(selectedDataSource?.data_source_type))
     )
       return;
     if (getFileItemType(item) == "FOLDER") {
@@ -362,8 +367,9 @@ export default function SyncedFilesList({
 
   const onBreadcrumbClick = (index: number) => {
     if (
-      !selectedDataSource ||
-      !FOLDER_BASED_CONNECTORS.includes(selectedDataSource.data_source_type)
+      !isWebscrape &&
+      (!selectedDataSource ||
+        !FOLDER_BASED_CONNECTORS.includes(selectedDataSource.data_source_type))
     )
       return;
     // Navigate to the clicked directory in the breadcrumb
@@ -376,7 +382,7 @@ export default function SyncedFilesList({
       <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
         <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col sm:cc-flex-row">
           <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
-            Synced Files
+            Synced {isWebscrape ? "URLs" : "Files"}
           </p>
           <div className="cc-flex cc-gap-2 sm:cc-gap-3">
             <label className="cc-relative cc-flex-grow sm:cc-max-w-[220px]">
@@ -417,7 +423,7 @@ export default function SyncedFilesList({
                   alt="Add Circle Plus"
                   className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
                 />
-                Add more files
+                Add more {isWebscrape ? "URLs" : "files"}
               </Button>
             ) : null}
           </div>

@@ -180,6 +180,14 @@ export const getFileItemType = (item: UserFileApi) => {
   // if (item.file_metadata?.is_thread) isFolder = true;
   // if (fileType && ["SPACE", "DIRECTORY", "HELP_CENTER"].indexOf(fileType) != -1)
   //   isFolder = true;
+  if (
+    item.source == "WEB_SCRAPE" &&
+    item.file_metadata?.max_pages_to_scrape &&
+    item.file_metadata?.max_pages_to_scrape > 1 &&
+    !item.parent_id
+  ) {
+    isFolder = true;
+  }
   if (isFolder) {
     return "FOLDER";
   } else {
