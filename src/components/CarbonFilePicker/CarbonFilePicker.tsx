@@ -454,7 +454,7 @@ export default function CarbonFilePicker({
               if (!entryPoint || entryPoint == "INTEGRATION_LIST") {
                 setActiveStep("INTEGRATION_LIST");
               } else if (isWhiteLabeledEntryPoint) {
-                () => onCloseModal();
+                onCloseModal();
               } else setActiveStep("CONNECT");
             }}
           >
