@@ -129,18 +129,15 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
   }, [activeIntegrations, carbonActive]);
 
   useEffect(() => {
-    if (
-      whiteLabelingData?.remove_branding &&
-      entryPoint == "INTEGRATION_LIST"
-    ) {
-      setActiveStep("INTEGRATION_LIST");
+    if (whiteLabelingData?.remove_branding && entryPoint) {
+      setActiveStep(entryPoint);
     } else {
       setActiveStep("CONNECT");
     }
   }, [whiteLabelingData]);
 
-  const isIntegrationsEntryPoint =
-    entryPoint == "INTEGRATION_LIST" && whiteLabelingData?.remove_branding;
+  const isWhiteLabeledEntryPoint =
+    entryPoint && whiteLabelingData?.remove_branding;
 
   const showActiveContent = (activeStep: ActiveStep) => {
     switch (activeStep) {
@@ -156,7 +153,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
           <IntegrationList
             setActiveStep={setActiveStep}
             handleBack={
-              isIntegrationsEntryPoint
+              isWhiteLabeledEntryPoint
                 ? () => manageModalOpenState(false)
                 : () => setActiveStep("CONNECT")
             }
@@ -171,6 +168,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             onCloseModal={() => manageModalOpenState(false)}
+            isWhiteLabeledEntryPoint={isWhiteLabeledEntryPoint}
           />
         );
 
@@ -181,6 +179,8 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
             activeStepData={INTEGRATIONS_LIST.find(
               (item) => item.id === IntegrationName.LOCAL_FILES
             )}
+            isWhiteLabeledEntryPoint={isWhiteLabeledEntryPoint}
+            onCloseModal={() => manageModalOpenState(false)}
           />
         );
       default:
@@ -192,6 +192,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
             setActiveStep={setActiveStep}
             onCloseModal={() => manageModalOpenState(false)}
             activeIntegrations={activeIntegrations}
+            isWhiteLabeledEntryPoint={isWhiteLabeledEntryPoint}
           />
         );
         break;

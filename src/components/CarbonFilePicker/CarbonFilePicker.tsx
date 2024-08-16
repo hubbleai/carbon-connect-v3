@@ -58,11 +58,13 @@ export default function CarbonFilePicker({
   setActiveStep,
   onCloseModal,
   activeIntegrations,
+  isWhiteLabeledEntryPoint,
 }: {
   activeStepData?: IntegrationItemType;
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   onCloseModal: () => void;
   activeIntegrations: IntegrationAPIResponse[];
+  isWhiteLabeledEntryPoint: boolean;
 }) {
   const carbonProps = useCarbon();
   const {
@@ -449,9 +451,11 @@ export default function CarbonFilePicker({
           <button
             className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
             onClick={() => {
-              if (!entryPoint || entryPoint == "INTEGRATION_LIST")
+              if (!entryPoint || entryPoint == "INTEGRATION_LIST") {
                 setActiveStep("INTEGRATION_LIST");
-              else setActiveStep("CONNECT");
+              } else if (isWhiteLabeledEntryPoint) {
+                () => onCloseModal();
+              } else setActiveStep("CONNECT");
             }}
           >
             <img

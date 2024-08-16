@@ -23,9 +23,13 @@ import { IntegrationName } from "../../typing/shared";
 export default function LocalFilesScreen({
   setActiveStep,
   activeStepData,
+  isWhiteLabeledEntryPoint,
+  onCloseModal,
 }: {
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeStepData?: IntegrationItemType;
+  isWhiteLabeledEntryPoint: boolean;
+  onCloseModal: () => void;
 }) {
   const { entryPoint, processedIntegrations, showFilesTab } = useCarbon();
 
@@ -53,6 +57,8 @@ export default function LocalFilesScreen({
       setBannerState={setBannerState}
       setScreen={setActiveScreen}
       shouldShowFilesTab={shouldShowFilesTab}
+      isWhiteLabeledEntryPoint={isWhiteLabeledEntryPoint}
+      onCloseModal={onCloseModal}
     />
   ) : (
     <>
@@ -61,8 +67,14 @@ export default function LocalFilesScreen({
           <button
             className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
             onClick={() => {
-              if (!entryPoint) setActiveStep("INTEGRATION_LIST");
-              else setActiveStep("CONNECT");
+              if (
+                isWhiteLabeledEntryPoint &&
+                entryPoint !== "INTEGRATION_LIST"
+              ) {
+                onCloseModal();
+              } else if (!entryPoint || entryPoint == "INTEGRATION_LIST") {
+                setActiveStep("INTEGRATION_LIST");
+              } else setActiveStep("CONNECT");
             }}
           >
             <img

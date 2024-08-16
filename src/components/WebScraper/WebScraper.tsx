@@ -23,7 +23,8 @@ import { IntegrationItemType } from "../../utils/integrationModalconstants";
 export interface WebScraperProps {
   activeStep?: string;
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
-  onCloseModal?: () => void;
+  onCloseModal: () => void;
+  isWhiteLabeledEntryPoint: boolean;
 }
 
 export type FilterData = {
@@ -34,6 +35,7 @@ function WebScraper({
   activeStep = "",
   setActiveStep,
   onCloseModal,
+  isWhiteLabeledEntryPoint,
 }: WebScraperProps) {
   const { processedIntegrations, entryPoint, showFilesTab } = useCarbon();
   const [activeTab, setActiveTab] = useState<string>("website");
@@ -58,7 +60,7 @@ function WebScraper({
   }, [processedIntegrations]);
 
   const sitemapEnabled = service ? service?.sitemapEnabled ?? true : false;
-  if (!service) return;
+  if (!service) return null;
 
   return (
     <>
@@ -73,8 +75,15 @@ function WebScraper({
             onClick={() => {
               if (showFilesTab && activeScreen == "UPLOAD") {
                 setActiveScreen("FILES");
-              } else {
-                setActiveStep(entryPoint ? "CONNECT" : "INTEGRATION_LIST");
+              } else if (
+                isWhiteLabeledEntryPoint &&
+                entryPoint !== "INTEGRATION_LIST"
+              ) {
+                onCloseModal();
+              } else if (!entryPoint || entryPoint == "INTEGRATION_LIST")
+                setActiveStep("INTEGRATION_LIST");
+              else {
+                setActiveStep("CONNECT");
               }
             }}
           >
