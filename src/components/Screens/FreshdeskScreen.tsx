@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { DialogFooter } from "@components/common/design-system/Dialog";
 import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
@@ -16,8 +16,10 @@ import Banner, { BannerState } from "../common/Banner";
 
 export default function FreshdeskScreen({
   processedIntegration,
+  setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
+  setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
   const [freshdeskdomain, setFreshdeskdomain] = useState("");
   const [apiKey, setApiKey] = useState("");
@@ -109,10 +111,11 @@ export default function FreshdeskScreen({
       if (response.status === 200) {
         setBannerState({
           type: "SUCCESS",
-          message: "Freshdesk sync initiated.",
+          message: "Freshdesk sync initiated, you will be redirected shortly!",
         });
         setApiKey("");
         setFreshdeskdomain("");
+        setTimeout(() => setShowAdditionalStep(false), 3000);
       } else {
         setBannerState({
           type: "ERROR",

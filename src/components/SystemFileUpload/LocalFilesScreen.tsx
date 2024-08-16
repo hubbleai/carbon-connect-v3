@@ -36,7 +36,7 @@ export default function LocalFilesScreen({
   const localIntegration = processedIntegrations?.find(
     (int) => int.id == IntegrationName.LOCAL_FILES
   );
-  const shouldShowFilesTab = showFilesTab || localIntegration?.showFilesTab;
+  const shouldShowFilesTab = localIntegration?.showFilesTab ?? showFilesTab;
   const [activeScreen, setActiveScreen] = useState<"FILES" | "UPLOAD">(
     shouldShowFilesTab ? "FILES" : "UPLOAD"
   );

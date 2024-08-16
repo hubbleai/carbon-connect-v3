@@ -81,7 +81,7 @@ function IntegrationList({
             justifyModification={true}
             className="cc-flex-grow sm:cc-text-left"
           >
-            Integration
+            Integrations
           </DialogTitle>
         </div>
       </DialogHeader>

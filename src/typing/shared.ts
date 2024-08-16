@@ -93,6 +93,8 @@ export type FileType = {
   generateSparseVectors?: boolean;
   parsePdfTablesWithOcr?: boolean;
   splitRows?: boolean;
+  transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export type FileSyncConfig = {
@@ -131,6 +133,7 @@ export type LocalFilesIntegration = BaseIntegration & {
   allowedFileTypes?: FileType[];
   splitRows?: boolean;
   transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export interface WebScraperIntegration extends BaseIntegration {
@@ -172,6 +175,7 @@ export type CarbonConnectProps = {
   navigateBackURL?: string | null;
   backButtonText?: string;
   zIndex?: number;
+
   embeddingModel?: EmbeddingGenerators;
   generateSparseVectors?: boolean;
   prependFilenameToChunks?: boolean;
@@ -186,6 +190,8 @@ export type CarbonConnectProps = {
   filesTabColumns?: FileTabColumns[];
   incrementalSync?: boolean;
   showFilesTab?: boolean;
+  dataSourcePollingInterval?: number;
+  openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
 };
 
 export enum AutoSyncedSourceTypes {

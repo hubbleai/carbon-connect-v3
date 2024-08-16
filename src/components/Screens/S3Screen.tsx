@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { DialogFooter } from "@components/common/design-system/Dialog";
 import InfoFill from "@assets/svgIcons/info_fill.svg";
 import UserPlus from "@assets/svgIcons/user-plus.svg";
@@ -21,8 +21,10 @@ import { IntegrationItemType } from "../../utils/integrationModalconstants";
 
 export default function S3Screen({
   processedIntegration,
+  setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
+  setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
   const [accessKey, setAccessKey] = useState("");
   const [accessKeySecret, setAccessKeySecret] = useState("");
@@ -108,12 +110,13 @@ export default function S3Screen({
 
       if (response.status === 200) {
         setBannerState({
-          message: `${processedIntegration.name} sync initiated.`,
+          message: `${processedIntegration.name} sync initiated, you will be redirected shortly!`,
           type: "SUCCESS",
         });
         setAccessKey("");
         setAccessKeySecret("");
         setEndpointUrl("");
+        setTimeout(() => setShowAdditionalStep(false), 3000);
       } else {
         setBannerState({ type: "ERROR", message: responseData.detail });
         onError &&

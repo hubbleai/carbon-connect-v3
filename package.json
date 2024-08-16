@@ -1,6 +1,6 @@
 {
   "name": "carbon-connect",
-  "version": "3.0.0beta23",
+  "version": "3.0.0beta28",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -57,5 +57,8 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^6.1.6",
     "tailwind-merge": "^2.3.0"
+  },
+  "dependencies": {
+    "tailwindcss-scoped-preflight": "^3.4.3"
   }
 }

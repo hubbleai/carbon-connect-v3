@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import IntegrationModal from "./components/IntegrationModal";
 
 import "./styles.css";
+
 import { CarbonProvider } from "./context/CarbonContext";
 import { BASE_URL, ENV } from "./constants/shared";
 import { IntegrationItemType } from "./utils/integrationModalconstants";
@@ -27,7 +28,7 @@ const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
   return (
     <>
       <CarbonProvider {...finalProps}>
-        <IntegrationModal />
+        <IntegrationModal>{finalProps.children}</IntegrationModal>
       </CarbonProvider>
     </>
   );
@@ -127,6 +128,8 @@ export type FileType = {
   generateSparseVectors?: boolean;
   parsePdfTablesWithOcr?: boolean;
   splitRows?: boolean;
+  transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export type FileSyncConfig = {
@@ -135,6 +138,7 @@ export type FileSyncConfig = {
   detect_audio_language?: boolean;
   split_rows?: boolean;
   transcription_service?: TranscriptionService;
+  include_speaker_labels?: boolean;
 };
 
 export type BaseIntegration = {
@@ -166,6 +170,7 @@ export type LocalFilesIntegration = BaseIntegration & {
   allowedFileTypes?: FileType[];
   splitRows?: boolean;
   transcriptionService?: TranscriptionService;
+  includeSpeakerLabels?: boolean;
 };
 
 export interface WebScraperIntegration extends BaseIntegration {
@@ -207,6 +212,7 @@ export type CarbonConnectProps = {
   navigateBackURL?: string | null;
   backButtonText?: string;
   zIndex?: number;
+
   embeddingModel?: EmbeddingGenerators;
   generateSparseVectors?: boolean;
   prependFilenameToChunks?: boolean;
@@ -221,6 +227,8 @@ export type CarbonConnectProps = {
   filesTabColumns?: FileTabColumns[];
   incrementalSync?: boolean;
   showFilesTab?: boolean;
+  dataSourcePollingInterval?: number;
+  openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
 };
 
 export enum AutoSyncedSourceTypes {

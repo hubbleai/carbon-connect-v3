@@ -46,7 +46,7 @@ export default function GitbookScreen({
     orgName,
     showFilesTab,
   } = carbonProps;
-  const shouldShowFilesTab = showFilesTab || processedIntegration?.showFilesTab;
+  const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
   const connectGithub = async () => {
     try {
