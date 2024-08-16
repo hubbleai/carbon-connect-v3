@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent } from "@components/common/design-system/Dialog";
 import { findModifications } from "@utils/helper-functions";
 import IntegrationList from "@components/IntegrationModal/IntegrationList";
@@ -31,7 +31,7 @@ export type IntegrationAPIResponse = {
   created_at: Date;
 };
 
-export function IntegrationModal() {
+export function IntegrationModal({ children }: { children: ReactNode }) {
   const {
     orgName,
     accessToken,
@@ -209,23 +209,25 @@ export function IntegrationModal() {
         break;
     }
   };
-
   return (
-    <Dialog
-      open={showModal}
-      onOpenChange={(modalOpenState) => manageModalOpenState(modalOpenState)}
-    >
-      <DialogContent
-        activeState={activeStep}
-        // className={`${
-        //   carbonActive
-        //     ? "sm:cc-max-h-[90vh] sm:cc-w-[415px] sm:cc-h-[703px] cc-gap-0 sm:cc-rounded-[20px]"
-        //     : ""
-        // }`}
+    <>
+      {children ? <div>{children}</div> : null}
+      <Dialog
+        open={showModal}
+        onOpenChange={(modalOpenState) => manageModalOpenState(modalOpenState)}
       >
-        {showActiveContent(activeStep)}
-      </DialogContent>
-    </Dialog>
+        <DialogContent
+          activeState={activeStep}
+          // className={`${
+          //   carbonActive
+          //     ? "sm:cc-max-h-[90vh] sm:cc-w-[415px] sm:cc-h-[703px] cc-gap-0 sm:cc-rounded-[20px]"
+          //     : ""
+          // }`}
+        >
+          {showActiveContent(activeStep)}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

@@ -85,6 +85,7 @@ export const CarbonProvider = ({
   navigateBackURL = null,
   backButtonText = "Go Back",
   zIndex = 1000,
+
   embeddingModel = EmbeddingGenerators.OPENAI,
   generateSparseVectors = false,
   prependFilenameToChunks = false,
@@ -261,6 +262,7 @@ export const CarbonProvider = ({
     manageModalOpenState,
     backButtonText,
     zIndex,
+
     embeddingModel,
     generateSparseVectors,
     prependFilenameToChunks,

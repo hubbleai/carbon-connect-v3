@@ -104,7 +104,7 @@ export default function CarbonFilePicker({
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
 
-  const shouldShowFilesTab = showFilesTab || processedIntegration?.showFilesTab;
+  const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
   const { systemTheme } = useTheme();
 
