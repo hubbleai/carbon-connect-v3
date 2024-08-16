@@ -3,7 +3,11 @@ import { DialogHeader } from "@components/common/design-system/Dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import CarbonContext, { useCarbon } from "src/context/CarbonContext";
 import { IntegrationItemType } from "@utils/integrationModalconstants";
-import { ActiveStep, IntegrationName } from "src/typing/shared";
+import {
+  ActiveStep,
+  IntegrationName,
+  SlackConversation,
+} from "src/typing/shared";
 import { Button } from "../design-system/Button";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import BackIcon from "@assets/svgIcons/back-icon.svg";
@@ -12,96 +16,169 @@ import messageIcon from "@assets/svgIcons/messages.svg";
 import { images } from "@assets/index";
 import SlackTab from "./SlackTab";
 import AddAccount from "../AddAccount";
+import { ActiveSlackScreen } from "../../Screens/SlackScreen";
+import { BASE_URL, ENV } from "../../../constants/shared";
+import Loader from "../Loader";
+import Banner, { BannerState } from "../Banner";
 
 const Channel: React.FC<{
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   activeStepData?: IntegrationItemType;
-  setActive?: React.Dispatch<React.SetStateAction<number>>;
-  active: number;
-  openAccount:boolean
-}> = ({ setActiveStep, activeStepData, setActive, active , openAccount }) => {
-  const { entryPoint, processedIntegrations } = useCarbon();
-  const { setSlackActive, slackActive } = useContext(CarbonContext);
-  const [activeChannel , setActiveChannel] = useState(1);
+  setActive?: React.Dispatch<React.SetStateAction<ActiveSlackScreen>>;
+  activeScreen: ActiveSlackScreen;
+  openAccount: boolean;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
+  setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
+  bannerState: BannerState;
+}> = ({
+  setActiveStep,
+  activeStepData,
+  setActive,
+  activeScreen,
+  openAccount,
+  setStartCustomSync,
+  setBannerState,
+  bannerState,
+}) => {
+  const {
+    entryPoint,
+    processedIntegrations,
+    authenticatedFetch,
+    environment = ENV.PRODUCTION,
+    accessToken,
+  } = useCarbon();
+  const { setSlackActive, slackActive } = useCarbon();
+  const [activeChannel, setActiveChannel] = useState(1);
   const localIntegration = processedIntegrations?.find(
     (int) => int.id == IntegrationName.SLACK
   );
   const [activeTab, setActiveTab] = useState<string>("channels");
+  const [convosLoading, setConvosLoading] = useState(true);
+  const [allConversations, setAllConversations] = useState<SlackConversation[]>(
+    []
+  );
+  const dms = allConversations.filter((c) => c.is_im);
+  const mpdms = allConversations.filter((c) => c.is_mpim);
+  const publicChannels = allConversations.filter(
+    (c) => c.is_channel && !c.is_private
+  );
+  const privateChannels = allConversations.filter(
+    (c) => c.is_channel && c.is_private
+  );
 
+  const fetchConvos = async () => {
+    let cursor = null;
+    let firstRequest = true;
+    let allConversations: SlackConversation[] = [];
+    let totalRequests = 0;
+
+    while ((cursor || firstRequest) && totalRequests < 20) {
+      firstRequest = false;
+      totalRequests += 1;
+      let url = `${BASE_URL[environment]}/integrations/slack/conversations?types=public_channel,private_channel,im,mpim`;
+      if (cursor) {
+        url = url + `&cursor=${cursor}`;
+      }
+      const convoRes = await authenticatedFetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (convoRes.status == 200) {
+        const data = await convoRes.json();
+        allConversations = allConversations.concat(data.results);
+        cursor = data.next_cursor;
+      } else {
+        setBannerState({
+          type: "ERROR",
+          message: "Unable to get your list of conversations",
+        });
+        cursor = null;
+      }
+    }
+    setAllConversations(allConversations);
+  };
+
+  useEffect(() => {
+    fetchConvos().then((res) => {
+      setConvosLoading(false);
+    });
+  }, []);
 
   if (!localIntegration) return null;
   const tabValues = [
     {
       id: 1,
       name: "Channels",
-      messagePrimary: "5 Public Channels",
-      messageSecondary: "4 Private Channels found",
+      messagePrimary: `${publicChannels.length} Public Channels`,
+      messageSecondary: `${privateChannels.length} Private Channels found`,
       icon: channelIcon,
     },
     {
       id: 2,
       name: "Messages",
-      messagePrimary: "4 Direct Messages",
-      messageSecondary: "4 Private Channels found",
+      messagePrimary: `${dms.length} Direct Messages`,
+      messageSecondary: `${mpdms.length} Multi-person Direct Messages`,
       icon: messageIcon,
     },
   ];
-
+  if (convosLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
-    {
-      !slackActive && (
+      {!slackActive && (
         <DialogHeader closeButtonClass="cc-hidden sm:cc-flex">
-        <div className="cc-flex-grow cc-flex cc-gap-3 cc-items-center">
-          <button
-            className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
-            onClick={() => {
-              if (!entryPoint) setActiveStep("INTEGRATION_LIST");
-              else setActiveStep("CONNECT");
-              setSlackActive(true);
-            }}
-          >
-            <img
-              src={BackIcon}
-              alt="Lock"
-              className="cc-h-[18px] cc-w-[18px] dark:cc-invert-[1] dark:cc-hue-rotate-180"
-            />
-          </button>
-          <div className=" dark:cc-bg-custom-gradient-dark cc-h-8 cc-w-8 sm:cc-h-14 sm:cc-w-14 cc-shrink-0 cc-bg-surface-white cc-rounded-lg cc-p-0.5 cc-shadow-e2">
-            <div className="cc-h-full cc-w-full dark:cc-bg-[#0000007A] cc-bg-gray-50 cc-flex cc-items-center cc-justify-center cc-rounded-lg">
-              <img
-                src={activeStepData?.logo}
-                alt={localIntegration.name}
-                className="cc-h-4 cc-w-4 sm:cc-h-8 sm:cc-w-8"
-              />
-            </div>
-          </div>
-          <DialogTitle className="cc-flex-grow cc-text-left cc-text-xl cc-font-semibold">
-            {activeStepData?.name}
-          </DialogTitle>
-          <>
-            <Button
-              size="sm"
-              variant="gray"
-              className="cc-rounded-xl cc-shrink-0 cc-hidden"
+          <div className="cc-flex-grow cc-flex cc-gap-3 cc-items-center">
+            <button
+              className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
+              onClick={() => {
+                setStartCustomSync(false);
+              }}
             >
               <img
-                src={RefreshIcon}
-                alt="User Plus"
-                className=" cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                src={BackIcon}
+                alt="Lock"
+                className="cc-h-[18px] cc-w-[18px] dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
-            </Button>
-          </>
-        </div>
-      </DialogHeader>
-      )
-    }
-      
-      {
-        activeChannel === 1 && (
-          openAccount? <AddAccount/>:
-            <div className="cc-flex cc-flex-col cc-items-center">
+            </button>
+            <div className=" dark:cc-bg-custom-gradient-dark cc-h-8 cc-w-8 sm:cc-h-14 sm:cc-w-14 cc-shrink-0 cc-bg-surface-white cc-rounded-lg cc-p-0.5 cc-shadow-e2">
+              <div className="cc-h-full cc-w-full dark:cc-bg-[#0000007A] cc-bg-gray-50 cc-flex cc-items-center cc-justify-center cc-rounded-lg">
+                <img
+                  src={activeStepData?.logo}
+                  alt={localIntegration.name}
+                  className="cc-h-4 cc-w-4 sm:cc-h-8 sm:cc-w-8"
+                />
+              </div>
+            </div>
+            <DialogTitle className="cc-flex-grow cc-text-left cc-text-xl cc-font-semibold">
+              {activeStepData?.name}
+            </DialogTitle>
+            <>
+              <Button
+                size="sm"
+                variant="gray"
+                className="cc-rounded-xl cc-shrink-0 cc-hidden"
+              >
+                <img
+                  src={RefreshIcon}
+                  alt="User Plus"
+                  className=" cc-h-[18px] cc-w-[18px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                />
+              </Button>
+            </>
+          </div>
+        </DialogHeader>
+      )}
+      <Banner bannerState={bannerState} setBannerState={setBannerState} />
+      {activeChannel === 1 &&
+        (openAccount ? (
+          <AddAccount />
+        ) : (
+          <div className="cc-flex cc-flex-col cc-items-center">
             {tabValues.map((item) => (
               <div
                 key={item.id}
@@ -123,23 +200,18 @@ const Channel: React.FC<{
                   className="cc-cursor-pointer cc-w-[32px] cc-h-[32px]"
                   src={images.solidplusIcon}
                   alt="icon"
-                  onClick={()=>{
-                    setActiveChannel(2)
-                    setActiveTab(item.name.toLowerCase())
+                  onClick={() => {
+                    setActiveChannel(2);
+                    setActiveTab(item.name.toLowerCase());
                   }}
                 />
               </div>
             ))}
           </div>
-        )
-      }
-      {
-        activeChannel === 2 && (
-            <SlackTab activeTab ={activeTab} setActiveTab={setActiveTab}/>
-        )
-      }
-     
-      
+        ))}
+      {activeChannel === 2 && (
+        <SlackTab activeTab={activeTab} setActiveTab={setActiveTab} />
+      )}
     </>
   );
 };

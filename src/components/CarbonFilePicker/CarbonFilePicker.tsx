@@ -46,11 +46,13 @@ import ZendeskScreen from "../Screens/ZendeskScreen";
 import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
 import AccountManagement from "@components/common/AccountManagement";
+import SlackScreen from "../Screens/SlackScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
   SYNC_URL = "SYNC_URL",
-  UPLOAD = "UPLOAd",
+  UPLOAD = "UPLOAD",
+  CUSTOM = "CUSTOM",
 }
 
 export default function CarbonFilePicker({
@@ -103,6 +105,7 @@ export default function CarbonFilePicker({
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
+  const [startCustomSync, setStartCustomSync] = useState(false);
 
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -121,6 +124,8 @@ export default function CarbonFilePicker({
       SYNC_URL_SUPPORTED_CONNECTORS.find((c) => c == integrationName)
     ) {
       setMode(SyncingModes.SYNC_URL);
+    } else if (integrationName == IntegrationName.SLACK) {
+      setMode(SyncingModes.CUSTOM);
     }
   }, [processedIntegration]);
 
@@ -302,6 +307,8 @@ export default function CarbonFilePicker({
       sendOauthRequest("UPLOAD", selectedDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
+    } else if (mode == SyncingModes.CUSTOM) {
+      setStartCustomSync(true);
     } else {
       setBannerState({
         type: "ERROR",
@@ -442,6 +449,19 @@ export default function CarbonFilePicker({
 
   if (!processedIntegration) return null;
 
+  if (startCustomSync) {
+    if (integrationName == IntegrationName.SLACK) {
+      return (
+        <SlackScreen
+          setActiveStep={setActiveStep}
+          activeStepData={processedIntegration}
+          screen="CHANNEL"
+          setStartCustomSync={setStartCustomSync}
+        />
+      );
+    }
+  }
+
   return (
     <>
       <DialogHeader closeButtonClass="cc-hidden sm:cc-flex">
@@ -511,8 +531,7 @@ export default function CarbonFilePicker({
                   dataSourceId={selectedDataSource?.id}
                 />{" "}
               </>
-            ) :  null
-          }
+            ) : null}
           </>
         </div>
       </DialogHeader>
@@ -588,7 +607,6 @@ export default function CarbonFilePicker({
             setShowAdditionalStep={setShowAdditionalStep}
           />
         )) ||
-       
         (integrationName == IntegrationName.GITHUB && (
           <GithubScreen
             processedIntegration={processedIntegration}
