@@ -466,32 +466,37 @@ export default function SyncedFilesList({
             </label>
           )}
         </div>
-        <div
-          id="scrollableTarget"
-          className="dark:cc-border-[#FFFFFF1F] md:cc-border-x-0 md:cc-border-b-0   cc-flex cc-flex-col cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0 sm:cc-px-0  cc-border cc-rounded-xl md:cc-rounded-[0px] md:!cc-border-t md:cc-border-outline-base_em "
+        <table
+         className="cc-border cc-border-[#00000012]"
         >
-          <div className="cc-bg-surface-surface_1 cc-px-4 cc-justify-between cc-hidden md:cc-hidden sm:cc-flex dark:cc-bg-dark-border-color">
+          <thead>
+            <tr>
+              <th scope="col">
+                
+              </th>
             {columnsToDisplay.includes("name") ? (
-              <div className=" cc-py-2 cc-w-[35%] cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+              <th scope="col"  className="cc-text-start">
                 FILE NAME
-              </div>
+              </th>
             ) : null}
             {columnsToDisplay.includes("status") ? (
-              <div className=" cc-py-2 cc-w-[15%] cc-text-right cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold    dark:cc-text-dark-input-text">
+              <th scope="col"  className="cc-text-start">
                 STATUS
-              </div>
+              </th>
             ) : null}
             {columnsToDisplay.includes("created_at") ? (
-              <div className="cc-py-2 cc-w-[20%] cc-text-xs cc-text-right cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0   dark:cc-text-dark-input-text">
+              <th scope="col"  className="cc-text-start">
                 CREATED AT
-              </div>
+              </th>
             ) : null}
             {columnsToDisplay.includes("external_url") ? (
-              <div className="cc-py-2 cc-w-[30%] cc-text-right cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0  dark:cc-text-dark-input-text">
+              <th scope="col"  className="cc-text-start">
                 EXTERNAL URL
-              </div>
+              </th>
             ) : null}
-          </div>
+            </tr>
+           
+          </thead>
           {filesLoading ? (
             <Loader />
           ) : !filteredList.length ? (
@@ -512,14 +517,8 @@ export default function SyncedFilesList({
               </p>
             </div>
           ) : (
-            <InfiniteScroll
-              dataLength={files.length + 1}
-              next={loadMoreRows}
-              hasMore={hasMoreFiles} // Replace with a condition based on your data source
-              loader={loadingMore ? <Loader /> : null}
-              scrollableTarget="scrollableTarget"
-            >
-              <ul className="cc-pb-2">
+          
+              <tbody >
                 {filteredList.map((item) => {
                   const isChecked = selectedFiles.indexOf(item.id) >= 0;
 
@@ -542,10 +541,10 @@ export default function SyncedFilesList({
                     />
                   );
                 })}
-              </ul>
-            </InfiniteScroll>
+              </tbody>
+           
           )}
-        </div>
+        </table>
       </div>
       {selectedFiles.length > 0 && (
         <DialogFooter className="cc-flex cc-justify-between md:cc-flex-col md:cc-gap-2">

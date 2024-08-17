@@ -149,4 +149,5 @@ export const DEFAULT_FILES_TAB_COLUMNS: FileTabColumns[] = [
   "name",
   "status",
   "created_at",
+  // 'external_url'
 ];
