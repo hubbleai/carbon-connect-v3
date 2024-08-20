@@ -92,7 +92,7 @@ module.exports = {
 
   plugins: [
     scopedPreflightStyles({
-      isolationStrategy: isolateInsideOfContainer(".cc-modal"),
+      isolationStrategy: isolateInsideOfContainer([".cc-modal", ".cc-dropdown-content"]),
     }),
   ],
 };

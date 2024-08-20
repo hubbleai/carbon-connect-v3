@@ -103,6 +103,12 @@
   fill: #0981e3;
 }
 
+.cc-modal .addIconsvg path {
+  @media (prefers-color-scheme: dark) {
+    fill: white
+  }
+}
+
 /* .dark img.dark:cc-invert-[1] dark:cc-hue-rotate-180 {
   filter: invert(1) hue-rotate(180deg);
 } */
