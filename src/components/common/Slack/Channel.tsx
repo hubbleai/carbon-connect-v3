@@ -48,7 +48,7 @@ const Channel: React.FC<{
     accessToken,
   } = useCarbon();
   const { setSlackActive, slackActive } = useCarbon();
-  const [activeChannel, setActiveChannel] = useState(1);
+  const [showSlackTab, setShowSlackTab] = useState(false);
   const localIntegration = processedIntegrations?.find(
     (int) => int.id == IntegrationName.SLACK
   );
@@ -174,7 +174,7 @@ const Channel: React.FC<{
         </DialogHeader>
       )}
       <Banner bannerState={bannerState} setBannerState={setBannerState} />
-      {activeChannel === 1 &&
+      {!showSlackTab &&
         (openAccount ? (
           <AddAccount />
         ) : (
@@ -201,7 +201,7 @@ const Channel: React.FC<{
                   src={images.solidplusIcon}
                   alt="icon"
                   onClick={() => {
-                    setActiveChannel(2);
+                    setShowSlackTab(true);
                     setActiveTab(item.name.toLowerCase());
                   }}
                 />
@@ -209,8 +209,12 @@ const Channel: React.FC<{
             ))}
           </div>
         ))}
-      {activeChannel === 2 && (
-        <SlackTab activeTab={activeTab} setActiveTab={setActiveTab} />
+      {showSlackTab && (
+        <SlackTab
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          conversations={{ publicChannels, privateChannels, dms, mpdms }}
+        />
       )}
     </>
   );

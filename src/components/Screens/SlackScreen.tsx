@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import SlackLogo from "../../assets/logos/slack.svg";
 import { Button } from "@components/common/design-system/Button";
 import { useCarbon } from "src/context/CarbonContext";
-import { ActiveStep, IntegrationName } from "src/typing/shared";
+import {
+  ActiveStep,
+  IntegrationName,
+  SlackConversation,
+} from "src/typing/shared";
 import AddAccount from "@components/common/AddAccount";
 import {
   IntegrationItemType,
@@ -13,6 +17,13 @@ import Channel from "@components/common/Slack/Channel";
 import Banner, { BannerState } from "../common/Banner";
 
 export type ActiveSlackScreen = "CONNECTED" | "CHANNEL";
+
+export type SlackConversations = {
+  publicChannels: SlackConversation[];
+  privateChannels: SlackConversation[];
+  dms: SlackConversation[];
+  mpdms: SlackConversation[];
+};
 
 const SlackScreen = ({
   setActiveStep,

@@ -4,15 +4,17 @@ import { Checkbox } from "../design-system/Checkbox";
 import FileSystemChannel from "./FileSystemChannel";
 import FileSystemMessage from "./FileSystemMessage";
 import DatePicker from "./DatePicker";
+import { SlackConversations } from "../../Screens/SlackScreen";
 
 type propInfo = {
-  activeChannel: string;
+  channelFilter: string;
   activeTab: string;
-  activeMessage: string;
-  selectedFiles: number[];
-  setSelectedFiles: Dispatch<SetStateAction<number[]>>;
-  selectFilesMessage: number[];
-  setSelectFilesMessage: Dispatch<SetStateAction<number[]>>;
+  messageFilter: string;
+  selectedConversations: string[];
+  setSelectedConversations: Dispatch<SetStateAction<string[]>>;
+  selectFilesMessage: string[];
+  setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
+  conversations: SlackConversations;
 };
 
 export type channelInfo = {
@@ -32,157 +34,151 @@ export type MessageInfo = {
 };
 
 const FileSelectionSlack = ({
-  activeChannel,
+  channelFilter,
   activeTab,
-  activeMessage,
-  selectedFiles,
-  setSelectedFiles,
+  messageFilter,
+  selectedConversations,
+  setSelectedConversations,
   selectFilesMessage,
   setSelectFilesMessage,
+  conversations,
 }: propInfo) => {
-
-  const [openAll , setOpenAll] = useState<boolean>(false);
+  const [openAll, setOpenAll] = useState<boolean>(false);
   const [selectedAll, setSelectedAll] = useState<Date | undefined>(undefined);
-  const [storeDateAll , setStoreDateAll] = useState<string | undefined>('');
-  const [selectedAllMessage, setSelectedAllMessage] = useState<Date | undefined>(undefined);
-  const [storeDateAllMessage , setStoreDateAllMessage] = useState<string | undefined>('');
-  const channelNames: channelInfo[] = [
-    {
-      id: 1,
-      name: "#awesome-algorithms",
-      private: false,
-    },
-    {
-      id: 2,
-      name: "#awesome-algorithms",
-      private: false,
-    },
-    {
-      id: 3,
-      name: "#truth-seeking-group",
-      private: false,
-    },
-    {
-      id: 4,
-      name: "#truth-seeking-group",
-      private: false,
-    },
-    {
-      id: 5,
-      name: "#refunds-experience",
-      private: false,
-    },
-    {
-      id: 6,
-      name: "#war-room",
-      private: true,
-    },
-    {
-      id: 7,
-      name: "#design",
-      private: true,
-    },
-    {
-      id: 8,
-      name: "#design",
-      private: false,
-    }
-  ];
+  const [storeDateAll, setStoreDateAll] = useState<string | undefined>("");
+  const [selectedAllMessage, setSelectedAllMessage] = useState<
+    Date | undefined
+  >(undefined);
+  const [storeDateAllMessage, setStoreDateAllMessage] = useState<
+    string | undefined
+  >("");
+  // const channelNames: channelInfo[] = [
+  //   {
+  //     id: 1,
+  //     name: "#awesome-algorithms",
+  //     private: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "#awesome-algorithms",
+  //     private: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "#truth-seeking-group",
+  //     private: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "#truth-seeking-group",
+  //     private: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "#refunds-experience",
+  //     private: false,
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "#war-room",
+  //     private: true,
+  //   },
+  //   {
+  //     id: 7,
+  //     name: "#design",
+  //     private: true,
+  //   },
+  //   {
+  //     id: 8,
+  //     name: "#design",
+  //     private: false,
+  //   },
+  // ];
 
-  const users: MessageInfo[] = [
-    {
-      id: 1,
-      userBgOne: "#BDB5FD",
-      userOne: "Kende Attila",
-      userBgTwo: "",
-      userBgThree: "",
-      userTwo: "",
-      userThree: "",
-      isGroup: false,
-    },
-    {
-      id: 2,
-      userBgOne: "#0ED065",
-      userOne: "John Adams",
-      userBgTwo: "",
-      userBgThree: "",
-      userTwo: "",
-      userThree: "",
-      isGroup: false,
-    },
-    {
-      id: 3,
-      userBgOne: "#FF7373",
-      userOne: "Tim Jones",
-      userBgTwo: "",
-      userBgThree: "",
-      userTwo: "",
-      userThree: "",
-      isGroup: false,
-    },
-    {
-      id: 4,
-      userBgOne: "#FCBF04",
-      userOne: "Rachel Doe",
-      userBgTwo: "",
-      userBgThree: "",
-      userTwo: "",
-      userThree: "",
-      isGroup: false,
-    },
-    {
-      id: 5,
-      userBgOne: "#4CD2FA",
-      userBgTwo: "#907EF9",
-      userBgThree: "",
-      userOne: "Kende Attila",
-      userTwo: "Abhinav Sharma",
-      userThree: "",
-      isGroup: true,
-    },
-    {
-      id: 6,
-      userBgOne: "#0ED065",
-      userBgTwo: "#FF7373",
-      userBgThree: "#FCBF04",
-      userOne: "John Adams",
-      userTwo: "Rachel Doe",
-      userThree: "Abhinav Sharma",
-      isGroup: true,
-    },
-  ];
+  // const users: MessageInfo[] = [
+  //   {
+  //     id: 1,
+  //     userBgOne: "#BDB5FD",
+  //     userOne: "Kende Attila",
+  //     userBgTwo: "",
+  //     userBgThree: "",
+  //     userTwo: "",
+  //     userThree: "",
+  //     isGroup: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     userBgOne: "#0ED065",
+  //     userOne: "John Adams",
+  //     userBgTwo: "",
+  //     userBgThree: "",
+  //     userTwo: "",
+  //     userThree: "",
+  //     isGroup: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     userBgOne: "#FF7373",
+  //     userOne: "Tim Jones",
+  //     userBgTwo: "",
+  //     userBgThree: "",
+  //     userTwo: "",
+  //     userThree: "",
+  //     isGroup: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     userBgOne: "#FCBF04",
+  //     userOne: "Rachel Doe",
+  //     userBgTwo: "",
+  //     userBgThree: "",
+  //     userTwo: "",
+  //     userThree: "",
+  //     isGroup: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     userBgOne: "#4CD2FA",
+  //     userBgTwo: "#907EF9",
+  //     userBgThree: "",
+  //     userOne: "Kende Attila",
+  //     userTwo: "Abhinav Sharma",
+  //     userThree: "",
+  //     isGroup: true,
+  //   },
+  //   {
+  //     id: 6,
+  //     userBgOne: "#0ED065",
+  //     userBgTwo: "#FF7373",
+  //     userBgThree: "#FCBF04",
+  //     userOne: "John Adams",
+  //     userTwo: "Rachel Doe",
+  //     userThree: "Abhinav Sharma",
+  //     isGroup: true,
+  //   },
+  // ];
 
-  const filteredChannel = channelNames.filter((channel) => {
-    if (activeChannel === "All Channels") {
-      return true;
-    } else if (activeChannel === "Public Channels") {
-      return !channel.private;
-    } else if (activeChannel === "Private Channels") {
-      return channel.private;
-    }
-    return true;
-  });
+  const filteredChannels =
+    channelFilter == "All Channels"
+      ? [...conversations.publicChannels, ...conversations.privateChannels]
+      : channelFilter === "Public Channels"
+      ? conversations.publicChannels
+      : conversations.privateChannels;
 
-  const filteredMessage = users.filter((user) => {
-    if (activeMessage === "Group Messages") {
-      return user.isGroup;
-    } else {
-      return !user.isGroup;
-    }
-  });
+  const filteredMessages =
+    messageFilter === "Group Messages"
+      ? conversations.mpdms
+      : conversations.dms;
 
-  useEffect(() => {
-    
-  
-  }, [activeChannel, activeMessage , selectedAll ]);
+  useEffect(() => {}, [channelFilter, messageFilter, selectedAll]);
   return (
     <>
       <div className="cc-flex md:!cc-flex-row cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">
         {activeTab === "channels" ? (
           <div>
-            {selectedFiles.length > 0 ? (
+            {selectedConversations.length > 0 ? (
               <button
-                onClick={() => setSelectedFiles([])}
+                onClick={() => setSelectedConversations([])}
                 className="cc-text-sm cc-font-semibold cc-text-outline-danger_high_em cc-items-start cc-text-left"
               >
                 Clear selection
@@ -192,13 +188,13 @@ const FileSelectionSlack = ({
                 <Checkbox
                   className="my-0.5"
                   checked={
-                    channelNames.length
-                      ? selectedFiles.length === channelNames.length
+                    filteredChannels.length
+                      ? selectedConversations.length === filteredChannels.length
                       : false
                   }
                   onCheckedChange={() => {
-                    const allFilesId = filteredChannel.map((item) => item.id);
-                    setSelectedFiles(allFilesId);
+                    const allFilesId = filteredChannels.map((item) => item.id);
+                    setSelectedConversations(allFilesId);
                   }}
                 />
                 Select all
@@ -219,12 +215,12 @@ const FileSelectionSlack = ({
                 <Checkbox
                   className="my-0.5"
                   checked={
-                    users.length
-                      ? selectFilesMessage.length === users.length
+                    filteredMessages.length
+                      ? selectFilesMessage.length === filteredMessages.length
                       : false
                   }
                   onCheckedChange={() => {
-                    const allFilesId = filteredMessage.map((item) => item.id);
+                    const allFilesId = filteredMessages.map((item) => item.id);
                     setSelectFilesMessage(allFilesId);
                   }}
                 />
@@ -234,28 +230,43 @@ const FileSelectionSlack = ({
           </div>
         )}
 
-        <div className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]" onClick={()=>{setOpenAll(true)}}>
+        <div
+          className="cc-p-[4px_8px] cc-text-[10px] cc-leading-[16px] cc-font-bold cc-text-[#100C20] cc-border cc-border-[#ECECED] cc-rounded-[6px] cc-cursor-pointer dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]"
+          onClick={() => {
+            setOpenAll(true);
+          }}
+        >
           Set start date for all
         </div>
-        {
-          openAll && (
-            <DatePicker setOpen={setOpenAll} selected = {activeTab === 'channels'? selectedAll: selectedAllMessage} setSelected={activeTab === 'channels'? setSelectedAll: setSelectedAllMessage} setStoreDate = {activeTab==='channels'? setStoreDateAll:setStoreDateAllMessage}/>
-
-          )
-        }
+        {openAll && (
+          <DatePicker
+            setOpen={setOpenAll}
+            selected={
+              activeTab === "channels" ? selectedAll : selectedAllMessage
+            }
+            setSelected={
+              activeTab === "channels" ? setSelectedAll : setSelectedAllMessage
+            }
+            setStoreDate={
+              activeTab === "channels"
+                ? setStoreDateAll
+                : setStoreDateAllMessage
+            }
+          />
+        )}
       </div>
-      
+
       <div className="cc-flex cc-flex-wrap cc-gap-x-[28px]  ">
         {activeTab === "channels"
-          ? filteredChannel.map((item) => {
-              const isChecked = selectedFiles.indexOf(item.id) >= 0;
+          ? filteredChannels.map((item) => {
+              const isChecked = selectedConversations.indexOf(item.id) >= 0;
               return (
                 <FileSystemChannel
                   isChecked={isChecked}
-                  storeDateAll = {storeDateAll}
-                  list={item}
+                  storeDateAll={storeDateAll}
+                  item={item}
                   onSelect={() => {
-                    setSelectedFiles((prev) => {
+                    setSelectedConversations((prev) => {
                       if (isChecked) {
                         return prev.filter((id) => id !== item.id);
                       } else {
@@ -266,14 +277,14 @@ const FileSelectionSlack = ({
                 />
               );
             })
-          : filteredMessage.map((item) => {
+          : filteredMessages.map((item) => {
               const isChecked = selectFilesMessage.indexOf(item.id) >= 0;
 
               return (
                 <FileSystemMessage
                   isChecked={isChecked}
-                  storeDateAllMessages = {storeDateAllMessage}
-                  list={item}
+                  storeDateAllMessages={storeDateAllMessage}
+                  item={item}
                   onSelect={() => {
                     setSelectFilesMessage((prev) => {
                       if (isChecked) {
@@ -287,8 +298,6 @@ const FileSelectionSlack = ({
               );
             })}
       </div>
-      
-     
     </>
   );
 };

@@ -6,21 +6,24 @@ import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import ChannelDropdown from "./ChannelDropdown";
 import MessageDropdown from "./MessageDropdown";
 import FileSelectionSlack from "./FileSelectionSlack";
+import { SlackConversations } from "../../Screens/SlackScreen";
 
 type PropsInfo = {
   activeTab: string;
-  selectedFiles: number[];
-  setSelectedFiles: Dispatch<SetStateAction<number[]>>;
-  selectFilesMessage: number[];
-  setSelectFilesMessage: Dispatch<SetStateAction<number[]>>;
+  selectedConversations: string[];
+  setSelectedConversations: Dispatch<SetStateAction<string[]>>;
+  selectFilesMessage: string[];
+  setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
+  conversations: SlackConversations;
 };
 
 const SyncedConversationSlack = ({
   activeTab,
-  selectedFiles,
+  selectedConversations,
   selectFilesMessage,
-  setSelectedFiles,
+  setSelectedConversations,
   setSelectFilesMessage,
+  conversations,
 }: PropsInfo) => {
   const [isOpen, setIsOpen] = useState(false);
   const [channelFilter, setChannelFilter] = useState<string>("All Channels");
@@ -32,17 +35,15 @@ const SyncedConversationSlack = ({
 
     if (activeTab === "channels") {
       setChannelFilter(textContent);
-      setSelectedFiles([]);
+      setSelectedConversations([]);
     } else {
       setMessageFilter(textContent);
       setSelectFilesMessage([]);
     }
   }
 
-  const [serchValue, setSearchValue] = useState<string>("");
-  // console.log(selectedItem, selectedMessage);
+  const [searchValue, setSearchValue] = useState<string>("");
 
-  // useEffect(() => {}, [selectedItem, activeTab]);
   return (
     <>
       <div className="cc-flex cc-mt-[16px] cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col cc-justify-between sm:cc-flex-row">
@@ -56,7 +57,7 @@ const SyncedConversationSlack = ({
             type="text"
             placeholder="Search"
             className="cc-h-8 cc-text-xs !cc-pl-7 "
-            value={serchValue}
+            value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
@@ -81,13 +82,14 @@ const SyncedConversationSlack = ({
         </div>
       </div>
       <FileSelectionSlack
-        activeChannel={channelFilter}
-        activeMessage={messageFilter}
+        channelFilter={channelFilter}
+        messageFilter={messageFilter}
         activeTab={activeTab}
-        selectedFiles={selectedFiles}
-        setSelectedFiles={setSelectedFiles}
+        selectedConversations={selectedConversations}
+        setSelectedConversations={setSelectedConversations}
         selectFilesMessage={selectFilesMessage}
         setSelectFilesMessage={setSelectFilesMessage}
+        conversations={conversations}
       />
     </>
   );

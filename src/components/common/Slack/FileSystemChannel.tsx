@@ -8,15 +8,16 @@ import "react-day-picker/dist/style.css";
 import CalenderFooter from "./CalenderFooter";
 import calenderUpdate from "@assets/svgIcons/calendarUpdate.svg";
 import DatePicker from "./DatePicker";
+import { SlackConversation } from "../../../typing/shared";
 
 type propInfo = {
-  list: channelInfo;
+  item: SlackConversation;
   isChecked: boolean;
   onSelect: () => void;
   storeDateAll: string | undefined;
 };
 const FileSystemChannel = ({
-  list,
+  item,
   isChecked,
   onSelect,
   storeDateAll,
@@ -39,8 +40,8 @@ const FileSystemChannel = ({
 
         <div className="cc-flex cc-flex-col">
           <div className="cc-flex dark:cc-text-dark-text-white">
-            <span>{list.name}</span>
-            {list.private ? (
+            <span>{item.name}</span>
+            {item.is_private ? (
               <img
                 className="cc-ml-[8px] cc-mt-[2px] cc-items-center"
                 src={privateChannelIcon}

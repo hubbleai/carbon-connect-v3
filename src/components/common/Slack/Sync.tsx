@@ -5,12 +5,12 @@ import {
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-type PropsInfo ={
-  selectedFiles:number[]
-  selectFilesMessage:number[]
-}
+type PropsInfo = {
+  selectedConversations: string[];
+  selectFilesMessage: string[];
+};
 
-const Sync = ({selectedFiles , selectFilesMessage}:PropsInfo) => {
+const Sync = ({ selectedConversations, selectFilesMessage }: PropsInfo) => {
   const [uploadProgress, setUploadProgres] = useState<number>(73);
   return (
     <div className="cc-p-[16px]">
@@ -32,15 +32,16 @@ const Sync = ({selectedFiles , selectFilesMessage}:PropsInfo) => {
           </CircularProgressbarWithChildren>
         </div>
         <p className="cc-text-base cc-font-semibold  dark:cc-text-dark-text-white ">
-        Syncing{" "}
-              {selectedFiles.length > 0 && `${selectedFiles.length} Channel`}{" "}
-            
-              {selectFilesMessage.length > 0 &&
-                `${
-                  selectFilesMessage.length > 0 && selectedFiles.length > 0
-                    ? "&"
-                    : ""
-                } ${selectFilesMessage.length} Messages`}...
+          Syncing{" "}
+          {selectedConversations.length > 0 &&
+            `${selectedConversations.length} Channel`}{" "}
+          {selectFilesMessage.length > 0 &&
+            `${
+              selectFilesMessage.length > 0 && selectedConversations.length > 0
+                ? "&"
+                : ""
+            } ${selectFilesMessage.length} Messages`}
+          ...
         </p>
       </div>
     </div>
