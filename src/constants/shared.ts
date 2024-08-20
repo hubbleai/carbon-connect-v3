@@ -147,7 +147,7 @@ export const FOLDER_BASED_CONNECTORS = [
 
 export const DEFAULT_FILES_TAB_COLUMNS: FileTabColumns[] = [
   "name",
-  "status",
+  "status",  
   "created_at",
   // 'external_url'
 ];

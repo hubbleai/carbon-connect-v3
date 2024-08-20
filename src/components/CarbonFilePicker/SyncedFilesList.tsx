@@ -466,59 +466,56 @@ export default function SyncedFilesList({
             </label>
           )}
         </div>
-        <table
-         className="cc-border cc-border-[#00000012]"
-        >
-          <thead>
-            <tr>
-              <th scope="col">
-                
-              </th>
-            {columnsToDisplay.includes("name") ? (
-              <th scope="col"  className="cc-text-start">
-                FILE NAME
-              </th>
-            ) : null}
-            {columnsToDisplay.includes("status") ? (
-              <th scope="col"  className="cc-text-start">
-                STATUS
-              </th>
-            ) : null}
-            {columnsToDisplay.includes("created_at") ? (
-              <th scope="col"  className="cc-text-start">
-                CREATED AT
-              </th>
-            ) : null}
-            {columnsToDisplay.includes("external_url") ? (
-              <th scope="col"  className="cc-text-start">
-                EXTERNAL URL
-              </th>
-            ) : null}
-            </tr>
-           
-          </thead>
-          {filesLoading ? (
-            <Loader />
-          ) : !filteredList.length ? (
-            <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full">
-              <div className="cc-p-2 cc-bg-surface-surface_2 cc-rounded-lg cc-mb-3">
-                <img
-                  src={NoResultsIcon}
-                  alt="No results Icon"
-                  className="cc-w-6 cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
-                />
+        <div className="cc-snap-none cc-h-[511px] cc-relative md:cc-border-x-0 md:cc-border-b-0  cc-overflow-y-auto cc-w-full cc-rounded-xl md:cc-rounded-none cc-border-outline-low_em dark:cc-border-[#FFFFFF1F] md:cc-border-outline-base_em md:!cc-border-t cc-border">
+          <table
+            id="scrollableTarget"
+            className=" cc-w-full cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0  cc-rounded-xl md:cc-rounded-[0px]  "
+          >
+            <thead className="cc-bg-surface-surface_1 cc-px-4 md:cc-hidden dark:cc-bg-dark-border-color">
+              <tr>
+                {columnsToDisplay.includes("name") ? (
+                  <th className="cc-text-start cc-py-2 cc-px-4 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+                    FILE NAME
+                  </th>
+                ) : null}
+                {columnsToDisplay.includes("status") ? (
+                  <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+                    STATUS
+                  </th>
+                ) : null}
+                {columnsToDisplay.includes("created_at") ? (
+                  <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+                    CREATED AT
+                  </th>
+                ) : null}
+                {columnsToDisplay.includes("external_url") ? (
+                  <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+                    EXTERNAL URL
+                  </th>
+                ) : null}
+              </tr>
+            </thead>
+            {filesLoading ? (
+              <Loader />
+            ) : !filteredList.length ? (
+              <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full cc-absolute cc-left-1/2 cc-top-2/4 -cc-translate-x-1/2 -cc-translate-y-1/2">
+                <div className="cc-p-2 cc-bg-surface-surface_2 cc-rounded-lg cc-mb-3">
+                  <img
+                    src={NoResultsIcon}
+                    alt="No results Icon"
+                    className="cc-w-6 cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                  />
+                </div>
+                <p className="cc-text-base cc-font-medium cc-mb-1 cc-max-w-[282px] dark:cc-text-dark-text-white">
+                  No matching results
+                </p>
+                <p className="cc-text-low_em cc-font-medium cc-max-w-[282px] dark:cc-text-dark-text-white">
+                  Try another search, or use search options to find a file by
+                  type, format, or more.
+                </p>
               </div>
-              <p className="cc-text-base cc-font-medium cc-mb-1 cc-max-w-[282px] dark:cc-text-dark-text-white">
-                No matching results
-              </p>
-              <p className="cc-text-low_em cc-font-medium cc-max-w-[282px] dark:cc-text-dark-text-white">
-                Try another search, or use search options to find a file by
-                type, format or more.
-              </p>
-            </div>
-          ) : (
-          
-              <tbody >
+            ) : (
+              <tbody className="cc-pb-2">
                 {filteredList.map((item) => {
                   const isChecked = selectedFiles.indexOf(item.id) >= 0;
 
@@ -542,9 +539,9 @@ export default function SyncedFilesList({
                   );
                 })}
               </tbody>
-           
-          )}
-        </table>
+            )}
+          </table>
+        </div>
       </div>
       {selectedFiles.length > 0 && (
         <DialogFooter className="cc-flex cc-justify-between md:cc-flex-col md:cc-gap-2">
