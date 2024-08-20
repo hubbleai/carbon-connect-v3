@@ -28,6 +28,8 @@ const DatePicker = ({
     });
   }, []);
 
+  const today = new Date();
+
   return (
     <>
       <DayPicker
@@ -35,6 +37,7 @@ const DatePicker = ({
         selected={selected}
         showOutsideDays
         onSelect={setSelected}
+        toDate={new Date()}
         footer={
           <CalenderFooter
             selected={selected}

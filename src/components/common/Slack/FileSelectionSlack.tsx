@@ -52,111 +52,6 @@ const FileSelectionSlack = ({
   const [storeDateAllMessage, setStoreDateAllMessage] = useState<
     string | undefined
   >("");
-  // const channelNames: channelInfo[] = [
-  //   {
-  //     id: 1,
-  //     name: "#awesome-algorithms",
-  //     private: false,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "#awesome-algorithms",
-  //     private: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "#truth-seeking-group",
-  //     private: false,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "#truth-seeking-group",
-  //     private: false,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "#refunds-experience",
-  //     private: false,
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "#war-room",
-  //     private: true,
-  //   },
-  //   {
-  //     id: 7,
-  //     name: "#design",
-  //     private: true,
-  //   },
-  //   {
-  //     id: 8,
-  //     name: "#design",
-  //     private: false,
-  //   },
-  // ];
-
-  // const users: MessageInfo[] = [
-  //   {
-  //     id: 1,
-  //     userBgOne: "#BDB5FD",
-  //     userOne: "Kende Attila",
-  //     userBgTwo: "",
-  //     userBgThree: "",
-  //     userTwo: "",
-  //     userThree: "",
-  //     isGroup: false,
-  //   },
-  //   {
-  //     id: 2,
-  //     userBgOne: "#0ED065",
-  //     userOne: "John Adams",
-  //     userBgTwo: "",
-  //     userBgThree: "",
-  //     userTwo: "",
-  //     userThree: "",
-  //     isGroup: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     userBgOne: "#FF7373",
-  //     userOne: "Tim Jones",
-  //     userBgTwo: "",
-  //     userBgThree: "",
-  //     userTwo: "",
-  //     userThree: "",
-  //     isGroup: false,
-  //   },
-  //   {
-  //     id: 4,
-  //     userBgOne: "#FCBF04",
-  //     userOne: "Rachel Doe",
-  //     userBgTwo: "",
-  //     userBgThree: "",
-  //     userTwo: "",
-  //     userThree: "",
-  //     isGroup: false,
-  //   },
-  //   {
-  //     id: 5,
-  //     userBgOne: "#4CD2FA",
-  //     userBgTwo: "#907EF9",
-  //     userBgThree: "",
-  //     userOne: "Kende Attila",
-  //     userTwo: "Abhinav Sharma",
-  //     userThree: "",
-  //     isGroup: true,
-  //   },
-  //   {
-  //     id: 6,
-  //     userBgOne: "#0ED065",
-  //     userBgTwo: "#FF7373",
-  //     userBgThree: "#FCBF04",
-  //     userOne: "John Adams",
-  //     userTwo: "Rachel Doe",
-  //     userThree: "Abhinav Sharma",
-  //     isGroup: true,
-  //   },
-  // ];
 
   const filteredChannels =
     channelFilter == "All Channels"
@@ -170,7 +65,6 @@ const FileSelectionSlack = ({
       ? conversations.mpdms
       : conversations.dms;
 
-  useEffect(() => {}, [channelFilter, messageFilter, selectedAll]);
   return (
     <>
       <div className="cc-flex md:!cc-flex-row cc-flex-col cc-items-center cc-justify-between cc-mt-[40px] sm:cc-flex-row cc-text-sm cc-font-semibold cc-mb-3 cc-gap-5 sm:cc-gap-3">

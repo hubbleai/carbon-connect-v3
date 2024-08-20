@@ -30,6 +30,7 @@ const CalenderFooter = ({
           className="startDate"
           onClick={() => {
             setStoreDate(selected?.toLocaleDateString());
+            setOpen(false);
           }}
         >
           Set start date
