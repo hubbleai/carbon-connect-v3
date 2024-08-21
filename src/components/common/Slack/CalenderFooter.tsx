@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction } from "react";
+import { getYmdDate } from "../../../utils/helper-functions";
 
 type PropsInfo = {
   selected: Date | undefined;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setStoreDate: Dispatch<string | undefined>;
+  setStoreDate: (date: string) => void;
   currentDate: Date;
 };
 
@@ -21,15 +22,16 @@ const CalenderFooter = ({
         </button>
         <input
           type="text"
-          placeholder={currentDate?.toLocaleDateString()}
-          value={selected?.toLocaleDateString()}
+          placeholder={getYmdDate(currentDate)}
+          value={selected ? getYmdDate(selected) : ""}
           className="inputfooter w-[112px] text-[#494656] rounded-[12px] bg-[#F3F3F4]"
           readOnly
         />
         <button
           className="startDate"
           onClick={() => {
-            setStoreDate(selected?.toLocaleDateString());
+            setStoreDate(selected ? getYmdDate(selected) : "");
+            setOpen(false);
           }}
         >
           Set start date
@@ -62,7 +64,9 @@ const CalenderFooter = ({
             fill="#8C8A94"
           />
         </svg>
-        <p>Syncing will start from {selected?.toLocaleDateString()}</p>
+        {selected ? (
+          <p>Syncing will start from {getYmdDate(selected)}</p>
+        ) : null}
       </div>
     </div>
   );

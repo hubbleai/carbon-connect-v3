@@ -6,7 +6,7 @@ type PropsInfo = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   selected: Date | undefined;
   setSelected: Dispatch<SetStateAction<Date | undefined>>;
-  setStoreDate: Dispatch<string | undefined>;
+  setStoreDate: (date: string) => void;
 };
 const DatePicker = ({
   setOpen,
@@ -35,6 +35,7 @@ const DatePicker = ({
         selected={selected}
         showOutsideDays
         onSelect={setSelected}
+        toDate={new Date()}
         footer={
           <CalenderFooter
             selected={selected}

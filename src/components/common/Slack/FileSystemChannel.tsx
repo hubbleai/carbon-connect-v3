@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import privateChannelIcon from "@assets/svgIcons/privateChannel.svg";
 import { Checkbox } from "../design-system/Checkbox";
 import { channelInfo } from "./FileSelectionSlack";
@@ -8,28 +8,32 @@ import "react-day-picker/dist/style.css";
 import CalenderFooter from "./CalenderFooter";
 import calenderUpdate from "@assets/svgIcons/calendarUpdate.svg";
 import DatePicker from "./DatePicker";
+import { SlackConversation } from "../../../typing/shared";
 
 type propInfo = {
-  list: channelInfo;
+  item: SlackConversation;
   isChecked: boolean;
   onSelect: () => void;
-  storeDateAll: string | undefined;
+  conversationDates: { [id: string]: string };
+  setConversationDates: Dispatch<SetStateAction<{ [id: string]: string }>>;
 };
 const FileSystemChannel = ({
-  list,
+  item,
   isChecked,
   onSelect,
-  storeDateAll,
+  conversationDates,
+  setConversationDates,
 }: propInfo) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Date | undefined>(undefined);
-  const [storeDate, setStoreDate] = useState<string | undefined>("");
+  const storeDate = (date: string) => {
+    const dates = Object.assign({}, conversationDates);
+    dates[item.id] = date;
+    setConversationDates(dates);
+  };
 
-  useEffect(() => {
-    setStoreDate(storeDateAll);
-  }, [selected, storeDateAll]);
   return (
-    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center dark:cc-border-[#ffffff7a] dark:hover:cc-bg-[#464646]">
+    <div className=" cc-flex  cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center dark:cc-border-[#ffffff7a] dark:hover:cc-bg-[#464646]">
       <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20] ">
         <Checkbox
           className="cc-mr-[8px]"
@@ -39,8 +43,8 @@ const FileSystemChannel = ({
 
         <div className="cc-flex cc-flex-col">
           <div className="cc-flex dark:cc-text-dark-text-white">
-            <span>{list.name}</span>
-            {list.private ? (
+            <span>#{item.name}</span>
+            {item.is_private ? (
               <img
                 className="cc-ml-[8px] cc-mt-[2px] cc-items-center"
                 src={privateChannelIcon}
@@ -49,12 +53,13 @@ const FileSystemChannel = ({
             ) : null}
           </div>
           <span className="cc-text-[#8C8A94] cc-leading-[16px] cc-text-[12px] cc-font-medium dark:cc-text-dark-text-white">
-            {storeDate !== "" && `Starting from ${storeDate}`}
+            {conversationDates[item.id] &&
+              `Starting from ${conversationDates[item.id]}`}
           </span>
         </div>
       </div>
       <div className="cc-relative">
-        {storeDate !== "" ? (
+        {conversationDates[item.id] ? (
           <img
             src={calenderUpdate}
             className="cc-cursor-pointer"
@@ -76,7 +81,7 @@ const FileSystemChannel = ({
           setOpen={setOpen}
           selected={selected}
           setSelected={setSelected}
-          setStoreDate={setStoreDate}
+          setStoreDate={storeDate}
         />
       )}
     </div>

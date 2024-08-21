@@ -6,39 +6,50 @@ import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import ChannelDropdown from "./ChannelDropdown";
 import MessageDropdown from "./MessageDropdown";
 import FileSelectionSlack from "./FileSelectionSlack";
+import { SlackConversations } from "../../Screens/SlackScreen";
 
 type PropsInfo = {
   activeTab: string;
-  selectedFiles:number[];
-  setSelectedFiles:Dispatch<SetStateAction<number[]>>
-  selectFilesMessage:number[];
-  setSelectFilesMessage:Dispatch<SetStateAction<number[]>>
+  selectedConversations: string[];
+  setSelectedConversations: Dispatch<SetStateAction<string[]>>;
+  selectFilesMessage: string[];
+  setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
+  conversations: SlackConversations;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
+  conversationDates: { [id: string]: string };
+  setConversationDates: Dispatch<SetStateAction<{ [id: string]: string }>>;
 };
 
-const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage, setSelectedFiles , setSelectFilesMessage }: PropsInfo) => {
+const SyncedConversationSlack = ({
+  activeTab,
+  selectedConversations,
+  selectFilesMessage,
+  setSelectedConversations,
+  setSelectFilesMessage,
+  conversations,
+  setStartCustomSync,
+  conversationDates,
+  setConversationDates,
+}: PropsInfo) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string>("All Channels");
-  const [selectedMessage, setSelectedMessage] =
-    useState<string>("Direct Messages");
-   
+  const [channelFilter, setChannelFilter] = useState<string>("All Channels");
+  const [messageFilter, setMessageFilter] = useState<string>("Direct Messages");
 
   function setItem(e: Event) {
     const target = e.target as HTMLDivElement;
     const textContent = target.textContent ?? "unknown";
-   
-   
+
     if (activeTab === "channels") {
-      setSelectedItem(textContent);
-      setSelectedFiles([]);
+      setChannelFilter(textContent);
+      setSelectedConversations([]);
     } else {
-      setSelectedMessage(textContent);
+      setMessageFilter(textContent);
       setSelectFilesMessage([]);
     }
   }
 
-  const [serchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
 
-  useEffect(() => {}, [selectedItem, activeTab]);
   return (
     <>
       <div className="cc-flex cc-mt-[16px] cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col cc-justify-between sm:cc-flex-row">
@@ -52,42 +63,45 @@ const SyncedConversationSlack = ({ activeTab , selectedFiles, selectFilesMessage
             type="text"
             placeholder="Search"
             className="cc-h-8 cc-text-xs !cc-pl-7 "
-            value={serchValue}
+            value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
         <div className="cc-flex cc-gap-2 sm:cc-gap-3 md:cc-justify-between">
           {activeTab === "channels" ? (
             <ChannelDropdown
-              selectedItem={selectedItem}
+              selectedItem={channelFilter}
               setIsOpen={setIsOpen}
               setItem={setItem}
             />
           ) : (
             <MessageDropdown
-              selectedItem={selectedMessage}
+              selectedItem={messageFilter}
               setIsOpen={setIsOpen}
               setItem={setItem}
             />
           )}
 
-          
-
-          <div className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-black cc-ml-[16px] dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]">
+          <div
+            className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-black cc-ml-[16px] dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]"
+            onClick={() => setStartCustomSync(false)}
+          >
             View synced conversations
           </div>
         </div>
       </div>
       <FileSelectionSlack
-        activeChannel={selectedItem}
-        activeMessage={selectedMessage}
+        channelFilter={channelFilter}
+        messageFilter={messageFilter}
         activeTab={activeTab}
-        selectedFiles={selectedFiles}
-        setSelectedFiles={setSelectedFiles}
+        selectedConversations={selectedConversations}
+        setSelectedConversations={setSelectedConversations}
         selectFilesMessage={selectFilesMessage}
         setSelectFilesMessage={setSelectFilesMessage}
-
-
+        conversations={conversations}
+        conversationDates={conversationDates}
+        setConversationDates={setConversationDates}
+        searchValue={searchValue}
       />
     </>
   );
