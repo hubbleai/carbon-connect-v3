@@ -25,7 +25,7 @@ const ResyncDropdown = ({
   const [isDropboxAccountReady, setIsDropboxAccountReady] =
     useState<boolean>(false);
 
-  const resyncDrop = ["Re-Sync Account", "Add files"];
+  const resyncDrop = ["Re-Sync", "Select Files"];
   const commonMenuConponent = () => {
     return (
       <DropdownMenuContent align="end" className="cc-w-[153px] cc-py-[8px] ">
@@ -34,7 +34,7 @@ const ResyncDropdown = ({
             <DropdownMenuItem
               className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
               onClick={
-                item == "Re-Sync Account"
+                item == "Re-Sync"
                   ? () => resyncDataSource(account.id)
                   : () => handleUploadFilesClick(account)
               }
@@ -43,7 +43,7 @@ const ResyncDropdown = ({
                 <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
                   {item}
                 </p>
-                {item === "Re-Sync Account" ? (
+                {item === "Re-Sync" ? (
                   <img
                     className="cc-w-[13px] cc-h-[13px]"
                     src={refresh}
