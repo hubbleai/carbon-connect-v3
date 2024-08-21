@@ -100,23 +100,7 @@ const FileSelectionSlack = ({
               >
                 Clear selection
               </button>
-            ) : (
-              <label className="cc-flex cc-gap-2 cc-text-sm cc-font-semibold cc-cursor-pointer dark:cc-text-dark-text-white">
-                <Checkbox
-                  className="my-0.5"
-                  checked={
-                    filteredChannels.length
-                      ? selectedConversations.length === filteredChannels.length
-                      : false
-                  }
-                  onCheckedChange={() => {
-                    const allFilesId = filteredChannels.map((item) => item.id);
-                    setSelectedConversations(allFilesId);
-                  }}
-                />
-                Select all
-              </label>
-            )}
+            ) : null}
           </div>
         ) : (
           <div>
@@ -127,23 +111,7 @@ const FileSelectionSlack = ({
               >
                 Clear selection
               </button>
-            ) : (
-              <label className="cc-flex cc-gap-2 cc-text-sm cc-font-semibold cc-cursor-pointer dark:cc-text-dark-text-white">
-                <Checkbox
-                  className="my-0.5"
-                  checked={
-                    filteredMessages.length
-                      ? selectFilesMessage.length === filteredMessages.length
-                      : false
-                  }
-                  onCheckedChange={() => {
-                    const allFilesId = filteredMessages.map((item) => item.id);
-                    setSelectFilesMessage(allFilesId);
-                  }}
-                />
-                Select all
-              </label>
-            )}
+            ) : null}
           </div>
         )}
 

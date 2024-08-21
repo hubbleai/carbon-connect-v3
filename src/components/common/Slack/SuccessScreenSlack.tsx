@@ -58,7 +58,7 @@ const SuccessScreenSlack = ({
               setStep("sync");
             }}
           >
-            Select more conversations from Slack
+            Select more Slack conversations
           </Button>
         </div>
       </div>

@@ -59,8 +59,7 @@ const SlackScreen = ({
               Your Slack account is connected.
             </p>
             <p className="cc-text-lg cc-font-semibold cc-text-[#8C8A94] cc-mt-[8px] md:cc-mt-[6px] md:cc-text-[14px] md:cc-leading-[24px] dark:cc-text-dark-text-white">
-              You can select from channels and direct messages to sync with your
-              account
+              You can select specific channels and direct messages to sync.
             </p>
           </div>
           <div className="cc-p-[32px] md:cc-p-[16px] md:cc-border-none cc-border-t-[1px] dark:cc-border-t-[0px] cc-border-b-[#F3F3F4] md:cc-fixed md:cc-bottom-[0px] md:cc-left-[0px] md:cc-w-full dark:cc-shadow-[0px_-3px_8px_-2px_#ffffff1F]">

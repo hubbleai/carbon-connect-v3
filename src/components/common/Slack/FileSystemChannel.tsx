@@ -43,7 +43,7 @@ const FileSystemChannel = ({
 
         <div className="cc-flex cc-flex-col">
           <div className="cc-flex dark:cc-text-dark-text-white">
-            <span>{item.name}</span>
+            <span>#{item.name}</span>
             {item.is_private ? (
               <img
                 className="cc-ml-[8px] cc-mt-[2px] cc-items-center"

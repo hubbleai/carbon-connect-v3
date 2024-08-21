@@ -56,15 +56,6 @@ const FileSystemMessage = ({
                     <img src={userIcon} alt="userIcon" />
                   </div>
                 </div>
-
-                <div className="cc-border-[1.5px] cc-border-[#FFF] cc-bg-[#fff] cc-rounded-[5px] cc-ml-[-5px]">
-                  <div
-                    className="cc-p-[2.5px] cc-rounded-[5px] "
-                    style={{ backgroundColor: "#FCBF04" }}
-                  >
-                    <img src={userIcon} alt="userIcon" />
-                  </div>
-                </div>
               </>
             )}
           </div>
