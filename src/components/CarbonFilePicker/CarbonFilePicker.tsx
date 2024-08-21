@@ -283,27 +283,29 @@ export default function CarbonFilePicker({
     setSelectedDataSource(selectedAccount || null);
   };
 
-  const handleUploadFilesClick = () => {
-    if (!selectedDataSource) return;
+  const handleUploadFilesClick = (dataSource?: IntegrationAPIResponse) => {
+    const finalDataSource = dataSource || selectedDataSource;
+    if (!finalDataSource) return;
+    console.log(finalDataSource);
+
     if (mode == SyncingModes.SYNC_URL) {
-      const dataSourceType = selectedDataSource.data_source_type;
+      const dataSourceType = finalDataSource.data_source_type;
       const extraParams: any = {};
       if (dataSourceType == IntegrationName.SALESFORCE) {
-        extraParams.salesforce_domain = getDataSourceDomain(selectedDataSource);
+        extraParams.salesforce_domain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.ZENDESK) {
-        extraParams.zendesk_subdomain = getDataSourceDomain(selectedDataSource);
+        extraParams.zendesk_subdomain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.CONFLUENCE) {
-        extraParams.confluence_subdomain =
-          getDataSourceDomain(selectedDataSource);
+        extraParams.confluence_subdomain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.SHAREPOINT) {
-        const workspace = getDataSourceDomain(selectedDataSource) || "";
+        const workspace = getDataSourceDomain(finalDataSource) || "";
         const parts = workspace.split("/");
         if (parts.length == 2) {
           extraParams.microsoft_tenant = parts[0];
           extraParams.sharepoint_site_name = parts[1];
         }
       }
-      sendOauthRequest("UPLOAD", selectedDataSource.id, extraParams);
+      sendOauthRequest("UPLOAD", finalDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
     } else {
@@ -611,6 +613,7 @@ export default function CarbonFilePicker({
           setShowFilePicker={setShowFilePicker}
           selectedDataSource={selectedDataSource}
           processedIntegration={processedIntegration}
+          shouldShowFilesTab={!!shouldShowFilesTab}
         />
       ) : !shouldShowFilesTab ? (
         <AccountManagement
@@ -620,6 +623,7 @@ export default function CarbonFilePicker({
           revokeDataSource={revokeDataSource}
           performBulkAction={performBulkAction}
           performingAction={performingAction}
+          handleUploadFilesClick={handleUploadFilesClick}
         />
       ) : (
         <SyncedFilesList

@@ -42,11 +42,13 @@ export default function SourceItemsList({
   setShowFilePicker,
   selectedDataSource,
   processedIntegration,
+  shouldShowFilesTab,
 }: {
   setIsUploading: (val: { state: boolean; percentage: number }) => void;
   setShowFilePicker: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDataSource: IntegrationAPIResponse | null;
   processedIntegration: ProcessedIntegration | null;
+  shouldShowFilesTab: boolean;
 }) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [serchValue, setSearchValue] = useState<string>("");
@@ -258,7 +260,7 @@ export default function SourceItemsList({
               className="cc-text-xs cc-rounded-xl cc-font-semibold dark:cc-text-dark-text-white"
               onClick={() => setShowFilePicker((prev) => !prev)}
             >
-              View synced files
+              {shouldShowFilesTab ? "View synced files" : "Back to accounts"}
             </Button>
             <Button
               size="sm"

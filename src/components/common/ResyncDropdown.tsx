@@ -11,8 +11,17 @@ import { Button } from "@components/common/design-system/Button";
 import DropboxAccountReady from "@components/common/DropboxAccountReady";
 import AddCircleIconBlack from "@assets/svgIcons/add-circle-icon-black.svg";
 import refresh from "@assets/svgIcons/refresh.svg";
+import { IntegrationAPIResponse } from "../IntegrationModal";
 
-const ResyncDropdown = () => {
+const ResyncDropdown = ({
+  resyncDataSource,
+  account,
+  handleUploadFilesClick,
+}: {
+  resyncDataSource: (id: number) => void;
+  account: IntegrationAPIResponse;
+  handleUploadFilesClick: (account?: IntegrationAPIResponse) => void;
+}) => {
   const [isDropboxAccountReady, setIsDropboxAccountReady] =
     useState<boolean>(false);
 
@@ -22,7 +31,14 @@ const ResyncDropdown = () => {
       <DropdownMenuContent align="end" className="cc-w-[153px] cc-py-[8px] ">
         <DropdownMenuGroup>
           {resyncDrop.map((item) => (
-            <DropdownMenuItem className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color">
+            <DropdownMenuItem
+              className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
+              onClick={
+                item == "Re-Sync Account"
+                  ? () => resyncDataSource(account.id)
+                  : () => handleUploadFilesClick(account)
+              }
+            >
               <div className="cc-flex cc-justify-between cc-items-center cc-w-full">
                 <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
                   {item}

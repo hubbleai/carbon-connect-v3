@@ -14,6 +14,7 @@ type PropsInfo = {
   isChecked: boolean;
   onSelect: () => void;
   resyncDataSource: (id: number) => void;
+  handleUploadFilesClick: (dataSource?: IntegrationAPIResponse) => void;
 };
 
 const AccountListItem = ({
@@ -21,6 +22,7 @@ const AccountListItem = ({
   isChecked,
   onSelect,
   resyncDataSource,
+  handleUploadFilesClick,
 }: PropsInfo) => {
   return (
     <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[360px] cc-border-t cc-border-[#F3F3F4] cc-justify-between dark:cc-border-[#ffffff7a] cc-items-center ">
@@ -48,8 +50,12 @@ const AccountListItem = ({
         </div>
       </div>
 
-      <div className="group" onClick={() => resyncDataSource(account.id)}>
-        <ResyncDropdown/>
+      <div className="group">
+        <ResyncDropdown
+          resyncDataSource={resyncDataSource}
+          account={account}
+          handleUploadFilesClick={handleUploadFilesClick}
+        />
       </div>
     </div>
   );
