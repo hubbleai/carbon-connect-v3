@@ -61,8 +61,9 @@ const Channel: React.FC<{
     (c) => c.is_channel && !c.is_private
   );
   const privateChannels = allConversations.filter(
-    (c) => c.is_channel && c.is_private
+    (c) => c.is_channel && c.is_private && !c.is_mpim
   );
+  console.log(privateChannels);
 
   const fetchConvos = async () => {
     let cursor = null;
