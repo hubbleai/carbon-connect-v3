@@ -33,7 +33,7 @@ const FileSystemChannel = ({
   };
 
   return (
-    <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center dark:cc-border-[#ffffff7a] dark:hover:cc-bg-[#464646]">
+    <div className=" cc-flex  cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[361px] cc-border-t cc-border-[#F3F3F4] cc-justify-between cc-items-center dark:cc-border-[#ffffff7a] dark:hover:cc-bg-[#464646]">
       <div className="cc-text-[14px] cc-flex cc-items-center cc-leading-[24px] cc-font-semibold cc-text-[#100C20] ">
         <Checkbox
           className="cc-mr-[8px]"

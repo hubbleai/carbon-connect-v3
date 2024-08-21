@@ -169,7 +169,7 @@ const FileSelectionSlack = ({
         )}
       </div>
 
-      <div className="cc-flex cc-flex-wrap cc-gap-x-[28px]  ">
+      <div className="cc-flex cc-flex-wrap cc-gap-x-[28px] cc-h-[418px] cc-overflow-y-scroll cc-content-start">
         {activeTab === "channels"
           ? filteredChannels.map((item) => {
               const isChecked = selectedConversations.indexOf(item.id) >= 0;
