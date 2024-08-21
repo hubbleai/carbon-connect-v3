@@ -5,14 +5,16 @@ import { images } from "@assets/index";
 import CarbonContext from "src/context/CarbonContext";
 
 type PropsInfo = {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep: Dispatch<SetStateAction<string>>;
   setSelectedConversations: Dispatch<SetStateAction<string[]>>;
   setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
+  totalConversations: number;
 };
 const SuccessScreenSlack = ({
   setStep,
   setSelectFilesMessage,
   setSelectedConversations,
+  totalConversations,
 }: PropsInfo) => {
   const { setSlackActive } = useContext(CarbonContext);
   return (
@@ -25,7 +27,7 @@ const SuccessScreenSlack = ({
             alt="successIcon"
           />
           <p className="cc-text-[26px] cc-leading-[40px] cc-font-medium cc-tracking-[-0.26px] cc-text-[#100C20] cc-mt-[24px] md:cc-mt-[16px] md:cc-text-[20px] md:cc-leading-[32px]  dark:cc-text-dark-text-white ">
-            12 Channels have been added.
+            {totalConversations} Conversations have been added.
           </p>
           <p className="cc-text-lg cc-font-semibold cc-text-[#8C8A94] cc-mt-[8px] md:cc-mt-[6px] md:cc-text-[14px] md:cc-leading-[24px]">
             Close this tab if you're done, or select more conversations to add.
@@ -37,7 +39,7 @@ const SuccessScreenSlack = ({
             className="cc-w-full  cc-text-base cc-h-[48px] cc-font-extrabold "
             onClick={() => {
               // add this function setSlackActive when you redirect from this screen
-              // setSlackActive(false);
+              setSlackActive(false);
             }}
           >
             Got it
@@ -50,7 +52,7 @@ const SuccessScreenSlack = ({
               setSlackActive(false);
               setSelectFilesMessage([]);
               setSelectedConversations([]);
-              setStep(1);
+              setStep("sync");
             }}
           >
             Select more conversations from Slack

@@ -5,6 +5,7 @@ import FileSystemChannel from "./FileSystemChannel";
 import FileSystemMessage from "./FileSystemMessage";
 import DatePicker from "./DatePicker";
 import { SlackConversations } from "../../Screens/SlackScreen";
+import { SlackSyncObject } from "./SlackTab";
 
 type propInfo = {
   channelFilter: string;
@@ -15,6 +16,9 @@ type propInfo = {
   selectFilesMessage: string[];
   setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
   conversations: SlackConversations;
+  conversationDates: { [id: string]: string };
+  setConversationDates: Dispatch<SetStateAction<{ [id: string]: string }>>;
+  searchValue: string;
 };
 
 export type channelInfo = {
@@ -42,28 +46,47 @@ const FileSelectionSlack = ({
   selectFilesMessage,
   setSelectFilesMessage,
   conversations,
+  conversationDates,
+  setConversationDates,
+  searchValue,
 }: propInfo) => {
   const [openAll, setOpenAll] = useState<boolean>(false);
   const [selectedAll, setSelectedAll] = useState<Date | undefined>(undefined);
-  const [storeDateAll, setStoreDateAll] = useState<string | undefined>("");
   const [selectedAllMessage, setSelectedAllMessage] = useState<
     Date | undefined
   >(undefined);
-  const [storeDateAllMessage, setStoreDateAllMessage] = useState<
-    string | undefined
-  >("");
 
-  const filteredChannels =
+  const activeChannels =
     channelFilter == "All Channels"
       ? [...conversations.publicChannels, ...conversations.privateChannels]
       : channelFilter === "Public Channels"
       ? conversations.publicChannels
       : conversations.privateChannels;
+  const filteredChannels = searchValue
+    ? activeChannels.filter((channel) =>
+        channel.name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : activeChannels;
 
-  const filteredMessages =
+  const activeMessages =
     messageFilter === "Group Messages"
       ? conversations.mpdms
       : conversations.dms;
+  const filteredMessages = searchValue
+    ? activeMessages.filter((message) =>
+        message.name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : activeMessages;
+
+  const storeDateAll = (date: string) => {
+    const items = activeTab == "channels" ? filteredChannels : filteredMessages;
+    const dates = Object.assign({}, conversationDates);
+    for (let item of items) {
+      dates[item.id] = date;
+    }
+
+    setConversationDates(dates);
+  };
 
   return (
     <>
@@ -141,11 +164,7 @@ const FileSelectionSlack = ({
             setSelected={
               activeTab === "channels" ? setSelectedAll : setSelectedAllMessage
             }
-            setStoreDate={
-              activeTab === "channels"
-                ? setStoreDateAll
-                : setStoreDateAllMessage
-            }
+            setStoreDate={storeDateAll}
           />
         )}
       </div>
@@ -157,7 +176,6 @@ const FileSelectionSlack = ({
               return (
                 <FileSystemChannel
                   isChecked={isChecked}
-                  storeDateAll={storeDateAll}
                   item={item}
                   onSelect={() => {
                     setSelectedConversations((prev) => {
@@ -168,6 +186,8 @@ const FileSelectionSlack = ({
                       }
                     });
                   }}
+                  conversationDates={conversationDates}
+                  setConversationDates={setConversationDates}
                 />
               );
             })
@@ -177,7 +197,6 @@ const FileSelectionSlack = ({
               return (
                 <FileSystemMessage
                   isChecked={isChecked}
-                  storeDateAllMessages={storeDateAllMessage}
                   item={item}
                   onSelect={() => {
                     setSelectFilesMessage((prev) => {
@@ -188,6 +207,8 @@ const FileSelectionSlack = ({
                       }
                     });
                   }}
+                  conversationDates={conversationDates}
+                  setConversationDates={setConversationDates}
                 />
               );
             })}

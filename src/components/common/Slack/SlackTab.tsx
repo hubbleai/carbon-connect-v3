@@ -9,25 +9,51 @@ import React, {
 import SyncedConversationSlack from "./SyncedConversationSlack";
 import { DialogFooter } from "../design-system/Dialog";
 import { Button } from "../design-system/Button";
-import Sync from "./Sync";
 import SuccessScreenSlack from "./SuccessScreenSlack";
 import CarbonContext from "src/context/CarbonContext";
 import { SlackConversation } from "../../../typing/shared";
 import { SlackConversations } from "../../Screens/SlackScreen";
+import Banner, { BannerState } from "../Banner";
+import { BASE_URL, ENV } from "../../../constants/shared";
 
 type PropsInfo = {
   activeTab: string;
   setActiveTab: Dispatch<SetStateAction<string>>;
   conversations: SlackConversations;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SlackTab = ({ activeTab, setActiveTab, conversations }: PropsInfo) => {
+export type SlackSyncObject = {
+  after?: string;
+  id: string;
+};
+
+const SlackTab = ({
+  activeTab,
+  setActiveTab,
+  conversations,
+  setStartCustomSync,
+}: PropsInfo) => {
   const [selectedConversations, setSelectedConversations] = useState<string[]>(
     []
   );
   const [selectFilesMessage, setSelectFilesMessage] = useState<string[]>([]);
-  const [step, setStep] = useState<number>(1);
-  const { setSlackActive, slackActive } = useContext(CarbonContext);
+  const [step, setStep] = useState<string>("sync");
+  const [bannerState, setBannerState] = useState<BannerState>({
+    message: null,
+  });
+  const {
+    setSlackActive,
+    slackActive,
+    environment = ENV.PRODUCTION,
+    authenticatedFetch,
+    accessToken,
+  } = useContext(CarbonContext);
+  const [performingSync, setPerformingSync] = useState(false);
+  const [conversationDates, setConversationDates] = useState<{
+    [id: string]: string;
+  }>({});
+
   const tabValues = [
     {
       tab: "channels",
@@ -36,18 +62,68 @@ const SlackTab = ({ activeTab, setActiveTab, conversations }: PropsInfo) => {
     { tab: "messages", text: "Messages" },
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (step === 2) {
-        setStep(3);
-        setSlackActive(true);
+  const syncConversation = async (id: string) => {
+    const filters: { conversation_id: string; after?: string } = {
+      conversation_id: id,
+    };
+    if (conversationDates[id]) {
+      filters["after"] = conversationDates[id];
+    }
+    const slackSyncResponse = await authenticatedFetch(
+      `${BASE_URL[environment]}/integrations/slack/sync`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filters }),
       }
-    }, 2000);
-  }, [activeTab, step]);
+    );
+    return slackSyncResponse;
+  };
+
+  const syncConversations = async () => {
+    if (selectFilesMessage.length > 5 || selectedConversations.length > 5) {
+      setBannerState({
+        message: "Can't sync more than 5 messages and 5 channels at a time",
+        type: "ERROR",
+      });
+      return;
+    }
+    setPerformingSync(true);
+    const promises: any = [];
+    for (let id of selectFilesMessage) {
+      promises.push(syncConversation(id));
+    }
+    Promise.all(promises).then(function (values) {
+      let successCount = 0;
+      let failedCount = 0;
+      for (let value of values) {
+        if (value.status == 200) {
+          successCount += 1;
+        } else {
+          failedCount += 1;
+        }
+      }
+
+      if (failedCount) {
+        setBannerState({
+          message: "Finished syncing conversations",
+          type: "ERROR",
+          additionalInfo: `${successCount} succeeded, ${failedCount} failed`,
+        });
+      } else {
+        setStep("success");
+      }
+    });
+    setPerformingSync(false);
+  };
 
   return (
     <>
-      {step === 1 && (
+      <Banner bannerState={bannerState} setBannerState={setBannerState} />
+      {step === "sync" && (
         <div className="cc-p-[16px]">
           <div className="cc-flex cc-gap-[16px]  ">
             {tabValues.map((item) => {
@@ -91,6 +167,9 @@ const SlackTab = ({ activeTab, setActiveTab, conversations }: PropsInfo) => {
             selectFilesMessage={selectFilesMessage}
             setSelectFilesMessage={setSelectFilesMessage}
             conversations={conversations}
+            setStartCustomSync={setStartCustomSync}
+            conversationDates={conversationDates}
+            setConversationDates={setConversationDates}
           />
 
           {selectedConversations.length > 0 || selectFilesMessage.length > 0 ? (
@@ -98,34 +177,32 @@ const SlackTab = ({ activeTab, setActiveTab, conversations }: PropsInfo) => {
               <Button
                 size="md"
                 className="cc-w-full"
-                onClick={() => setStep(2)}
+                onClick={() => syncConversations()}
+                disabled={performingSync}
               >
                 Sync{" "}
                 {selectedConversations.length > 0 &&
-                  `${selectedConversations.length} Channel`}{" "}
+                  `${selectedConversations.length} Channel(s)`}{" "}
                 {selectFilesMessage.length > 0 &&
                   `${
                     selectFilesMessage.length > 0 &&
                     selectedConversations.length > 0
                       ? "&"
                       : ""
-                  } ${selectFilesMessage.length} Messages`}
+                  } ${selectFilesMessage.length} Message(s)`}
               </Button>
             </DialogFooter>
           ) : null}
         </div>
       )}
-      {step === 2 && (
-        <Sync
-          selectedConversations={selectedConversations}
-          selectFilesMessage={selectFilesMessage}
-        />
-      )}
-      {step === 3 && (
+      {step === "success" && (
         <SuccessScreenSlack
           setStep={setStep}
           setSelectedConversations={setSelectedConversations}
           setSelectFilesMessage={setSelectFilesMessage}
+          totalConversations={
+            selectedConversations.length + selectFilesMessage.length
+          }
         />
       )}
     </>

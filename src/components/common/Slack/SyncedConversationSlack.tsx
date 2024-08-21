@@ -15,6 +15,9 @@ type PropsInfo = {
   selectFilesMessage: string[];
   setSelectFilesMessage: Dispatch<SetStateAction<string[]>>;
   conversations: SlackConversations;
+  setStartCustomSync: React.Dispatch<React.SetStateAction<boolean>>;
+  conversationDates: { [id: string]: string };
+  setConversationDates: Dispatch<SetStateAction<{ [id: string]: string }>>;
 };
 
 const SyncedConversationSlack = ({
@@ -24,6 +27,9 @@ const SyncedConversationSlack = ({
   setSelectedConversations,
   setSelectFilesMessage,
   conversations,
+  setStartCustomSync,
+  conversationDates,
+  setConversationDates,
 }: PropsInfo) => {
   const [isOpen, setIsOpen] = useState(false);
   const [channelFilter, setChannelFilter] = useState<string>("All Channels");
@@ -76,7 +82,10 @@ const SyncedConversationSlack = ({
             />
           )}
 
-          <div className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-black cc-ml-[16px] dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]">
+          <div
+            className="cc-border cc-border-[#ECECED] cc-rounded-[6px] hover:!cc-bg-surface-surface_3 cc-p-[8px_12px] md:cc-ml-[0px] cc-cursor-pointer cc-text-xs cc-font-bold cc-text-black cc-ml-[16px] dark:cc-text-dark-text-white dark:hover:cc-bg-[#464646]"
+            onClick={() => setStartCustomSync(false)}
+          >
             View synced conversations
           </div>
         </div>
@@ -90,6 +99,9 @@ const SyncedConversationSlack = ({
         selectFilesMessage={selectFilesMessage}
         setSelectFilesMessage={setSelectFilesMessage}
         conversations={conversations}
+        conversationDates={conversationDates}
+        setConversationDates={setConversationDates}
+        searchValue={searchValue}
       />
     </>
   );

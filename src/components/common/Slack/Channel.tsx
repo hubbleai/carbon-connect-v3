@@ -127,6 +127,7 @@ const Channel: React.FC<{
   if (convosLoading) {
     return <Loader />;
   }
+  console.log(slackActive);
 
   return (
     <>
@@ -214,6 +215,7 @@ const Channel: React.FC<{
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           conversations={{ publicChannels, privateChannels, dms, mpdms }}
+          setStartCustomSync={setStartCustomSync}
         />
       )}
     </>

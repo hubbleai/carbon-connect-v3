@@ -6,7 +6,7 @@ type PropsInfo = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   selected: Date | undefined;
   setSelected: Dispatch<SetStateAction<Date | undefined>>;
-  setStoreDate: Dispatch<string | undefined>;
+  setStoreDate: (date: string) => void;
 };
 const DatePicker = ({
   setOpen,
@@ -27,8 +27,6 @@ const DatePicker = ({
       setOpen(false);
     });
   }, []);
-
-  const today = new Date();
 
   return (
     <>
