@@ -39,12 +39,12 @@ const SlackScreen = ({
   const [active, setActive] = useState(0);
   const [activeScreen, setActiveScreen] = useState(screen);
   const { entryPoint, setSlackActive, slackActive } = useCarbon();
-  const [openAccounts, setOpenAccounts] = useState<boolean>(false);
+
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
   });
 
-  const handleClick = () => {
+  const handleSelectClick = () => {
     setSlackActive(false);
     setActiveScreen("CHANNEL");
   };
@@ -67,24 +67,19 @@ const SlackScreen = ({
             <Button
               variant="primary"
               className="cc-w-full  cc-text-base cc-h-[48px] cc-font-extrabold"
-              onClick={() => handleClick()}
+              onClick={() => handleSelectClick()}
             >
-              {openAccounts
-                ? "Select more accounts"
-                : "Select conversations from Slack"}
+              Select conversations from Slack
             </Button>
             <Button
               onClick={() => {
-                if (!entryPoint || entryPoint == "INTEGRATION_LIST")
-                  setActiveStep("INTEGRATION_LIST");
-                else setActiveStep("CONNECT");
-                setSlackActive(true);
+                setStartCustomSync(false);
               }}
               variant="neutral-white-fix"
               size="lg"
               className="cc-w-full cc-mt-[20px]"
             >
-              {openAccounts ? "View connected accounts" : "Go back"}
+              Go back
             </Button>
           </div>
         </div>
@@ -95,7 +90,6 @@ const SlackScreen = ({
           <Channel
             setActiveStep={setActiveStep}
             setActive={setActiveScreen}
-            openAccount={openAccounts}
             activeScreen={activeScreen}
             activeStepData={INTEGRATIONS_LIST.find(
               (item) => item.id === IntegrationName.SLACK

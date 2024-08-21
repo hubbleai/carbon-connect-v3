@@ -114,6 +114,7 @@ const SlackTab = ({
           additionalInfo: `${successCount} succeeded, ${failedCount} failed`,
         });
       } else {
+        setSlackActive(true);
         setStep("success");
       }
     });
@@ -203,6 +204,7 @@ const SlackTab = ({
           totalConversations={
             selectedConversations.length + selectFilesMessage.length
           }
+          setStartCustomSync={setStartCustomSync}
         />
       )}
     </>

@@ -32,6 +32,7 @@ import {
   getConnectRequestProps,
   getDataSourceDomain,
   getIntegrationName,
+  wasAccountAdded,
 } from "../../utils/helper-functions";
 import FreshdeskScreen from "../Screens/FreshdeskScreen";
 
@@ -79,6 +80,8 @@ export default function CarbonFilePicker({
     onSuccess,
     showFilesTab,
     openFilesTabTo,
+    lastModifications,
+    setSlackActive,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -106,6 +109,7 @@ export default function CarbonFilePicker({
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
   const [startCustomSync, setStartCustomSync] = useState(false);
+  const [accountAdded, setAccountAdded] = useState(false);
 
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -191,6 +195,20 @@ export default function CarbonFilePicker({
       setShowFilePicker(false);
     }
   }, [selectedDataSource?.id, mode]);
+
+  useEffect(() => {
+    if (wasAccountAdded(lastModifications || [], IntegrationName.SLACK)) {
+      setAccountAdded(true);
+      setStartCustomSync(true);
+      setSlackActive(true);
+    }
+  }, [JSON.stringify(lastModifications)]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAccountAdded(false);
+    }, 5000);
+  }, [accountAdded]);
 
   const sendOauthRequest = async (
     mode = "CONNECT",
@@ -455,7 +473,7 @@ export default function CarbonFilePicker({
         <SlackScreen
           setActiveStep={setActiveStep}
           activeStepData={processedIntegration}
-          screen="CHANNEL"
+          screen={accountAdded ? "CONNECTED" : "CHANNEL"}
           setStartCustomSync={setStartCustomSync}
         />
       );
