@@ -286,7 +286,6 @@ export default function CarbonFilePicker({
   const handleUploadFilesClick = (dataSource?: IntegrationAPIResponse) => {
     const finalDataSource = dataSource || selectedDataSource;
     if (!finalDataSource) return;
-    console.log(finalDataSource);
 
     if (mode == SyncingModes.SYNC_URL) {
       const dataSourceType = finalDataSource.data_source_type;

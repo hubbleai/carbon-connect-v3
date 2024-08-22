@@ -33,6 +33,7 @@ import {
   getFileItemType,
   pluralize,
   truncateString,
+  wereFilesSynced,
 } from "../../utils/helper-functions";
 import { BannerState } from "../common/Banner";
 import {
@@ -78,6 +79,7 @@ export default function SyncedFilesList({
     accessToken,
     sendDeletionWebhooks,
     filesTabColumns,
+    lastModifications,
   } = useCarbon();
 
   const [files, setFiles] = useState<UserFileApi[]>([]);
@@ -137,6 +139,17 @@ export default function SyncedFilesList({
       }
     }
   }, [JSON.stringify(breadcrumbs)]);
+
+  useEffect(() => {
+    if (
+      wereFilesSynced(
+        lastModifications || [],
+        processedIntegration.data_source_type
+      )
+    ) {
+      setSyncedFilesRefreshes((prev) => prev + 1);
+    }
+  }, [JSON.stringify(lastModifications)]);
 
   const getUserFilesFilters = (
     breadcrumb: BreadcrumbType,
