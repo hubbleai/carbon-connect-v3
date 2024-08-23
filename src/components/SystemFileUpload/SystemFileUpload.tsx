@@ -60,6 +60,8 @@ export default function SystemFileUpload({
   setBannerState,
   setScreen,
   shouldShowFilesTab,
+  isWhiteLabeledEntryPoint,
+  onCloseModal,
 }: {
   activeStepData?: IntegrationItemType;
   setActiveStep: (val: ActiveStep) => void;
@@ -67,6 +69,8 @@ export default function SystemFileUpload({
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
   setScreen: React.Dispatch<React.SetStateAction<"FILES" | "UPLOAD">>;
   shouldShowFilesTab?: boolean;
+  isWhiteLabeledEntryPoint: boolean;
+  onCloseModal: () => void;
 }) {
   const [step, setStep] = useState<"ADD" | "SUCCESS" | "UPLOAD">("ADD");
   // state variable for file upload
@@ -344,7 +348,13 @@ export default function SystemFileUpload({
                 if (shouldShowFilesTab) {
                   setScreen("FILES");
                 } else {
-                  if (!entryPoint) setActiveStep("INTEGRATION_LIST");
+                  if (
+                    isWhiteLabeledEntryPoint &&
+                    entryPoint !== "INTEGRATION_LIST"
+                  ) {
+                    onCloseModal();
+                  } else if (!entryPoint || entryPoint == "INTEGRATION_LIST")
+                    setActiveStep("INTEGRATION_LIST");
                   else setActiveStep("CONNECT");
                 }
               }

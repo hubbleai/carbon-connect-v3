@@ -23,6 +23,7 @@ const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
     }
     const newMode = finalProps.theme === "dark" ? "dark" : "light";
     document.querySelector("html")?.setAttribute("data-mode", newMode);
+
   }, [finalProps.theme]);
 
   return (

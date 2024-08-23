@@ -84,7 +84,7 @@ export default function WebsiteFilterBottomSheet({
                 <Input
                   type="text"
                   placeholder=""
-                  className="cc-h-8 cc-text-xs cc-pl-2"
+                  className="cc-h-8 cc-text-xs !cc-pl-2"
                   value={filterData[idx]?.maxPages}
                   onChange={(e) =>
                     handleFilterData(idx, "maxPages", e.target.value)
@@ -121,7 +121,7 @@ export default function WebsiteFilterBottomSheet({
                 <Input
                   type="text"
                   placeholder=""
-                  className="cc-h-8 cc-text-xs cc-pl-2"
+                  className="cc-h-8 cc-text-xs !cc-pl-2"
                   value={filterData[idx]?.maxPages}
                   onChange={(e) =>
                     handleFilterData(idx, "maxPages", e.target.value)

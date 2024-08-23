@@ -243,7 +243,7 @@ export default function SitemapTabContent({
               />
               <Input
                 type="text"
-                className="cc-w-[100px_!important] cc-pl-8 cc-rounded-r-none "
+                className="cc-w-[100px_!important] !cc-pl-8 cc-rounded-r-none "
                 placeholder="Enter URL"
                 disabled={true}
                 value="https://"
