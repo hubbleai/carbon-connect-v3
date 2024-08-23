@@ -92,7 +92,11 @@ export default function FileItem({
           </td>
         )}
 
-        {/* Mobile view for "created_at" and "external_url" */}
+        {/* Mobile view */}
+
+
+
+
         <td className="md:!cc-table-cell cc-hidden cc-py-3 cc-px-2 cc-align-top">
           <div>
             <div className="cc-flex">
@@ -142,7 +146,8 @@ export default function FileItem({
               </div>
             </div>
 
-            {columnsToDisplay.includes("created_at") && (
+          <div className="cc-ml-[54px]">
+          {columnsToDisplay.includes("created_at") && (
               <div className="cc-my-[4px] ">
                 <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] cc-font-semibold">
                   {formatDate(item.created_at)}
@@ -159,6 +164,7 @@ export default function FileItem({
                 </p>
               </div>
             )}
+          </div>
           </div>
         </td>
       </tr>
