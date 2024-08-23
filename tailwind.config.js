@@ -82,17 +82,20 @@ module.exports = {
         xlxt: ["20px", "32px"],
         "2.5xl": ["26px", "40px"],
       },
-      screens: {
+ screens: {
         md: { max: "767px" },
         // => @media (max-width: 767px) { ... }
-        tab: { min: "768px", max: "783px" },
+
+        tab:{min: '768px' , max:'783px'},
+        desktop:{min:'1025px' , max:'1280'}
       },
+
     },
   },
 
   plugins: [
     scopedPreflightStyles({
-      isolationStrategy: isolateInsideOfContainer(".cc-modal"),
+      isolationStrategy: isolateInsideOfContainer([".cc-modal", ".cc-dropdown-content"]),
     }),
   ],
 };

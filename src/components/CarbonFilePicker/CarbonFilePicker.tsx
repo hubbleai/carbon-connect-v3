@@ -32,6 +32,7 @@ import {
   getConnectRequestProps,
   getDataSourceDomain,
   getIntegrationName,
+  wasAccountAdded,
 } from "../../utils/helper-functions";
 import FreshdeskScreen from "../Screens/FreshdeskScreen";
 
@@ -46,11 +47,13 @@ import ZendeskScreen from "../Screens/ZendeskScreen";
 import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
 import AccountManagement from "@components/common/AccountManagement";
+import SlackScreen from "../Screens/SlackScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
   SYNC_URL = "SYNC_URL",
-  UPLOAD = "UPLOAd",
+  UPLOAD = "UPLOAD",
+  CUSTOM = "CUSTOM",
 }
 
 export default function CarbonFilePicker({
@@ -58,11 +61,13 @@ export default function CarbonFilePicker({
   setActiveStep,
   onCloseModal,
   activeIntegrations,
+  isWhiteLabeledEntryPoint,
 }: {
   activeStepData?: IntegrationItemType;
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   onCloseModal: () => void;
   activeIntegrations: IntegrationAPIResponse[];
+  isWhiteLabeledEntryPoint: boolean;
 }) {
   const carbonProps = useCarbon();
   const {
@@ -77,6 +82,8 @@ export default function CarbonFilePicker({
     onSuccess,
     showFilesTab,
     openFilesTabTo,
+    lastModifications,
+    setSlackActive,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -103,6 +110,8 @@ export default function CarbonFilePicker({
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
+  const [startCustomSync, setStartCustomSync] = useState(false);
+  const [accountAdded, setAccountAdded] = useState(false);
 
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -121,6 +130,8 @@ export default function CarbonFilePicker({
       SYNC_URL_SUPPORTED_CONNECTORS.find((c) => c == integrationName)
     ) {
       setMode(SyncingModes.SYNC_URL);
+    } else if (integrationName == IntegrationName.SLACK) {
+      setMode(SyncingModes.CUSTOM);
     }
   }, [processedIntegration]);
 
@@ -186,6 +197,20 @@ export default function CarbonFilePicker({
       setShowFilePicker(false);
     }
   }, [selectedDataSource?.id, mode]);
+
+  useEffect(() => {
+    if (wasAccountAdded(lastModifications || [], IntegrationName.SLACK)) {
+      setAccountAdded(true);
+      setStartCustomSync(true);
+      setSlackActive(true);
+    }
+  }, [JSON.stringify(lastModifications)]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAccountAdded(false);
+    }, 5000);
+  }, [accountAdded]);
 
   const sendOauthRequest = async (
     mode = "CONNECT",
@@ -267,7 +292,9 @@ export default function CarbonFilePicker({
           "You will be redirected to the service to connect your account",
         type: "WARN",
       });
-      await sendOauthRequest();
+      await sendOauthRequest(undefined, undefined, {
+        enable_file_picker: mode !== SyncingModes.FILE_PICKER,
+      });
     }
   };
 
@@ -279,29 +306,33 @@ export default function CarbonFilePicker({
     setSelectedDataSource(selectedAccount || null);
   };
 
-  const handleUploadFilesClick = () => {
-    if (!selectedDataSource) return;
+  const handleUploadFilesClick = (dataSource?: IntegrationAPIResponse) => {
+    const finalDataSource = dataSource || selectedDataSource;
+    if (!finalDataSource) return;
+    console.log(finalDataSource);
+
     if (mode == SyncingModes.SYNC_URL) {
-      const dataSourceType = selectedDataSource.data_source_type;
+      const dataSourceType = finalDataSource.data_source_type;
       const extraParams: any = {};
       if (dataSourceType == IntegrationName.SALESFORCE) {
-        extraParams.salesforce_domain = getDataSourceDomain(selectedDataSource);
+        extraParams.salesforce_domain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.ZENDESK) {
-        extraParams.zendesk_subdomain = getDataSourceDomain(selectedDataSource);
+        extraParams.zendesk_subdomain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.CONFLUENCE) {
-        extraParams.confluence_subdomain =
-          getDataSourceDomain(selectedDataSource);
+        extraParams.confluence_subdomain = getDataSourceDomain(finalDataSource);
       } else if (dataSourceType == IntegrationName.SHAREPOINT) {
-        const workspace = getDataSourceDomain(selectedDataSource) || "";
+        const workspace = getDataSourceDomain(finalDataSource) || "";
         const parts = workspace.split("/");
         if (parts.length == 2) {
           extraParams.microsoft_tenant = parts[0];
           extraParams.sharepoint_site_name = parts[1];
         }
       }
-      sendOauthRequest("UPLOAD", selectedDataSource.id, extraParams);
+      sendOauthRequest("UPLOAD", finalDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
+    } else if (mode == SyncingModes.CUSTOM) {
+      setStartCustomSync(true);
     } else {
       setBannerState({
         type: "ERROR",
@@ -442,6 +473,19 @@ export default function CarbonFilePicker({
 
   if (!processedIntegration) return null;
 
+  if (startCustomSync) {
+    if (integrationName == IntegrationName.SLACK) {
+      return (
+        <SlackScreen
+          setActiveStep={setActiveStep}
+          activeStepData={processedIntegration}
+          screen={accountAdded ? "CONNECTED" : "CHANNEL"}
+          setStartCustomSync={setStartCustomSync}
+        />
+      );
+    }
+  }
+
   return (
     <>
       <DialogHeader closeButtonClass="cc-hidden sm:cc-flex">
@@ -449,9 +493,11 @@ export default function CarbonFilePicker({
           <button
             className="cc-pr-1 cc-h-10 cc-w-auto cc-shrink-0 "
             onClick={() => {
-              if (!entryPoint || entryPoint == "INTEGRATION_LIST")
+              if (!entryPoint || entryPoint == "INTEGRATION_LIST") {
                 setActiveStep("INTEGRATION_LIST");
-              else setActiveStep("CONNECT");
+              } else if (isWhiteLabeledEntryPoint) {
+                onCloseModal();
+              } else setActiveStep("CONNECT");
             }}
           >
             <img
@@ -480,7 +526,7 @@ export default function CarbonFilePicker({
             <Button
               size="sm"
               variant="gray"
-              className="cc-rounded-xl cc-shrink-0 sm:cc-hidden"
+              className="cc-rounded-xl cc-shrink-0 cc-hidden"
             >
               <img
                 src={RefreshIcon}
@@ -605,6 +651,7 @@ export default function CarbonFilePicker({
           setShowFilePicker={setShowFilePicker}
           selectedDataSource={selectedDataSource}
           processedIntegration={processedIntegration}
+          shouldShowFilesTab={!!shouldShowFilesTab}
         />
       ) : !shouldShowFilesTab ? (
         <AccountManagement
@@ -614,6 +661,7 @@ export default function CarbonFilePicker({
           revokeDataSource={revokeDataSource}
           performBulkAction={performBulkAction}
           performingAction={performingAction}
+          handleUploadFilesClick={handleUploadFilesClick}
         />
       ) : (
         <SyncedFilesList

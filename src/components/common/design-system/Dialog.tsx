@@ -4,7 +4,11 @@ import CrossIcon from "@assets/svgIcons/cross-icon.svg";
 
 import { cn } from "./utils";
 import { ActiveStep } from "src/typing/shared";
+
+import CarbonContext from "src/context/CarbonContext";
+
 import { useCarbon } from "../../../context/CarbonContext";
+
 
 const Dialog = DialogPrimitive.Root;
 
@@ -13,6 +17,8 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 
 const DialogClose = DialogPrimitive.Close;
+
+
 
 type DialogTitleProps = React.ComponentPropsWithoutRef<
   typeof DialogPrimitive.Title
@@ -38,12 +44,16 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   activeState: ActiveStep;
+  
+  
 }
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, activeState, ...props }, ref) => {
+  >(({ className, children, activeState, ...props }, ref) => {
   const { zIndex } = useCarbon();
+  const { slackActive } = React.useContext(CarbonContext);
+
 
   return (
     <DialogPortal>
@@ -51,21 +61,24 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          `cc-modal cc-rootStyle dark:cc-bg-dark-bg-black cc-h-[703px] cc-font-manrope cc-antialiased cc-fixed cc-left-2/4 cc-top-2/4 -cc-translate-x-1/2  -cc-translate-y-2/4 cc-flex cc-flex-col  cc-z-50 cc-overflow-auto  cc-border cc-border-outline-base_em cc-bg-white cc-text-high_em cc-shadow-lg  sm:cc-rounded-[20px] sm:cc-min-h-0 dark:cc-border-dark-border-color dark:cc-shadow-[#00000033]  cc-overflow-hidden ${
-            activeState === "CONNECT"
-              ? "sm:cc-w-[415px]"
-              : "cc-w-full cc-max-w-[784px]"
-          }`,
+ `cc-modal cc-rootStyle dark:cc-bg-dark-bg-black cc-h-[703px] cc-font-manrope cc-antialiased cc-fixed cc-flex cc-flex-col cc-left-1/2 cc-top-1/2 cc-z-50 cc-overflow-auto -cc-translate-x-1/2 -cc-translate-y-1/2 cc-border cc-border-outline-base_em cc-bg-white cc-text-high_em cc-shadow-lg cc-rounded-[20px] md:cc-rounded-[0px] sm:cc-min-h-0 dark:cc-border-dark-border-color md:cc-w-full dark:cc-shadow-[#00000033] cc-overflow-hidden ${  activeState === "CONNECT"
+            ? "sm:cc-w-[415px]"
+            : activeState === "SLACK" && slackActive
+            ? "sm:cc-w-[464px] md:!cc-h-[100vh] sm:!cc-h-auto md:cc-w-full": "cc-w-full cc-max-w-[784px]" }`,
           className
         )}
+
         {...props}
+
         style={{ zIndex: zIndex }}
+
       >
         {children}
       </DialogPrimitive.Content>
     </DialogPortal>
   );
 });
+
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({

@@ -264,7 +264,7 @@ export default function WebsiteTabContent({
                     />
                     <Input
                       type="text"
-                      className="cc-w-[100px_!important] cc-pl-8 cc-rounded-r-none"
+                      className="cc-w-[100px_!important] 1cc-pl-8 cc-rounded-r-none"
                       placeholder="Enter URL"
                       disabled={true}
                       value="https://"
@@ -574,7 +574,7 @@ function ConfigureForm({
           <Input
             type="text"
             placeholder=""
-            className="cc-h-8 cc-text-xs cc-pl-2"
+            className="cc-h-8 cc-text-xs !cc-pl-2"
             value={urlData.recursionDepth || 0}
             onChange={(e) => {
               if (parseInt(e.target.value) > maxRecursionDepth) return;
@@ -603,7 +603,7 @@ function ConfigureForm({
           <Input
             type="text"
             placeholder=""
-            className="cc-h-8 cc-text-xs cc-pl-2"
+            className="cc-h-8 cc-text-xs !cc-pl-2"
             value={urlData.maxPageToScrape || 0}
             onChange={(e) => {
               if (parseInt(e.target.value) > maxPagesToScrape) return;

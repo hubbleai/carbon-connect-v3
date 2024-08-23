@@ -248,6 +248,8 @@ export type UserFileApi = {
   created_at: Date;
   sync_status: string;
   external_url: string | null;
+  source: string;
+  parent_id: number | null;
   file_metadata: {
     is_folder?: boolean;
     is_shortcut?: boolean;
@@ -256,6 +258,7 @@ export type UserFileApi = {
     type?: string;
     is_feed_url?: boolean;
     is_thread?: boolean;
+    max_pages_to_scrape?: number;
   };
 };
 
@@ -290,3 +293,15 @@ export enum TranscriptionService {
   ASSEMBLYAI = "assemblyai",
   DEEPGRAM = "deepgram",
 }
+
+export type SlackConversation = {
+  id: string;
+  name: string;
+  is_channel: boolean;
+  is_im: boolean;
+  is_mpim: boolean;
+  is_private: boolean;
+  is_shared: boolean;
+  is_archived: boolean;
+  user: string;
+};
