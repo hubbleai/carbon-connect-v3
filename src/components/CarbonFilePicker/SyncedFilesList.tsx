@@ -496,9 +496,20 @@ export default function SyncedFilesList({
               </tr>
             </thead>
             {filesLoading ? (
-              <Loader />
+              <tbody>
+                <tr>
+                  <th>
+                  <Loader />
+
+                  </th>
+                </tr>
+              </tbody>
             ) : !filteredList.length ? (
-              <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full cc-absolute cc-left-1/2 cc-top-2/4 -cc-translate-x-1/2 -cc-translate-y-1/2">
+             
+               <tbody>
+                <tr>
+                  <th>
+                  <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full cc-absolute cc-left-1/2 cc-top-2/4 -cc-translate-x-1/2 -cc-translate-y-1/2">
                 <div className="cc-p-2 cc-bg-surface-surface_2 cc-rounded-lg cc-mb-3">
                   <img
                     src={NoResultsIcon}
@@ -514,6 +525,13 @@ export default function SyncedFilesList({
                   type, format, or more.
                 </p>
               </div>
+                  </th>
+                </tr>
+               </tbody>
+            
+             
+           
+             
             ) : (
               <tbody className="cc-pb-2">
                 {filteredList.map((item) => {
