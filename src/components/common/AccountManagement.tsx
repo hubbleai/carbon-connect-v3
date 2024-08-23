@@ -28,6 +28,7 @@ const AccountManagement = ({
   revokeDataSource,
   performBulkAction,
   performingAction,
+  handleUploadFilesClick,
 }: {
   accounts: IntegrationAPIResponse[];
   handleAddAccountClick: () => void;
@@ -35,6 +36,7 @@ const AccountManagement = ({
   revokeDataSource: (id?: number, bulk?: boolean) => void;
   performBulkAction: (ids: number[], message: string, func: Function) => void;
   performingAction: boolean;
+  handleUploadFilesClick: (dataSource?: IntegrationAPIResponse) => void;
 }) => {
   const [selectedAccounts, setSelectedAccounts] = useState<number[]>([]);
 
@@ -141,6 +143,7 @@ const AccountManagement = ({
                     });
                   }}
                   resyncDataSource={resyncDataSource}
+                  handleUploadFilesClick={handleUploadFilesClick}
                 />
               );
             })}

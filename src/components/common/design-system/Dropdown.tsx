@@ -44,7 +44,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-md cc-border cc-bg-surface-surface_1 cc-p-1 cc-text-high_em cc-shadow-e2 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2",
+      " cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-md cc-border cc-bg-surface-surface_1 cc-p-1 cc-text-high_em cc-shadow-e2 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2",
       className
     )}
     {...props}
@@ -66,7 +66,7 @@ const DropdownMenuContent = React.forwardRef<
         sideOffset={sideOffset}
         style={{ zIndex: finalIndex }}
         className={cn(
-          "cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-xl cc-font-semibold cc-text-xs cc-border cc-bg-white  cc-text-high_em cc-shadow-e3 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2 dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color ",
+          "cc-dropdown-content cc-z-50 cc-min-w-[8rem] cc-overflow-hidden cc-rounded-xl cc-font-semibold cc-text-xs cc-border cc-bg-white  cc-text-high_em cc-shadow-e3 data-[state=open]:cc-animate-in data-[state=closed]:cc-animate-out data-[state=closed]:cc-fade-out-0 data-[state=open]:cc-fade-in-0 data-[state=closed]:cc-zoom-out-95 data-[state=open]:cc-zoom-in-95 data-[side=bottom]:cc-slide-in-from-top-2 data-[side=left]:cc-slide-in-from-right-2 data-[side=right]:cc-slide-in-from-left-2 data-[side=top]:cc-slide-in-from-bottom-2 dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color ",
           className
         )}
         {...props}

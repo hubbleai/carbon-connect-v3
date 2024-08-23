@@ -81,7 +81,7 @@ function IntegrationList({
             justifyModification={true}
             className="cc-flex-grow sm:cc-text-left"
           >
-            Integration
+            Integrations
           </DialogTitle>
         </div>
       </DialogHeader>
@@ -143,18 +143,18 @@ function IntegrationList({
                           {integration.icon}
                         </div>
                       </div>
-                      <div className="cc-flex-grow">
-                        <div className="cc-flex cc-items-center">
-                          <div className="cc-text-base cc-font-semibold cc-items-center cc-flex cc-break-words ">
+                      <div className="cc-flex-grow ">
+                        <div className="cc-flex cc-items-center cc-break-words">
+                          <div className="cc-text-base cc-font-semibold cc-items-center cc-inline-block  ">
                             {getIntegrationName(integration)}
+                            {isActive ? (
+                              <span
+                                className={
+                                  "cc-h-2 cc-ml-[4px]  cc-top-[10px] cc-right-[10px] cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
+                                }
+                              />
+                            ) : null}
                           </div>
-                          {isActive ? (
-                            <div
-                              className={
-                                "cc-h-2 cc-absolute cc-top-[10px] cc-right-[10px] cc-inline-block cc-w-2 cc-border dark:cc-border-dark-bg-black cc-border-white cc-rounded-lg cc-bg-success-600"
-                              }
-                            />
-                          ) : null}
                         </div>
 
                         {integration.id == IntegrationName.LOCAL_FILES ? (
