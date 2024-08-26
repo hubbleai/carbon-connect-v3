@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
 @tailwind base;
+@tailwind components;
 @tailwind utilities;
+
 
 
 .cc-modal {
@@ -20,23 +23,23 @@
   --hue-dark: hue-rotate(180);
   --customGradient: background:(linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
       linear-gradient(0deg, rgba(31, 123, 245, 0.1), rgba(31, 123, 245, 0.1)));
+
+  --calenderWidth: 384px;
+  --calenderCommanPadding: 24px 24px 16px 24px;
+  --calenderCommanFontSize: 14px;
+
+  --calenderCommanFontWeight: 700;
+  --CalenderCommanLineHeight: 24px;
+  --calenderDayOutsideWidth: 48px;
+  --calenderDayOutsideHeight: 40px;
 }
 
 
 
 
-.cc-modal .dark .searchSvg {
-  fill: #ffffffc2;
-}
 
 
 
-.cc-modal h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-/* Custom radio button styles */
 .cc-modal .cc-custom-radio {
   @apply cc-flex cc-items-center cc-justify-center cc-cursor-pointer cc-mr-2;
   position: relative;
@@ -48,10 +51,22 @@
   display: inline-block;
 }
 
+.cc-modal .cc-custom-radio:where([data-mode="dark"], [data-mode="dark"] *)::before {
+  content: "";
+  @apply cc-w-[18px] cc-h-[18px] cc-border-2 !cc-border-[#fff] cc-rounded-full cc-mr-3;
+  display: inline-block;
+}
+
 .cc-modal .cc-custom-radio.cc-custom-radio-checked::before {
   @apply cc-border-surface-info_main cc-bg-surface-info_main;
   display: inline-block;
 }
+
+.cc-modal .cc-custom-radio.cc-custom-radio-checked:where([data-mode="dark"], [data-mode="dark"] *)::before {
+  border-color: rgb(11 171 251) !important;
+  display: inline-block;
+}
+
 
 .cc-modal .cc-custom-radio.cc-custom-radio-checked::after {
   content: "";
@@ -73,13 +88,31 @@
   /* @apply cc-bg-gray-100; */
 }
 
+
+
+
+
+
+.cc-modal h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+
+
+
+
+.cc-modal .dark .searchSvg {
+  fill: #ffffffc2;
+}
+
 .cc-modal .uploadFileWrapper:hover .delete {
   display: block;
 
+
 }
 
-@media only screen and (max-width: 767px) {
-
+@media only screen and (max-width: 768px) {
   .cc-modal .uploadFileWrapper:hover .delete {
     display: none;
   }
@@ -89,26 +122,282 @@
 .cc-modal .uploadFileWrapper:hover .success {
   display: none;
 
+
 }
 
 @media only screen and (max-width: 767px) {
-
   .cc-modal .uploadFileWrapper:hover .success {
     display: block;
-  }
 
-}
 
-.cc-modal .refreshSvg:hover path {
-  fill: #0981e3;
-}
-
-.cc-modal .addIconsvg path {
-  @media (prefers-color-scheme: dark) {
-    fill: white
   }
 }
+
+
+
+
+
+
+
+
+
+/* Custom radio button styles */
+
+
 
 /* .dark img.dark:cc-invert-[1] dark:cc-hue-rotate-180 {
   filter: invert(1) hue-rotate(180deg);
 } */
+
+/* calender styles start here   */
+
+
+
+.cc-modal .rdp-month {
+
+  width: var(--calenderWidth);
+  border-radius: 20px;
+  border: 1px solid #F3F3F4;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+
+}
+
+.cc-modal .rdp-month:where([data-mode="dark"], [data-mode="dark"] *) {
+  background-color: rgb(12 12 12);
+  border-color: #ffffff12;
+}
+
+.cc-modal .rdp-months {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cc-modal .rdp-caption {
+  padding: var(--calenderCommanPadding) !important;
+  width: 100%;
+}
+
+.cc-modal .rdp-table {
+  max-width: 336px !important;
+  width: 100%;
+
+}
+
+.cc-modal .rdp-head_cell {
+  color: #B3B1B8;
+
+  font-size: var(--calenderCommanFontSize);
+  text-transform: capitalize !important;
+  font-weight: var(--calenderCommanFontWeight);
+  line-height: var(--CalenderCommanLineHeight);
+}
+
+.cc-modal .rdp-day_outside {
+  color: #B3B1B8 !important;
+  /* padding: 8px 12px !important; */
+  font-size: var(--calenderCommanFontSize) !important;
+
+  font-weight: var(--calenderCommanFontWeight) !important;
+  line-height: var(--CalenderCommanLineHeight) !important;
+  width: var(--calenderDayOutsideWidth) !important;
+  height: var(--calenderDayOutsideHeight) !important;
+  max-width: var(--calenderDayOutsideWidth) !important;
+}
+
+.cc-modal .rdp-day_outside:where([data-mode="dark"], [data-mode="dark"] *) {
+  color: #fff !important;
+}
+
+
+.cc-modal .rdp-cell {
+  width: var(--calenderDayOutsideWidth) !important;
+  height: var(--calenderDayOutsideHeight) !important;
+  max-width: var(--calenderDayOutsideWidth) !important;
+}
+
+.cc-modal .rdp-day {
+  color: #100C20 !important;
+  /* padding: 8px 12px !important; */
+  font-size: var(--calenderCommanFontSize) !important;
+  width: var(--calenderDayOutsideWidth) !important;
+  height: var(--calenderDayOutsideHeight) !important;
+
+  font-weight: var(--calenderCommanFontWeight) !important;
+  line-height: var(--CalenderCommanLineHeight) !important;
+  max-width: var(--calenderDayOutsideWidth) !important;
+}
+
+.cc-modal .rdp-day:where([data-mode="dark"], [data-mode="dark"] *) {
+  color: #fff !important;
+}
+
+
+.cc-modal .rdp-day:hover {
+  color: #fff !important;
+  background-color: #0BABFB !important;
+  border-radius: 12px !important;
+
+}
+
+.cc-modal .rdp-day_selected {
+  color: #fff !important;
+  background-color: #0BABFB !important;
+  border-radius: 12px !important;
+
+}
+
+.cc-modal .rdp-tfoot {
+  margin: var(--CalenderCommanLineHeight) !important;
+}
+
+.cc-modal .bottomArea {
+  display: flex;
+  gap: 14px;
+  padding: var(--CalenderCommanLineHeight) 0px;
+  border-top: 1px solid #F3F3F4;
+
+}
+
+.cc-modal .bottomArea:where([data-mode="dark"], [data-mode="dark"] *) {
+  border-color: #ffffff7a !important;
+}
+
+.cc-modal .inputfooter {
+  width: 112px;
+  border-radius: 12px;
+  background-color: #F3F3F4;
+  color: #494656;
+  padding: 8px 12px;
+  font-size: var(--calenderCommanFontSize);
+  text-align: center;
+  font-weight: 600;
+  line-height: var(--CalenderCommanLineHeight);
+}
+
+.cc-modal .inputfooter:focus {
+  outline: none;
+}
+
+.cc-modal .cancelCta {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #ECECED;
+  background: #FFF;
+  font-size: var(--calenderCommanFontSize);
+
+  font-weight: var(--calenderCommanFontWeight);
+  line-height: var(--CalenderCommanLineHeight);
+}
+
+.cc-modal .startDate {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #ECECED;
+  background: #0BABFB;
+  font-size: var(--calenderCommanFontSize);
+  color: #fff;
+  font-weight: var(--calenderCommanFontWeight);
+  line-height: var(--CalenderCommanLineHeight);
+}
+
+.cc-modal .startDate:where([data-mode="dark"], [data-mode="dark"] *) {
+  border-color: rgb(12 12 12);
+}
+
+.cc-modal .footerWrapper {
+  padding-top: var(--CalenderCommanLineHeight);
+}
+
+.cc-modal .rdp {
+  position: absolute;
+  z-index: 30;
+  background: #0000007A;
+  width: 100%;
+  left: 0;
+  top: 0;
+  margin: 0 !important;
+  height: 100%;
+}
+
+.cc-modal .innerLayer {
+  width: 100%;
+  height: 100%;
+}
+
+.cc-modal .rdp-caption_label {
+  font-size: 18px !important;
+  color: #100C20 !important;
+  font-weight: var(--calenderCommanFontWeight) !important;
+  line-height: 28px;
+  letter-spacing: -0.18px;
+}
+
+.cc-modal .rdp-caption_label:where([data-mode="dark"], [data-mode="dark"] *) {
+  color: #fff !important;
+}
+
+
+.cc-modal .rdp-nav_button {
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  background: #F3F3F4 !important;
+
+
+}
+
+.cc-modal .rdp-nav_button svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.cc-modal .rdp-nav_button_previous {
+  margin-right: 20px !important;
+}
+
+.cc-modal .footerNote {
+  display: none;
+}
+
+@media screen and (max-width:767px) {
+  .cc-modal .footerNote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 10px;
+
+  }
+
+  @media screen and (max-width:385px) {
+    .cc-modal .rdp-month {
+      width: 100%;
+    }
+
+    .cc-modal .rdp-months {
+      width: 100%;
+      justify-content: center;
+    }
+
+  }
+
+
+
+  .cc-modal .footerNote p {
+    font-size: var(--calenderCommanFontSize);
+    line-height: var(--CalenderCommanLineHeight);
+    font-weight: 500;
+  }
+}
+
+
+
+
+
+/* calender styles end here   */

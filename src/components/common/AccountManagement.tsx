@@ -112,7 +112,6 @@ const AccountManagement = ({
                     : false
                 }
                 onCheckedChange={() => {
-                  console.log("hello");
                   const allAccounts = accounts.map((item) => item.id);
                   setSelectedAccounts(allAccounts);
                 }}

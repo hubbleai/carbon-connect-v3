@@ -293,3 +293,15 @@ export enum TranscriptionService {
   ASSEMBLYAI = "assemblyai",
   DEEPGRAM = "deepgram",
 }
+
+export type SlackConversation = {
+  id: string;
+  name: string;
+  is_channel: boolean;
+  is_im: boolean;
+  is_mpim: boolean;
+  is_private: boolean;
+  is_shared: boolean;
+  is_archived: boolean;
+  user: string;
+};

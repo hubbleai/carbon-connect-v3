@@ -25,6 +25,10 @@ type CarbonContextValues = CarbonConnectProps & {
   activeStep?: ActiveStep;
   setActiveStep?: any;
   showModal?: boolean;
+
+  slackActive?: boolean;
+  setSlackActive?: any;
+
   lastModifications?: OnSuccessData[];
   setLastModifications?: any;
 };
@@ -106,6 +110,9 @@ export const CarbonProvider = ({
     useState<ProcessedIntegration | null>(null);
   const [whiteLabelingData, setWhiteLabelingData] = useState(null);
   const [requestIds, setRequestIds] = useState({});
+
+  const [slackActive, setSlackActive] = useState(false);
+
   const [lastModifications, setLastModifications] = useState([]);
 
   const manageModalOpenState = (modalOpenState: boolean) => {
@@ -250,7 +257,6 @@ export const CarbonProvider = ({
     manageModalOpenState,
     backButtonText,
     zIndex,
-
     embeddingModel,
     generateSparseVectors,
     prependFilenameToChunks,
@@ -264,6 +270,8 @@ export const CarbonProvider = ({
     loading,
     sendDeletionWebhooks,
     fileSyncConfig,
+    slackActive,
+    setSlackActive,
     filesTabColumns,
     incrementalSync,
     showFilesTab,
