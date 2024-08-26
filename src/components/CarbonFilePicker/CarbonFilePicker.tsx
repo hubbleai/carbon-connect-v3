@@ -192,7 +192,7 @@ export default function CarbonFilePicker({
 
   useEffect(() => {
     if (addingOauthFiles) {
-      setTimeout(() => setAddingOauthFiles(false), 15000);
+      setTimeout(() => setAddingOauthFiles(false), 20000);
     }
   }, [addingOauthFiles]);
 
@@ -642,6 +642,7 @@ export default function CarbonFilePicker({
           bannerState={bannerState}
           setBannerState={setBannerState}
           addingOauthFiles={addingOauthFiles}
+          setAddingOauthFiles={setAddingOauthFiles}
         />
       )}
     </>

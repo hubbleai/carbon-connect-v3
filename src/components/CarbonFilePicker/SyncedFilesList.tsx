@@ -63,6 +63,7 @@ export default function SyncedFilesList({
   bannerState,
   setBannerState,
   addingOauthFiles = false,
+  setAddingOauthFiles,
 }: {
   selectedDataSource: IntegrationAPIResponse | null;
   handleUploadFilesClick: () => void;
@@ -72,6 +73,7 @@ export default function SyncedFilesList({
   bannerState: BannerState;
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
   addingOauthFiles?: boolean;
+  setAddingOauthFiles?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [selectedFiles, setSelectedFiles] = useState<number[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -150,6 +152,7 @@ export default function SyncedFilesList({
       )
     ) {
       setSyncedFilesRefreshes((prev) => prev + 1);
+      setAddingOauthFiles && setAddingOauthFiles(false);
     }
   }, [JSON.stringify(lastModifications)]);
 
