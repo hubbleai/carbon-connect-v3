@@ -62,6 +62,7 @@ export default function SyncedFilesList({
   setActiveStep,
   bannerState,
   setBannerState,
+  addingOauthFiles = false,
 }: {
   selectedDataSource: IntegrationAPIResponse | null;
   handleUploadFilesClick: () => void;
@@ -70,6 +71,7 @@ export default function SyncedFilesList({
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   bannerState: BannerState;
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
+  addingOauthFiles?: boolean;
 }) {
   const [selectedFiles, setSelectedFiles] = useState<number[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -431,11 +433,15 @@ export default function SyncedFilesList({
                 className="cc-text-xs !cc-rounded-xl cc-font-semibold cc-shrink-0"
                 onClick={() => handleUploadFilesClick()}
               >
-                <img
-                  src={AddCircleIconBlack}
-                  alt="Add Circle Plus"
-                  className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
-                />
+                {addingOauthFiles ? (
+                  <Loader height={20} width={20} />
+                ) : (
+                  <img
+                    src={AddCircleIconBlack}
+                    alt="Add Circle Plus"
+                    className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                  />
+                )}
                 Add more {isWebscrape ? "URLs" : "files"}
               </Button>
             ) : null}

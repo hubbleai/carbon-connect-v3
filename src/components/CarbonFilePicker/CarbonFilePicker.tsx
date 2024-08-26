@@ -105,6 +105,7 @@ export default function CarbonFilePicker({
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
+  const [addingOauthFiles, setAddingOauthFiles] = useState(false);
 
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -188,6 +189,12 @@ export default function CarbonFilePicker({
       setShowFilePicker(false);
     }
   }, [selectedDataSource?.id, mode]);
+
+  useEffect(() => {
+    if (addingOauthFiles) {
+      setTimeout(() => setAddingOauthFiles(false), 15000);
+    }
+  }, [addingOauthFiles]);
 
   const sendOauthRequest = async (
     mode = "CONNECT",
@@ -304,6 +311,7 @@ export default function CarbonFilePicker({
           extraParams.sharepoint_site_name = parts[1];
         }
       }
+      setAddingOauthFiles(true);
       sendOauthRequest("UPLOAD", finalDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
@@ -633,6 +641,7 @@ export default function CarbonFilePicker({
           setActiveStep={setActiveStep}
           bannerState={bannerState}
           setBannerState={setBannerState}
+          addingOauthFiles={addingOauthFiles}
         />
       )}
     </>
