@@ -395,6 +395,20 @@ export const wasAccountAdded = (
   return false;
 };
 
+export const wereFilesSynced = (
+  modifications: OnSuccessData[],
+  name: IntegrationName
+) => {
+  if (modifications.length) {
+    const updateModification = modifications.find(
+      (m) =>
+        m.action == "UPDATE" && m.integration == name && m.data?.files_synced
+    );
+    return !!updateModification;
+  }
+  return false;
+};
+
 export const getYmdDate = (date: Date) => {
   let month = "" + (date.getMonth() + 1);
   let day = "" + date.getDate();

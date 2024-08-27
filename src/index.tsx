@@ -77,6 +77,7 @@ export type OnSuccessData = {
     sync_status?: string | null;
     files?: LocalFile[] | WebScraper[] | OnSuccessDataFileObject[] | null;
     request_id?: string | null;
+    files_synced?: boolean;
   } | null;
   action: ActionType;
   event: ActionType;

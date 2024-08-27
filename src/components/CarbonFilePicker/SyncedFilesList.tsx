@@ -33,6 +33,7 @@ import {
   getFileItemType,
   pluralize,
   truncateString,
+  wereFilesSynced,
 } from "../../utils/helper-functions";
 import { BannerState } from "../common/Banner";
 import {
@@ -61,6 +62,8 @@ export default function SyncedFilesList({
   setActiveStep,
   bannerState,
   setBannerState,
+  addingOauthFiles = false,
+  setAddingOauthFiles,
 }: {
   selectedDataSource: IntegrationAPIResponse | null;
   handleUploadFilesClick: () => void;
@@ -69,6 +72,8 @@ export default function SyncedFilesList({
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
   bannerState: BannerState;
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
+  addingOauthFiles?: boolean;
+  setAddingOauthFiles?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [selectedFiles, setSelectedFiles] = useState<number[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -78,6 +83,7 @@ export default function SyncedFilesList({
     accessToken,
     sendDeletionWebhooks,
     filesTabColumns,
+    lastModifications,
   } = useCarbon();
 
   const [files, setFiles] = useState<UserFileApi[]>([]);
@@ -135,6 +141,18 @@ export default function SyncedFilesList({
       }
     }
   }, [JSON.stringify(breadcrumbs)]);
+
+  useEffect(() => {
+    if (
+      wereFilesSynced(
+        lastModifications || [],
+        processedIntegration.data_source_type
+      )
+    ) {
+      setSyncedFilesRefreshes((prev) => prev + 1);
+      setAddingOauthFiles && setAddingOauthFiles(false);
+    }
+  }, [JSON.stringify(lastModifications)]);
 
   const getUserFilesFilters = (
     breadcrumb: BreadcrumbType,

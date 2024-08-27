@@ -110,6 +110,7 @@ export default function CarbonFilePicker({
   const [pauseDataSourceSelection, setPauseDataSourceSelection] =
     useState(false);
   const [performingAction, setPerformingAction] = useState(false);
+  const [addingOauthFiles, setAddingOauthFiles] = useState(false);
   const [startCustomSync, setStartCustomSync] = useState(false);
   const [accountAdded, setAccountAdded] = useState(false);
 
@@ -197,6 +198,12 @@ export default function CarbonFilePicker({
       setShowFilePicker(false);
     }
   }, [selectedDataSource?.id, mode]);
+
+  useEffect(() => {
+    if (addingOauthFiles) {
+      setTimeout(() => setAddingOauthFiles(false), 20000);
+    }
+  }, [addingOauthFiles]);
 
   useEffect(() => {
     if (wasAccountAdded(lastModifications || [], IntegrationName.SLACK)) {
@@ -309,7 +316,6 @@ export default function CarbonFilePicker({
   const handleUploadFilesClick = (dataSource?: IntegrationAPIResponse) => {
     const finalDataSource = dataSource || selectedDataSource;
     if (!finalDataSource) return;
-    console.log(finalDataSource);
 
     if (mode == SyncingModes.SYNC_URL) {
       const dataSourceType = finalDataSource.data_source_type;
@@ -328,6 +334,7 @@ export default function CarbonFilePicker({
           extraParams.sharepoint_site_name = parts[1];
         }
       }
+      setAddingOauthFiles(true);
       sendOauthRequest("UPLOAD", finalDataSource.id, extraParams);
     } else if (mode == SyncingModes.FILE_PICKER) {
       setShowFilePicker(!showFilePicker);
@@ -672,6 +679,8 @@ export default function CarbonFilePicker({
           setActiveStep={setActiveStep}
           bannerState={bannerState}
           setBannerState={setBannerState}
+          addingOauthFiles={addingOauthFiles}
+          setAddingOauthFiles={setAddingOauthFiles}
         />
       )}
     </>
