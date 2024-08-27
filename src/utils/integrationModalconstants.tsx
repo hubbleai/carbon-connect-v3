@@ -22,6 +22,7 @@ import GithubLogo from "../assets/logos/github.svg";
 import SalesforceLogo from "../assets/logos/salesforce.svg";
 import SlackLogo from "../assets/logos/slack.svg";
 import GCSLogo from "../assets/logos/gcs-logo.svg";
+import GuruLogo from "../assets/logos/guru-logo.svg";
 import { IntegrationName } from "../typing/shared";
 
 export interface IntegrationItemType {
@@ -140,6 +141,20 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     data_source_type: IntegrationName.GOOGLE_CLOUD_STORAGE,
     requiresOAuth: true,
     integrationsListViewTitle: "Google Cloud Storage",
+  },
+  {
+    id: IntegrationName.GURU,
+    subpath: "guru",
+    name: "Guru",
+    description: "Lets your users connect their Guru account to Carbon.",
+    announcementName: "to connect Guru",
+    icon: <img src={GuruLogo} className="cc-w-7 cc-h-7" />,
+    iconBgColor: "gray-50",
+    logo: GuruLogo,
+    active: true,
+    data_source_type: IntegrationName.GURU,
+    requiresOAuth: true,
+    integrationsListViewTitle: "Guru",
   },
   {
     id: IntegrationName.NOTION,

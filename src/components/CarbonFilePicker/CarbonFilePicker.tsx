@@ -48,6 +48,7 @@ import SharepointScreen from "../Screens/SharepointScreen";
 import GithubScreen from "../Screens/GithubScreen";
 import AccountManagement from "@components/common/AccountManagement";
 import SlackScreen from "../Screens/SlackScreen";
+import GuruScreen from "../Screens/GuruScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -650,6 +651,12 @@ export default function CarbonFilePicker({
             setSelectedDataSource={setSelectedDataSource}
             dataSource={selectedDataSource}
             setPauseDataSourceSelection={setPauseDataSourceSelection}
+          />
+        )) ||
+        (integrationName == IntegrationName.GURU && (
+          <GuruScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
           />
         ))
       ) : showFilePicker ? (
