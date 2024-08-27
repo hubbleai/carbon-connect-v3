@@ -163,7 +163,15 @@ export default function GuruScreen({
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
             access token
           </span>
-          of the acount you wish to connect.
+          of the acount you wish to connect. To obtain an access token, follow
+          the steps highlighted{" "}
+          <a
+            href="https://help.getguru.com/docs/gurus-api#obtaining-a-user-token"
+            target="_blank"
+            rel="nofollow"
+          >
+            here
+          </a>
         </div>
         <Input
           type="text"
@@ -174,7 +182,7 @@ export default function GuruScreen({
         />
         <Input
           type="password"
-          placeholder="Access Token"
+          placeholder="Token"
           value={guruToken}
           onChange={(e) => setGuruToken(e.target.value)}
           className="cc-mb-32"
