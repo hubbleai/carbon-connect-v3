@@ -170,8 +170,8 @@ export default function SourceItemsList({
     ) {
       setBannerState({
         type: "WARN",
-        message: "Your content is currently being synced.",
-        additionalInfo: "We will refresh the list automatically once done",
+        message: "Your content is being synced.",
+        additionalInfo: "We’ll refresh the list automatically.",
         persist: true,
       });
     } else {
