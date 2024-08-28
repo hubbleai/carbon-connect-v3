@@ -43,12 +43,16 @@ export default function SourceItemsList({
   selectedDataSource,
   processedIntegration,
   shouldShowFilesTab,
+  bannerState,
+  setBannerState,
 }: {
   setIsUploading: (val: { state: boolean; percentage: number }) => void;
   setShowFilePicker: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDataSource: IntegrationAPIResponse | null;
   processedIntegration: ProcessedIntegration | null;
   shouldShowFilesTab: boolean;
+  bannerState: BannerState;
+  setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
 }) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [serchValue, setSearchValue] = useState<string>("");
@@ -66,9 +70,6 @@ export default function SourceItemsList({
   ]);
   const [sourceItemRefreshes, setSourceItemRefreshes] = useState(0);
   const [itemsLoading, setItemsLoading] = useState(false);
-  const [bannerState, setBannerState] = useState<BannerState>({
-    message: null,
-  });
 
   const filteredList = currItems.filter((item: any) =>
     item.name.toLowerCase().includes(serchValue.toLowerCase())
@@ -162,6 +163,22 @@ export default function SourceItemsList({
     selectedDataSource?.source_items_synced_at,
   ]);
 
+  useEffect(() => {
+    if (
+      selectedDataSource?.sync_status == "SYNCING" ||
+      selectedDataSource?.sync_status == "QUEUED_FOR_SYNC"
+    ) {
+      setBannerState({
+        type: "WARN",
+        message: "Your content is currently being synced.",
+        additionalInfo: "We will refresh the list automatically once done",
+        persist: true,
+      });
+    } else {
+      setBannerState({ message: "" });
+    }
+  }, [selectedDataSource?.sync_status]);
+
   const onItemClick = (item: UserSourceItemApi) => {
     if (itemsLoading) return;
     if (item.is_expandable) {
@@ -233,7 +250,6 @@ export default function SourceItemsList({
 
   return (
     <>
-      <Banner bannerState={bannerState} setBannerState={setBannerState} />
       <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
         <div className="cc-flex cc-gap-2 sm:cc-gap-3 cc-mb-3 cc-flex-col sm:cc-flex-row">
           <p className="cc-text-xl cc-font-semibold cc-flex-grow dark:cc-text-dark-text-white">
@@ -342,14 +358,7 @@ export default function SourceItemsList({
               <p className="cc-px-4">CREATED AT</p>
             </div>
           </div>
-          {selectedDataSource?.sync_status == "SYNCING" ||
-          selectedDataSource?.sync_status == "QUEUED_FOR_SYNC" ? (
-            <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full">
-              <p className="cc-text-low_em cc-font-medium cc-max-w-[282px]">
-                Your content is being synced.
-              </p>
-            </div>
-          ) : itemsLoading ? (
+          {itemsLoading ? (
             <Loader />
           ) : !filteredList.length ? (
             <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full">

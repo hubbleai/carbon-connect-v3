@@ -659,6 +659,8 @@ export default function CarbonFilePicker({
           selectedDataSource={selectedDataSource}
           processedIntegration={processedIntegration}
           shouldShowFilesTab={!!shouldShowFilesTab}
+          bannerState={bannerState}
+          setBannerState={setBannerState}
         />
       ) : !shouldShowFilesTab ? (
         <AccountManagement
