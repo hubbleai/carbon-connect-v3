@@ -46,7 +46,7 @@ export default function FileItem({
           )}
 
           {columnsToDisplay.includes("name") && (
-            <p className="cc-w-[100%] cc-break-word cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]">
+            <p className="cc-w-[312px] cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]">
               {item.name}
             </p>
           )}
