@@ -3,6 +3,7 @@ import SettingsIcon from "@assets/svgIcons/settings-icon.svg";
 import DisconnectIcon from "@assets/svgIcons/disconnect-icon.svg";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import AddIcon from "@assets/svgIcons/add-circle-icon-black.svg";
+import CrossIcon from "@assets/svgIcons/cross-icon.svg";
 import { Button } from "@components/common/design-system/Button";
 import {
   DropdownMenu,
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/common/design-system/Dropdown";
 import DisconnectModal from "@components/common/DisconnectModal";
+import { IntegrationAPIResponse } from "../IntegrationModal";
 
 export default function SettingsDropdown({
   revokeDataSource,
@@ -20,7 +22,8 @@ export default function SettingsDropdown({
   isResyncingDataSource,
   showSelectMorePages,
   sendOauthRequest,
-  dataSourceId,
+  dataSource,
+  cancelSourceItemsSync,
 }: {
   revokeDataSource: () => Promise<void>;
   isRevokingDataSource: boolean;
@@ -32,7 +35,8 @@ export default function SettingsDropdown({
     dataSourceId?: number,
     extraParams?: object
   ) => Promise<void>;
-  dataSourceId?: number;
+  dataSource: IntegrationAPIResponse | null;
+  cancelSourceItemsSync: (id?: number) => void;
 }) {
   const [showDisconnectModal, setShowDisconnectModal] =
     useState<boolean>(false);
@@ -43,7 +47,6 @@ export default function SettingsDropdown({
         isOpen={showDisconnectModal}
         onOpenChange={setShowDisconnectModal}
         revokeDataSource={revokeDataSource}
-        
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -85,14 +88,40 @@ export default function SettingsDropdown({
                 className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
               />
             </DropdownMenuItem>
-            {showSelectMorePages && dataSourceId ? (
+            {showSelectMorePages && dataSource?.id ? (
               <DropdownMenuItem
                 className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
-                onClick={() => sendOauthRequest("UPLOAD", dataSourceId)}
+                onClick={() => sendOauthRequest("UPLOAD", dataSource?.id)}
               >
                 Select More Pages
                 <img
                   src={AddIcon}
+                  alt="Add Icon"
+                  className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                />
+              </DropdownMenuItem>
+            ) : null}
+            {showSelectMorePages && dataSource?.id ? (
+              <DropdownMenuItem
+                className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
+                onClick={() => sendOauthRequest("UPLOAD", dataSource?.id)}
+              >
+                Select More Pages
+                <img
+                  src={AddIcon}
+                  alt="Add Icon"
+                  className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
+                />
+              </DropdownMenuItem>
+            ) : null}
+            {dataSource?.sync_status == "SYNCING" ? (
+              <DropdownMenuItem
+                className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
+                onClick={() => cancelSourceItemsSync()}
+              >
+                Cancel Sync
+                <img
+                  src={CrossIcon}
                   alt="Add Icon"
                   className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
                 />

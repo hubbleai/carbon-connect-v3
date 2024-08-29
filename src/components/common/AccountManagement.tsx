@@ -29,6 +29,7 @@ const AccountManagement = ({
   performBulkAction,
   performingAction,
   handleUploadFilesClick,
+  cancelSourceItemsSync,
 }: {
   accounts: IntegrationAPIResponse[];
   handleAddAccountClick: () => void;
@@ -37,39 +38,9 @@ const AccountManagement = ({
   performBulkAction: (ids: number[], message: string, func: Function) => void;
   performingAction: boolean;
   handleUploadFilesClick: (dataSource?: IntegrationAPIResponse) => void;
+  cancelSourceItemsSync: (id?: number) => void;
 }) => {
   const [selectedAccounts, setSelectedAccounts] = useState<number[]>([]);
-
-  // const accounts: MessageInfo[] = [
-  //   {
-  //     id: 1,
-  //     accountBg: "#4dd2fa",
-  //     accountName: "Carbon",
-  //     connectOn: "17/11/2023",
-  //     error: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     accountBg: "#12d065",
-  //     accountName: "Costrings",
-  //     connectOn: "17/11/2023",
-  //     error: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     accountBg: "#12d065",
-  //     accountName: "Heeko",
-  //     connectOn: "17/11/2023",
-  //     error: false,
-  //   },
-  //   {
-  //     id: 4,
-  //     accountBg: "#12d065",
-  //     accountName: "Hubble",
-  //     connectOn: "17/11/2023",
-  //     error: true,
-  //   },
-  // ];
 
   return (
     <>
@@ -144,6 +115,7 @@ const AccountManagement = ({
                   }}
                   resyncDataSource={resyncDataSource}
                   handleUploadFilesClick={handleUploadFilesClick}
+                  cancelSourceItemsSync={cancelSourceItemsSync}
                 />
               );
             })}

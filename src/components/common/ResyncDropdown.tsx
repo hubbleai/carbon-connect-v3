@@ -11,16 +11,19 @@ import { Button } from "@components/common/design-system/Button";
 import DropboxAccountReady from "@components/common/DropboxAccountReady";
 import AddCircleIconBlack from "@assets/svgIcons/add-circle-icon-black.svg";
 import refresh from "@assets/svgIcons/refresh.svg";
+import cross from "@assets/svgIcons/cross-icon.svg";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 
 const ResyncDropdown = ({
   resyncDataSource,
   account,
   handleUploadFilesClick,
+  cancelSourceItemsSync,
 }: {
   resyncDataSource: (id: number) => void;
   account: IntegrationAPIResponse;
   handleUploadFilesClick: (account?: IntegrationAPIResponse) => void;
+  cancelSourceItemsSync: (id?: number) => void;
 }) => {
   const [isDropboxAccountReady, setIsDropboxAccountReady] =
     useState<boolean>(false);
@@ -30,35 +33,55 @@ const ResyncDropdown = ({
     return (
       <DropdownMenuContent align="end" className="cc-w-[153px] cc-py-[8px] ">
         <DropdownMenuGroup>
-          {resyncDrop.map((item) => (
+          <DropdownMenuItem
+            className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
+            onClick={() => resyncDataSource(account.id)}
+          >
+            <div className="cc-flex cc-justify-between cc-items-center cc-w-full">
+              <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
+                Re-Sync
+              </p>
+              <img
+                className="cc-w-[13px] cc-h-[13px]"
+                src={refresh}
+                alt="resync"
+              />
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
+            onClick={() => handleUploadFilesClick(account)}
+          >
+            <div className="cc-flex cc-justify-between cc-items-center cc-w-full">
+              <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
+                Select Files
+              </p>
+
+              <img
+                className='cc-w-[13px] cc-h-[13px] dark:cc-invert-[1] dark:cc-hue-rotate-180"'
+                src={AddCircleIconBlack}
+                alt="select"
+              />
+            </div>
+          </DropdownMenuItem>
+          {account.sync_status == "SYNCING" ? (
             <DropdownMenuItem
               className="!cc-px-[16px] cc-border-outline-base_em hover:cc-bg-surface-surface_1 dark:cc-border-b-dark-border-color"
-              onClick={
-                item == "Re-Sync"
-                  ? () => resyncDataSource(account.id)
-                  : () => handleUploadFilesClick(account)
-              }
+              onClick={() => cancelSourceItemsSync(account.id)}
             >
               <div className="cc-flex cc-justify-between cc-items-center cc-w-full">
                 <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
-                  {item}
+                  Cancel Sync
                 </p>
-                {item === "Re-Sync" ? (
-                  <img
-                    className="cc-w-[13px] cc-h-[13px]"
-                    src={refresh}
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    className='cc-w-[13px] cc-h-[13px] dark:cc-invert-[1] dark:cc-hue-rotate-180"'
-                    src={AddCircleIconBlack}
-                    alt=""
-                  />
-                )}
+
+                <img
+                  className="cc-w-[13px] cc-h-[13px]"
+                  src={cross}
+                  alt="cancel"
+                />
               </div>
             </DropdownMenuItem>
-          ))}
+          ) : null}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     );
