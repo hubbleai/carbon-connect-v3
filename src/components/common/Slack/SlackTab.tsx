@@ -92,8 +92,11 @@ const SlackTab = ({
       return;
     }
     setPerformingSync(true);
-    const promises: any = [];
+    let promises: any = [];
     for (let id of selectFilesMessage) {
+      promises.push(syncConversation(id));
+    }
+    for (let id of selectedConversations) {
       promises.push(syncConversation(id));
     }
     Promise.all(promises).then(function (values) {
