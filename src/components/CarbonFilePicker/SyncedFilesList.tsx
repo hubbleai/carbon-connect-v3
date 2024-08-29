@@ -201,7 +201,7 @@ export default function SyncedFilesList({
         limit: PER_PAGE,
       },
       filters: getUserFilesFilters(breadcrumb, selectedDataSource),
-      order_by: "created_at",
+      order_by: "id",
       order_dir: "desc",
     };
 
@@ -396,8 +396,6 @@ export default function SyncedFilesList({
     setBreadcrumbs(newBreadcrumbs);
   };
 
- 
-
   return (
     <>
       <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
@@ -425,8 +423,8 @@ export default function SyncedFilesList({
               variant="gray"
               className="cc-rounded-xl cc-shrink-0 cc-hidden sm:cc-flex"
               onClick={() => {
-                setLoadingMore(false)
-               console.log(loadingMore)
+                setLoadingMore(false);
+                console.log(loadingMore);
                 setSyncedFilesRefreshes((prev) => prev + 1);
               }}
             >
@@ -515,7 +513,7 @@ export default function SyncedFilesList({
             dataLength={files.length + 1}
             next={loadMoreRows}
             hasMore={hasMoreFiles} // Replace with a condition based on your data source
-            loader={loadingMore ? <LoaderScroll/> : null}
+            loader={loadingMore ? <LoaderScroll /> : null}
             scrollableTarget="scrollableTarget"
             className="cc-contents"
           >
