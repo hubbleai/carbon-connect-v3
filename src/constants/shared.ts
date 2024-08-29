@@ -34,6 +34,7 @@ export const TWO_STEP_CONNECTORS = [
   IntegrationName.FRESHDESK,
   IntegrationName.GITBOOK,
   IntegrationName.GITHUB,
+  IntegrationName.GURU,
 ];
 
 export const THIRD_PARTY_CONNECTORS = [
@@ -55,6 +56,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.S3,
   IntegrationName.GITHUB,
   IntegrationName.GOOGLE_CLOUD_STORAGE,
+  IntegrationName.GURU,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -89,6 +91,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.S3,
   IntegrationName.GITHUB,
   IntegrationName.GOOGLE_CLOUD_STORAGE,
+  IntegrationName.GURU,
 ];
 
 // note - this excludes RAW_TEXT

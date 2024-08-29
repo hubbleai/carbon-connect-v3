@@ -23,7 +23,6 @@ const CarbonConnect: React.FC<CarbonConnectProps> = (props) => {
     }
     const newMode = finalProps.theme === "dark" ? "dark" : "light";
     document.querySelector("html")?.setAttribute("data-mode", newMode);
-
   }, [finalProps.theme]);
 
   return (
@@ -277,6 +276,7 @@ export enum IntegrationName {
   GITHUB = "GITHUB",
   SLACK = "SLACK",
   GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
+  GURU = "GURU",
 }
 
 export enum TranscriptionService {

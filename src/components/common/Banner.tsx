@@ -6,6 +6,7 @@ export type BannerState = {
   ctaText?: string | null;
   type?: "WARN" | "SUCCESS" | "ERROR" | null;
   additionalInfo?: string | null;
+  persist?: boolean;
 };
 
 const BG_COLORS = {
@@ -40,11 +41,13 @@ const Banner = ({
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
 }) => {
   useEffect(() => {
-    const interval = setInterval(
-      () => setBannerState({ message: null, type: null, ctaText: null }),
-      5000
-    );
-    return () => clearInterval(interval);
+    if (!bannerState.persist) {
+      const interval = setInterval(
+        () => setBannerState({ message: null, type: null, ctaText: null }),
+        5000
+      );
+      return () => clearInterval(interval);
+    }
   }, [bannerState]);
 
   const bgColor = BG_COLORS[bannerState.type || "SUCCESS"];

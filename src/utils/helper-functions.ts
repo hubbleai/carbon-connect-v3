@@ -173,7 +173,7 @@ export const getFileItemType = (item: UserFileApi) => {
   const fileType = item.file_metadata?.type;
   // for now only folder type data sources are considered
   if (item.file_metadata?.is_folder) isFolder = true;
-  // if (item.file_metadata?.is_shortcut) isFolder = true;
+  if (fileType == "COLLECTION" || fileType == "FOLDER") isFolder = true;
   // if (item.file_metadata?.bucket) isFolder = true;
   // if (item.file_metadata?.is_query) isFolder = true;
   // if (item.file_metadata?.is_feed_url) isFolder = true;
