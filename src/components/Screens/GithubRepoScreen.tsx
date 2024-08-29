@@ -19,6 +19,7 @@ import Loader from "../common/Loader";
 
 import Banner, { BannerState } from "../common/Banner";
 import RepoItem from "../CarbonFilePicker/RepoItem";
+import LoaderScroll from "@components/LoaderScroll";
 
 const PER_PAGE = 20;
 
@@ -260,7 +261,7 @@ export default function GithubRepoScreen({
               dataLength={hasMoreFiles ? repos.length + 1 : repos.length}
               next={loadMoreRows}
               hasMore={hasMoreFiles} // Replace with a condition based on your data source
-              loader={<Loader />}
+              loader={<LoaderScroll />}
               scrollableTarget="scrollableTarget"
             >
               <ul className="cc-pb-2">

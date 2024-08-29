@@ -46,7 +46,14 @@ export default function FileItem({
           )}
 
           {columnsToDisplay.includes("name") && (
-            <p className="cc-w-[312px] cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]">
+            <p
+              className={` ${
+                columnsToDisplay.includes("created_at") &&
+                columnsToDisplay.includes("external_url")
+                  ? "cc-w-auto"
+                  : "cc-w-[312px]"
+              } cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]`}
+            >
               {item.name}
             </p>
           )}
@@ -93,9 +100,6 @@ export default function FileItem({
         )}
 
         {/* Mobile view */}
-
-
-
 
         <td className="md:!cc-table-cell cc-hidden cc-py-3 cc-px-2 cc-align-top">
           <div>
@@ -146,25 +150,25 @@ export default function FileItem({
               </div>
             </div>
 
-          <div className="cc-ml-[54px]">
-          {columnsToDisplay.includes("created_at") && (
-              <div className="cc-my-[4px] ">
-                <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] cc-font-semibold">
-                  {formatDate(item.created_at)}
-                </p>
-              </div>
-            )}
-            {columnsToDisplay.includes("external_url") && (
-              <div>
-                <p
-                  title={item.external_url || "NA"}
-                  className="cc-w-full cc-break-all cc-text-[#8C8A94] cc-text-[12px] cc-leading-[16px] cc-font-semibold"
-                >
-                  {item.external_url || "NA"}
-                </p>
-              </div>
-            )}
-          </div>
+            <div className="cc-ml-[54px]">
+              {columnsToDisplay.includes("created_at") && (
+                <div className="cc-my-[4px] ">
+                  <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] cc-font-semibold">
+                    {formatDate(item.created_at)}
+                  </p>
+                </div>
+              )}
+              {columnsToDisplay.includes("external_url") && (
+                <div>
+                  <p
+                    title={item.external_url || "NA"}
+                    className="cc-w-full cc-break-all cc-text-[#8C8A94] cc-text-[12px] cc-leading-[16px] cc-font-semibold"
+                  >
+                    {item.external_url || "NA"}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </td>
       </tr>
