@@ -133,6 +133,10 @@ export default function SitemapTabContent({
       const htmlTagsToSkip = processedIntegration?.htmlTagsToSkip || [];
       const cssClassesToSkip = processedIntegration?.cssClassesToSkip || [];
       const cssSelectorsToSkip = processedIntegration?.cssSelectorsToSkip || [];
+      const downloadCssAndMedia =
+        processedIntegration?.downloadCssAndMedia || false;
+      const generateChunksOnly =
+        processedIntegration?.generateChunksOnly || false;
 
       const urlsToScrape =
         selectedUrls.length == sitemapUrls.length ? [] : selectedUrls;
@@ -156,6 +160,8 @@ export default function SitemapTabContent({
         }),
         ...(embeddingModelValue && { embedding_model: embeddingModelValue }),
         urls_to_scrape: urlsToScrape,
+        download_css_and_media: downloadCssAndMedia,
+        generate_chunks_only: generateChunksOnly,
       };
 
       const uploadResponse = await authenticatedFetch(

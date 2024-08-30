@@ -140,6 +140,7 @@ export type FileSyncConfig = {
   split_rows?: boolean;
   transcription_service?: TranscriptionService;
   include_speaker_labels?: boolean;
+  generate_chunks_only?: boolean;
 };
 
 export type BaseIntegration = {
@@ -172,6 +173,7 @@ export type LocalFilesIntegration = BaseIntegration & {
   splitRows?: boolean;
   transcriptionService?: TranscriptionService;
   includeSpeakerLabels?: boolean;
+  generateChunksOnly?: boolean;
 };
 
 export interface WebScraperIntegration extends BaseIntegration {
@@ -181,6 +183,8 @@ export interface WebScraperIntegration extends BaseIntegration {
   cssClassesToSkip?: string[];
   cssSelectorsToSkip?: string[];
   sitemapEnabled?: boolean;
+  downloadCssAndMedia?: boolean;
+  generateChunksOnly?: boolean;
 }
 
 export type Integration =

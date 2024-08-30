@@ -139,6 +139,8 @@ export default function WebsiteTabContent({
       const htmlTagsToSkip = service?.htmlTagsToSkip || [];
       const cssClassesToSkip = service?.cssClassesToSkip || [];
       const cssSelectorsToSkip = service?.cssSelectorsToSkip || [];
+      const downloadCssAndMedia = service?.downloadCssAndMedia || false;
+      const generateChunksOnly = service?.generateChunksOnly || false;
 
       setSubmitting(true);
 
@@ -175,6 +177,8 @@ export default function WebsiteTabContent({
         ...(embeddingModelValue && {
           embedding_model: embeddingModelValue,
         }),
+        download_css_and_media: downloadCssAndMedia,
+        generate_chunks_only: generateChunksOnly,
       }));
 
       const uploadResponse = await authenticatedFetch(

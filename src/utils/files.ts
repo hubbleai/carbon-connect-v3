@@ -87,6 +87,11 @@ export const generateFileUploadUrl = (
     filesConfig?.includeSpeakerLabels ||
     false;
 
+  const generateChunksOnlyValue =
+    fileTypeConfigValue?.generateChunksOnly ||
+    filesConfig?.generateChunksOnly ||
+    false;
+
   const apiUrl = new URL(`${BASE_URL[environment]}/uploadfile`);
 
   apiUrl.searchParams.append(
@@ -131,6 +136,13 @@ export const generateFileUploadUrl = (
     apiUrl.searchParams.append(
       "max_items_per_chunk",
       maxItemsPerChunkValue.toString()
+    );
+  }
+
+  if (generateChunksOnlyValue) {
+    apiUrl.searchParams.append(
+      "generate_chunks_only",
+      generateChunksOnlyValue.toString()
     );
   }
 
