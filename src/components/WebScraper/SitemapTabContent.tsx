@@ -261,7 +261,7 @@ export default function SitemapTabContent({
           <Button
             size="md"
             variant="neutral-white"
-            className="cc-font-semibold cc-hidden sm:cc-flex"
+            className="cc-font-semibold cc-hidden sm:cc-flex dark:!cc-bg-[#fff] dark:!cc-text-[#000]"
             disabled={url === "" || urlsLoading}
             onClick={() => handleFetchSitemapUrls()}
           >
@@ -269,9 +269,9 @@ export default function SitemapTabContent({
           </Button>
         </div>
         {internalStep === 2 && (
-          <div className="sm:cc-h-[369px] cc-border-t cc-flex-grow cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden -cc-mx-4 sm:cc-mx-0 sm:cc-border sm:cc-rounded-xl dark:cc-border-[#FFFFFF1F]">
+          <div className="sm:cc-h-[369px] cc-border-t cc-flex-grow cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden  cc-mx-0 cc-border cc-rounded-xl dark:cc-border-[#FFFFFF1F]">
             <div className="cc-flex cc-justify-between cc-items-center cc-bg-surface-surface_1 sm:cc-flex dark:cc-bg-dark-border-color">
-              <div className="cc-px-4 cc-py-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+              <div className="cc-px-4 cc-py-2 cc-text-sm cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
                 Fetched URLs
               </div>
               <div className="cc-py-2 cc-text-xs cc-text-disabledtext dark:cc-text-dark-text-white cc-capitalize cc-font-bold cc-text-right cc-mr-4">
@@ -284,7 +284,7 @@ export default function SitemapTabContent({
                     Clear selection
                   </button>
                 ) : (
-                  <label className="cc-flex cc-gap-2 cc-items-center cc-h-6 cc-text-sm cc-font-semibold cc-cursor-pointer">
+                  <label className="cc-flex cc-gap-2 cc-items-center cc-h-6 cc-text-sm cc-text-[#100C20] cc-font-semibold cc-cursor-pointer dark:!cc-text-[#fff] ">
                     <Checkbox
                       className="cc-my-0.5"
                       checked={
