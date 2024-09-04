@@ -425,7 +425,6 @@ export default function SyncedFilesList({
               className="cc-rounded-xl cc-shrink-0 cc-hidden sm:cc-flex"
               onClick={() => {
                 setLoadingMore(false);
-                console.log(loadingMore);
                 setSyncedFilesRefreshes((prev) => prev + 1);
               }}
             >
