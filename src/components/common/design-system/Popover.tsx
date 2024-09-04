@@ -22,7 +22,7 @@ const PopoverContent = React.forwardRef<
         sideOffset={sideOffset}
         style={{ zIndex: finalIndex }}
         className={cn(
-          "cc-z-50 cc-w-72 cc-rounded-xl cc-border cc-border-outline-low_em cc-bg-white cc-p-4 cc-text-high_em cc-shadow-md cc-outline-none dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color dark:cc-shadow-[0px_8px_24px_-4px_#00000052]",
+          "cc-popover-content cc-z-50 cc-w-72 cc-rounded-xl cc-border cc-border-outline-low_em cc-bg-white cc-p-4 cc-text-high_em cc-shadow-md cc-outline-none dark:cc-bg-dark-bg-black dark:cc-border-dark-border-color dark:cc-shadow-[0px_8px_24px_-4px_#00000052]",
           className
         )}
         {...props}

@@ -268,7 +268,7 @@ export default function WebsiteTabContent({
                     />
                     <Input
                       type="text"
-                      className="cc-w-[100px_!important] 1cc-pl-8 cc-rounded-r-none"
+                      className="cc-w-[100px_!important] !cc-pl-8 !cc-rounded-r-none"
                       placeholder="Enter URL"
                       disabled={true}
                       value="https://"
@@ -424,7 +424,7 @@ function FilterPopover({
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="cc-p-2">
+      <PopoverContent className="cc-p-2 cc-hidden sm:!cc-block">
         <ConfigureForm
           initialData={initialData}
           index={index}
@@ -504,11 +504,11 @@ function MobileWebsiteUrlDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="cc-w-48 cc-bg-white cc-border cc-border-outline-base_em cc-rounded-xl cc-shadow-e3 cc-z-30"
+          className="cc-w-48 cc-bg-white cc-border cc-py-[4px] cc-border-outline-base_em cc-rounded-xl cc-shadow-e3 cc-z-30 cc-block sm:!cc-hidden"
         >
           <DropdownMenuGroup>
             <DropdownMenuItem
-              className="cc-flex cc-justify-between cc-font-semibold cc-py-2 cc-px-5 cc-cursor-pointer"
+              className="cc-flex cc-justify-between cc-font-semibold !cc-py-[8px] !cc-px-[20px] cc-cursor-pointer "
               onClick={() => setShowDialog(true)}
             >
               <span>Configure</span>
@@ -521,7 +521,7 @@ function MobileWebsiteUrlDropdown({
             {deleteUrl && <DropdownMenuSeparator />}
             {deleteUrl && (
               <DropdownMenuItem
-                className="cc-flex cc-justify-between cc-font-semibold cc-py-2 cc-px-5 cc-cursor-pointer"
+                className="cc-flex cc-justify-between cc-font-semibold !cc-py-[8px] !cc-px-[20px] cc-cursor-pointer"
                 onClick={deleteUrl}
               >
                 <span>Delete</span>
@@ -562,7 +562,7 @@ function ConfigureForm({
   const [urlData, setUrlData] = useState(initialData);
   return (
     <>
-      <div className="cc-flex cc-justify-between cc-items-center cc-py-2">
+      <div className="cc-flex cc-justify-between cc-items-center cc-py-2 ">
         <div className="cc-flex">
           <label>
             <span

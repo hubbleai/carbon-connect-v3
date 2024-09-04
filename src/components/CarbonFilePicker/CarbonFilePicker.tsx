@@ -384,6 +384,34 @@ export default function CarbonFilePicker({
     return revokeAccessResponse;
   };
 
+  const cancelSourceItemsSync = async (id?: number) => {
+    const requestBody = {
+      data_source_id: id || selectedDataSource?.id,
+    };
+    const response = await authenticatedFetch(
+      `${BASE_URL[environment]}/integrations/items/sync/cancel`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+    if (response.status === 200) {
+      setBannerState({
+        type: "SUCCESS",
+        message: "Your sync has been cancelled",
+      });
+    } else {
+      setBannerState({
+        type: "ERROR",
+        message: "Error cancelling sync",
+      });
+    }
+  };
+
   const resyncDataSource = async (id?: number, bulk: boolean = false) => {
     if (!selectedDataSource && !id) return;
     !bulk && setIsResyncingDataSource(true);
@@ -562,7 +590,8 @@ export default function CarbonFilePicker({
                     integrationName == IntegrationName.NOTION
                   }
                   sendOauthRequest={sendOauthRequest}
-                  dataSourceId={selectedDataSource?.id}
+                  dataSource={selectedDataSource}
+                  cancelSourceItemsSync={cancelSourceItemsSync}
                 />{" "}
               </>
             ) : null}
@@ -678,6 +707,7 @@ export default function CarbonFilePicker({
           performBulkAction={performBulkAction}
           performingAction={performingAction}
           handleUploadFilesClick={handleUploadFilesClick}
+          cancelSourceItemsSync={cancelSourceItemsSync}
         />
       ) : (
         <SyncedFilesList

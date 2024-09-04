@@ -47,7 +47,7 @@
 
 .cc-modal .cc-custom-radio::before {
   content: "";
-  @apply cc-w-[18px] cc-h-[18px] cc-border-2 cc-border-low_em cc-rounded-full cc-mr-3;
+  @apply cc-w-[18px] cc-h-[18px] cc-border-2 cc-border-low_em cc-box-border cc-border-solid cc-rounded-full cc-mr-3;
   display: inline-block;
 }
 

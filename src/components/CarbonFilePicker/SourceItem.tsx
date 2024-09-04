@@ -27,6 +27,7 @@ export default function SourceItem({
           className="cc-my-0.5"
           checked={isChecked}
           onCheckedChange={onSelect}
+          disabled={!item.is_selectable}
         />
 
         {itemType === "FOLDER" && (

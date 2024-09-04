@@ -15,6 +15,7 @@ type PropsInfo = {
   onSelect: () => void;
   resyncDataSource: (id: number) => void;
   handleUploadFilesClick: (dataSource?: IntegrationAPIResponse) => void;
+  cancelSourceItemsSync: (id?: number) => void;
 };
 
 const AccountListItem = ({
@@ -23,6 +24,7 @@ const AccountListItem = ({
   onSelect,
   resyncDataSource,
   handleUploadFilesClick,
+  cancelSourceItemsSync,
 }: PropsInfo) => {
   return (
     <div className=" cc-flex cc-p-[16px_0px] md:cc-w-[100%] tab:cc-w-[100%] cc-w-[360px] cc-border-t cc-border-[#F3F3F4] cc-justify-between dark:cc-border-[#ffffff7a] cc-items-center ">
@@ -55,6 +57,7 @@ const AccountListItem = ({
           resyncDataSource={resyncDataSource}
           account={account}
           handleUploadFilesClick={handleUploadFilesClick}
+          cancelSourceItemsSync={cancelSourceItemsSync}
         />
       </div>
     </div>
