@@ -303,6 +303,7 @@ export default function SyncedFilesList({
     const requestBody = {
       filters: {
         ids: selectedFiles,
+        include_all_children: true,
       },
       send_webhook:
         sendDeletionWebhooks ||
