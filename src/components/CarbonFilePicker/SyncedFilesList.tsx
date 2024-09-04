@@ -442,7 +442,7 @@ export default function SyncedFilesList({
                 onClick={() => handleUploadFilesClick()}
               >
                 {addingOauthFiles ? (
-                  <Loader height={20} width={20} />
+                  <LoaderScroll height={20} width={20} />
                 ) : (
                   <img
                     src={AddCircleIconBlack}

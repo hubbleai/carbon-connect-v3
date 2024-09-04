@@ -23,7 +23,7 @@ export default function FileItem({
   const itemType = getFileItemType(item);
   return (
     <>
-      <tr key={`file-${item.id}`} className="cc-border-b cc-border-[#00000012]">
+      <tr key={`file-${item.id}`} className="cc-border-b cc-border-[#00000012]" onClick={() => onClick(item)}>
         <th className="cc-flex cc-items-center cc-pl-6 cc-pr-2 cc-py-3  md:!cc-hidden ">
           <Checkbox
             className="cc-my-0.5 cc-mr-[8px]"
