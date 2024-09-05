@@ -23,6 +23,7 @@ import SalesforceLogo from "../assets/logos/salesforce.svg";
 import SlackLogo from "../assets/logos/slack.svg";
 import GCSLogo from "../assets/logos/gcs-logo.svg";
 import GuruLogo from "../assets/logos/guru-logo.svg";
+import ServiceNowLogo from "../assets/logos/servicenow-logo.svg";
 import { IntegrationName } from "../typing/shared";
 
 export interface IntegrationItemType {
@@ -314,6 +315,19 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     active: true,
     data_source_type: IntegrationName.OUTLOOK,
     requiresOAuth: true,
+  },
+  {
+    id: IntegrationName.SERVICENOW,
+    subpath: "servicenow",
+    name: "ServiceNow",
+    description: "Lets your users connect their ServiceNow accounts to Carbon.",
+    announcementName: "to connect ServiceNow",
+    icon: <img src={ServiceNowLogo} className="cc-w-7 cc-h-7" />,
+    logo: ServiceNowLogo,
+    active: true,
+    data_source_type: IntegrationName.SERVICENOW,
+    requiresOAuth: true,
+    multiStep: true,
   },
   {
     id: IntegrationName.SLACK,

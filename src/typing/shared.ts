@@ -246,6 +246,7 @@ export enum IntegrationName {
   SLACK = "SLACK",
   GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
   GURU = "GURU",
+  SERVICENOW = "SERVICENOW",
 }
 
 export type ProcessedIntegration = IntegrationItemType & Integration;

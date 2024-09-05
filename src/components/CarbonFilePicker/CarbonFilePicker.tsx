@@ -49,6 +49,7 @@ import GithubScreen from "../Screens/GithubScreen";
 import AccountManagement from "@components/common/AccountManagement";
 import SlackScreen from "../Screens/SlackScreen";
 import GuruScreen from "../Screens/GuruScreen";
+import ServiceNowScreen from "../Screens/ServiceNowScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -684,6 +685,12 @@ export default function CarbonFilePicker({
         )) ||
         (integrationName == IntegrationName.GURU && (
           <GuruScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
+        )) ||
+        (integrationName == IntegrationName.SERVICENOW && (
+          <ServiceNowScreen
             processedIntegration={processedIntegration}
             setShowAdditionalStep={setShowAdditionalStep}
           />

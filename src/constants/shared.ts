@@ -35,6 +35,7 @@ export const TWO_STEP_CONNECTORS = [
   IntegrationName.GITBOOK,
   IntegrationName.GITHUB,
   IntegrationName.GURU,
+  IntegrationName.SERVICENOW,
 ];
 
 export const THIRD_PARTY_CONNECTORS = [
@@ -57,6 +58,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.GITHUB,
   IntegrationName.GOOGLE_CLOUD_STORAGE,
   IntegrationName.GURU,
+  IntegrationName.SERVICENOW,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -92,6 +94,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.GITHUB,
   IntegrationName.GOOGLE_CLOUD_STORAGE,
   IntegrationName.GURU,
+  IntegrationName.SERVICENOW,
 ];
 
 // note - this excludes RAW_TEXT
@@ -150,7 +153,7 @@ export const FOLDER_BASED_CONNECTORS = [
 
 export const DEFAULT_FILES_TAB_COLUMNS: FileTabColumns[] = [
   "name",
-  "status",  
+  "status",
   "created_at",
   // 'external_url'
 ];
