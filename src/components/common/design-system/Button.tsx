@@ -12,7 +12,7 @@ const buttonVariants = cva(
         primary:
           "!cc-text-white !cc-cursor-pointer !cc-bg-surface-info_main hover:!cc-bg-surface-info_main/90 cc-ring-info_em/30 dark:hover:!cc-bg-[#4CD2FA]/90",
         "neutral-white":
-          "!cc-text-black !cc-cursor-pointer !cc-bg-white !cc-border !cc-border-black/10 hover:!cc-bg-white/5 dark:hover:!cc-bg-[#464646] cc-ring-black/10 disabled:!cc-border-transparent disabled:cc-bg-white disabled:cc-text-disabledtext dark:!cc-bg-dark-bg-black dark:!cc-text-dark-text-white dark:!cc-border-[#FFFFFF1F] ",
+          "!cc-text-black !cc-cursor-pointer !cc-bg-white !cc-border !cc-border-black/10 hover:!cc-bg-white/5 dark:hover:!cc-bg-[#464646] cc-ring-black/10  disabled:cc-bg-white disabled:cc-text-disabledtext dark:!cc-bg-dark-bg-black dark:!cc-text-dark-text-white dark:!cc-border-[#FFFFFF1F] ",
         "neutral-white-fix":
           "!cc-text-black !cc-cursor-pointer !cc-bg-white !cc-border !cc-border-black/10 hover:cc-bg-white/5  cc-ring-black/10 disabled:!cc-border-transparent  disabled:!cc-bg-white disabled:!cc-text-disabledtext dark:hover:!cc-bg-white dark:hover:!cc-bg-dark-text-white dark:!cc-text-dark-bg-black ",
         gray: "!cc-text-high_em !cc-cursor-pointer !cc-bg-surface-surface_2 hover:!cc-bg-surface-surface_3 cc-ring-black/10 dark:!cc-bg-dark-input-bg dark:hover:!cc-bg-[#ffffff44]",
