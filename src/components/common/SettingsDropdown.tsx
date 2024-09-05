@@ -3,7 +3,7 @@ import SettingsIcon from "@assets/svgIcons/settings-icon.svg";
 import DisconnectIcon from "@assets/svgIcons/disconnect-icon.svg";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import AddIcon from "@assets/svgIcons/add-circle-icon-black.svg";
-import CrossIcon from "@assets/svgIcons/cross-icon.svg";
+import NoSync from "@assets/svgIcons/no_sync.svg";
 import { Button } from "@components/common/design-system/Button";
 import {
   DropdownMenu,
@@ -93,20 +93,7 @@ export default function SettingsDropdown({
                 className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
                 onClick={() => sendOauthRequest("UPLOAD", dataSource?.id)}
               >
-                Select More Pages
-                <img
-                  src={AddIcon}
-                  alt="Add Icon"
-                  className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
-                />
-              </DropdownMenuItem>
-            ) : null}
-            {showSelectMorePages && dataSource?.id ? (
-              <DropdownMenuItem
-                className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
-                onClick={() => sendOauthRequest("UPLOAD", dataSource?.id)}
-              >
-                Select More Pages
+                Select more pages
                 <img
                   src={AddIcon}
                   alt="Add Icon"
@@ -119,9 +106,9 @@ export default function SettingsDropdown({
                 className="hover:cc-bg-surface-surface_1 cc-justify-between dark:cc-text-dark-text-white"
                 onClick={() => cancelSourceItemsSync()}
               >
-                Cancel Sync
+                Cancel sync
                 <img
-                  src={CrossIcon}
+                  src={NoSync}
                   alt="Add Icon"
                   className="cc-h-[14px] cc-w-[14px] cc-shrink-0 dark:cc-invert-[1] dark:cc-hue-rotate-180"
                 />
