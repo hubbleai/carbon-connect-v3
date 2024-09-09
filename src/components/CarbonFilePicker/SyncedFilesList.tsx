@@ -370,7 +370,7 @@ export default function SyncedFilesList({
       let successCount = 0;
       let failedCount = 0;
       let additionalInfo = "";
-      let message = "Finished queuing files for resync";
+      let message = "Selected files queued successfully for resync";
       for (let value of values) {
         if (value.status == 200) {
           successCount += 1;
@@ -385,11 +385,11 @@ export default function SyncedFilesList({
         }
       }
       if (failedCount > 0) {
-        message = `Failed to resync ${
-          successCount > 0 ? "some files" : "file(s)"
-        }`;
-        if (successCount)
-          message += `: ${successCount} succeeded, ${failedCount} failed`;
+        if (!successCount) {
+          message = "None of the selected files could be queued for resync";
+        } else {
+          message = `${failedCount} file(s) failed to resync`;
+        }
       }
       const state = failedCount > 0 ? "ERROR" : "SUCCESS";
       setBannerState({
