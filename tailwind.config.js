@@ -67,6 +67,7 @@ module.exports = {
         "modal-footer-top": "0px -3px 8px -2px #0000001F",
         e2: "0px 3px 4px -2px #00000029",
         e3: "0px 8px 24px -4px #0000001F",
+        tooltipShadow: '0px 1px 1px -0.5px  rgba(0, 0, 0, 0.12), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.12), 0px 24px 24px -12px  rgba(0, 0, 0, 0.12)'
       },
       lineHeight: {
         24: "1.5rem",

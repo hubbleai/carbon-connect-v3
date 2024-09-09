@@ -9,7 +9,7 @@ const ErrorTooltip = ({leftPosTip}:PropsInfo) => {
    
 
   return (
-    <span className="cc-block cc-bg-white cc-text-black cc-p-[12px]  cc-border cc-border-[#FEF2F2]  cc-text-[11px] cc-font-medium cc-leading-[16px] cc-rounded-[12px] cc-max-w-[150px] cc-w-[150px] cc-break-words ">
+    <span className="cc-block cc-bg-white cc-text-black cc-p-[12px]  cc-border cc-border-[#FEF2F2]  cc-text-[11px] cc-font-medium cc-leading-[16px] cc-rounded-[12px] cc-max-w-[150px] cc-w-[150px] cc-break-words cc-shadow-tooltipShadow">
     The system has panicked due to a critical error. Please
     restart your computer.
     <span className={`cc-absolute cc-rotate-180 -cc-top-[8px] ${leftPosTip === '21' ? 'cc-left-[21px]':'cc-left-[116px]'} cc-flex cc-flex-col-reverse`}>
