@@ -77,7 +77,10 @@ export default function FileItem({
                 <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg cc-relative error">
                   Error
                   <div className="cc-absolute cc-top-[32px] -cc-left-[6px] error-tooltip">
-                    <ErrorTooltip leftPosTip={"21"} />
+                    <ErrorTooltip
+                      leftPosTip={"21"}
+                      message={item.sync_error_message}
+                    />
                   </div>
                 </div>
               </>
@@ -149,7 +152,10 @@ export default function FileItem({
                       <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg cc-relative error">
                         Error
                         <div className="cc-absolute cc-top-[32px] -cc-left-[107px] error-tooltip">
-                          <ErrorTooltip leftPosTip={"116"} />
+                          <ErrorTooltip
+                            leftPosTip={"116"}
+                            message={item.sync_error_message}
+                          />
                         </div>
                       </div>
                     )}

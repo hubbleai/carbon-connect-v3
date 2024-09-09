@@ -269,6 +269,7 @@ export type UserFileApi = {
     is_thread?: boolean;
     max_pages_to_scrape?: number;
   };
+  sync_error_message: string | null;
 };
 
 export type UserSourceItemApi = {
