@@ -520,7 +520,7 @@ export default function SyncedFilesList({
             className="cc-contents"
           >
             <table className=" cc-w-full cc-overflow-y-auto cc-overflow-x-hidden  sm:cc-mx-0  cc-rounded-xl md:cc-rounded-[0px]  ">
-              <thead className="cc-sticky cc-top-[0px] cc-bg-[#F3F3F4] cc-px-4 md:cc-hidden dark:cc-bg-dark-border-color">
+              <thead className="cc-sticky cc-top-[0px] cc-bg-[#F3F3F4] cc-px-4 md:cc-hidden dark:cc-bg-dark-border-color cc-z-[20]">
                 <tr>
                   {columnsToDisplay.includes("name") ? (
                     <th className="cc-text-start cc-py-2 cc-px-4 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">

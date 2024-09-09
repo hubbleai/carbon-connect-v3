@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import FolderIcon from "@assets/svgIcons/folder.svg";
 import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 import { FileTabColumns, UserFileApi } from "../../typing/shared";
 import { formatDate, getFileItemType } from "../../utils/helper-functions";
+import ErrorTooltip from "./ErrorTooltip";
 
 type FileListItemProps = {
   isChecked: boolean;
@@ -21,6 +22,7 @@ export default function FileItem({
   columnsToDisplay,
 }: FileListItemProps) {
   const itemType = getFileItemType(item);
+
   return (
     <>
       <tr
@@ -71,9 +73,14 @@ export default function FileItem({
               </div>
             )}
             {item.sync_status === "SYNC_ERROR" && (
-              <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg">
-                Error
-              </div>
+              <>
+                <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg cc-relative error">
+                  Error
+                  <div className="cc-absolute cc-top-[32px] -cc-left-[6px] error-tooltip">
+                    <ErrorTooltip leftPosTip={"21"} />
+                  </div>
+                </div>
+              </>
             )}
             {(item.sync_status === "SYNCING" ||
               item.sync_status === "QUEUED_FOR_SYNC") && (
@@ -139,8 +146,11 @@ export default function FileItem({
                       </div>
                     )}
                     {item.sync_status === "SYNC_ERROR" && (
-                      <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg">
+                      <div className="cc-w-fit cc-font-semibold cc-bg-surface-danger_accent_1 cc-text-outline-danger_high_em cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg cc-relative error">
                         Error
+                        <div className="cc-absolute cc-top-[32px] -cc-left-[107px] error-tooltip">
+                          <ErrorTooltip leftPosTip={"116"} />
+                        </div>
                       </div>
                     )}
                     {(item.sync_status === "SYNCING" ||
