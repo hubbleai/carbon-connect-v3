@@ -278,7 +278,7 @@ export type UserSourceItemApi = {
   name: string;
   created_at: Date;
   external_url: string | null;
-  type: string;
+  item_type: string;
   is_expandable: boolean;
   is_selectable: boolean;
 };

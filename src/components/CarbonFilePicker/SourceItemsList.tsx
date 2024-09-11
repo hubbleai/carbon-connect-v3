@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import { Input } from "@components/common/design-system/Input";
@@ -22,6 +22,7 @@ import { BASE_URL, ENV } from "../../constants/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
+  debounce,
   generateRequestId,
   getConnectRequestProps,
 } from "../../utils/helper-functions";
@@ -56,7 +57,7 @@ export default function SourceItemsList({
   setBannerState: React.Dispatch<React.SetStateAction<BannerState>>;
 }) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [serchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const [offset, setOffset] = useState(0);
   const [currItems, setCurrItems] = useState<UserSourceItemApi[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -72,12 +73,6 @@ export default function SourceItemsList({
   const [sourceItemRefreshes, setSourceItemRefreshes] = useState(0);
   const [itemsLoading, setItemsLoading] = useState(false);
 
-  const filteredList = currItems.filter((item: any) =>
-    serchValue
-      ? item.name?.toLowerCase().includes(serchValue.toLowerCase())
-      : true
-  );
-
   const carbonProps = useCarbon();
   const {
     authenticatedFetch,
@@ -90,12 +85,13 @@ export default function SourceItemsList({
 
   const loadMoreRows = async () => {
     if (!hasMoreItems) return;
-    fetchSourceItems(parentId, offset);
+    fetchSourceItems(parentId, offset, searchValue);
   };
 
   const fetchSourceItems = async (
     parentId: string | null = null,
-    localOffset: number = 0
+    localOffset: number = 0,
+    searchTerm: string | null = null
   ) => {
     if (!selectedDataSource) return;
     const requestBody: any = {
@@ -105,8 +101,11 @@ export default function SourceItemsList({
         limit: PER_PAGE,
       },
     };
-
-    if (parentId) {
+    if (searchTerm) {
+      requestBody.filters = {
+        name: searchTerm,
+      };
+    } else if (parentId) {
       requestBody.parent_id = parentId.toString();
     }
 
@@ -181,6 +180,34 @@ export default function SourceItemsList({
       setBannerState({ message: "" });
     }
   }, [selectedDataSource?.sync_status]);
+
+  const performSearch = useCallback(
+    debounce((searchValue) => {
+      setBreadcrumbs([]);
+      setItemsLoading(true);
+      setOffset(0);
+      setHasMoreItems(true);
+      setCurrItems([]);
+      fetchSourceItems(null, 0, searchValue).then(() => setItemsLoading(false));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    if (searchValue) {
+      performSearch(searchValue);
+    } else {
+      setBreadcrumbs([
+        {
+          parentId: null,
+          name: "All Files",
+          accountId: selectedDataSource?.id,
+          refreshes: sourceItemRefreshes,
+          lastSync: selectedDataSource?.source_items_synced_at,
+        },
+      ]);
+    }
+  }, [searchValue]);
 
   const onItemClick = (item: UserSourceItemApi) => {
     if (itemsLoading) return;
@@ -269,7 +296,7 @@ export default function SourceItemsList({
                 type="text"
                 placeholder="Search"
                 className="cc-h-8 cc-text-xs !cc-pl-7"
-                value={serchValue}
+                value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
             </label>
@@ -363,7 +390,7 @@ export default function SourceItemsList({
           </div>
           {itemsLoading ? (
             <Loader />
-          ) : !filteredList.length ? (
+          ) : !currItems.length ? (
             <div className="cc-py-4 cc-px-4 cc-text-center cc-flex-grow cc-text-disabledtext cc-font-medium cc-text-sm cc-flex cc-flex-col cc-items-center cc-justify-center h-full">
               <div className="cc-p-2 cc-bg-surface-surface_2 cc-rounded-lg cc-mb-3">
                 <img
@@ -390,7 +417,7 @@ export default function SourceItemsList({
               className="cc-relative"
             >
               <ul className="cc-pb-2">
-                {filteredList.map((item) => {
+                {currItems.map((item) => {
                   const isChecked =
                     selectedItems.indexOf(item.external_id) >= 0;
 

@@ -196,6 +196,7 @@ export const getFileItemType = (item: UserFileApi) => {
 };
 
 export const getSourceItemType = (item: UserSourceItemApi) => {
+  if (item.item_type == "PAGE") return "FILE";
   if (item.is_expandable) return "FOLDER";
   return "FILE";
 };
