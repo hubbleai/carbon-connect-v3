@@ -372,13 +372,17 @@ export const getIntegrationName = (integration: ProcessedIntegration) => {
 };
 
 export const getAccountIdentifier = (
-  dataSource: IntegrationAPIResponse | null
+  dataSource: IntegrationAPIResponse | null,
+  full = false
 ) => {
   let identifier =
     dataSource?.data_source_external_id.split("|")[1] ||
     dataSource?.data_source_external_id.split("-")[1];
   if (dataSource?.data_source_metadata?.type) {
     identifier += ` (${dataSource?.data_source_metadata?.type})`;
+  }
+  if (dataSource?.data_source_type == IntegrationName.CONFLUENCE && full) {
+    identifier += ` (${getDataSourceDomain(dataSource)})`;
   }
   return identifier;
 };

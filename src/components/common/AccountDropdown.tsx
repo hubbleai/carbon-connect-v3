@@ -42,7 +42,7 @@ export default function AccountDropdown({
               >
                 <div>
                   <p className="cc-text-xs cc-font-semibold cc-text-high_em dark:cc-text-dark-text-white">
-                    {getAccountIdentifier(dataSource)}
+                    {getAccountIdentifier(dataSource, true)}
                   </p>
                 </div>
               </DropdownMenuItem>
