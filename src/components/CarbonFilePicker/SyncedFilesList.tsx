@@ -1,4 +1,10 @@
-import React, { ReactText, useEffect, useRef, useState } from "react";
+import React, {
+  ReactText,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import { Input } from "@components/common/design-system/Input";
@@ -30,6 +36,7 @@ import FileItem from "./FileItem";
 import { SyncingModes } from "./CarbonFilePicker";
 import Loader from "../common/Loader";
 import {
+  debounce,
   getFileItemType,
   pluralize,
   truncateString,
@@ -53,6 +60,7 @@ type BreadcrumbType = {
   accountId: number | undefined;
   refreshes: number;
   root_files_only: boolean;
+  first_fetch_done: boolean;
 };
 
 export default function SyncedFilesList({
@@ -104,14 +112,9 @@ export default function SyncedFilesList({
       accountId: undefined,
       refreshes: 0,
       root_files_only: true,
+      first_fetch_done: false,
     },
   ]);
-
-  const filteredList = files.filter((item) =>
-    searchValue
-      ? item.name?.toLowerCase().includes(searchValue.toLowerCase())
-      : true
-  );
 
   const columnsToDisplay =
     processedIntegration?.filesTabColumns ||
@@ -128,6 +131,7 @@ export default function SyncedFilesList({
         accountId: selectedDataSource?.id,
         refreshes: syncedFilesRefreshes,
         root_files_only: true,
+        first_fetch_done: true,
       },
     ]);
   }, [selectedDataSource?.id, syncedFilesRefreshes]);
@@ -138,7 +142,7 @@ export default function SyncedFilesList({
       setFiles([]);
       setHasMoreFiles(true);
       const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
-      if (lastBreadcrumb.accountId || isLocalFiles || isWebscrape) {
+      if (lastBreadcrumb.first_fetch_done) {
         setFilesLoading(true);
         loadInitialData(selectedDataSource, lastBreadcrumb).then(() =>
           setFilesLoading(false)
@@ -159,9 +163,32 @@ export default function SyncedFilesList({
     }
   }, [JSON.stringify(lastModifications)]);
 
+  const performSearch = useCallback(
+    debounce((searchValue, lastBreadcrumb, selectedDataSource) => {
+      // setBreadcrumbs([]);
+
+      setFilesLoading(true);
+      setOffset(0);
+      setHasMoreFiles(true);
+      setFiles([]);
+      loadInitialData(selectedDataSource, lastBreadcrumb, searchValue).then(
+        () => setFilesLoading(false)
+      );
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
+    if (searchValue || lastBreadcrumb.first_fetch_done) {
+      performSearch(searchValue, lastBreadcrumb, selectedDataSource);
+    }
+  }, [searchValue]);
+
   const getUserFilesFilters = (
     breadcrumb: BreadcrumbType,
-    selectedDataSource: IntegrationAPIResponse | null
+    selectedDataSource: IntegrationAPIResponse | null,
+    searchValue?: string
   ) => {
     if (selectedDataSource) {
       if (
@@ -173,13 +200,18 @@ export default function SyncedFilesList({
           ...(breadcrumb.parentId && {
             parent_file_ids: [breadcrumb.parentId],
           }),
+          ...(searchValue && { name: searchValue }),
         };
       } else {
-        return { organization_user_data_source_id: [selectedDataSource.id] };
+        return {
+          organization_user_data_source_id: [selectedDataSource.id],
+          ...(searchValue && { name: searchValue }),
+        };
       }
     } else if (isLocalFiles) {
       return {
         source: LOCAL_FILE_TYPES,
+        ...(searchValue && { name: searchValue }),
       };
     } else {
       return {
@@ -188,6 +220,7 @@ export default function SyncedFilesList({
           parent_file_ids: [breadcrumb.parentId],
         }),
         source: "WEB_SCRAPE",
+        ...(searchValue && { name: searchValue }),
       };
     }
   };
@@ -195,14 +228,15 @@ export default function SyncedFilesList({
   const getUserFiles = async (
     selectedDataSource: IntegrationAPIResponse | null,
     offset: number,
-    breadcrumb: BreadcrumbType
+    breadcrumb: BreadcrumbType,
+    searchValue?: string
   ) => {
     const requestBody = {
       pagination: {
         offset: offset,
         limit: PER_PAGE,
       },
-      filters: getUserFilesFilters(breadcrumb, selectedDataSource),
+      filters: getUserFilesFilters(breadcrumb, selectedDataSource, searchValue),
       order_by: "id",
       order_dir: "desc",
     };
@@ -231,12 +265,14 @@ export default function SyncedFilesList({
 
   const loadInitialData = async (
     selectedDataSource: IntegrationAPIResponse | null,
-    breadcrumb: BreadcrumbType
+    breadcrumb: BreadcrumbType,
+    searchValue?: string
   ) => {
     const { count, userFiles } = await getUserFiles(
       selectedDataSource,
       0,
-      breadcrumb
+      breadcrumb,
+      searchValue
     );
     setFiles([...userFiles]);
     setOffset(userFiles.length);
@@ -255,7 +291,8 @@ export default function SyncedFilesList({
     const { count, userFiles } = await getUserFiles(
       selectedDataSource,
       offset,
-      lastBreadcrumb
+      lastBreadcrumb,
+      searchValue
     );
     const newFiles = [...files, ...userFiles];
     setFiles(newFiles);
@@ -287,6 +324,7 @@ export default function SyncedFilesList({
           accountId: selectedDataSource?.id,
           refreshes: syncedFilesRefreshes,
           root_files_only: false,
+          first_fetch_done: true,
         },
       ]);
     }
@@ -434,6 +472,15 @@ export default function SyncedFilesList({
                 className="cc-h-8 cc-text-xs !cc-pl-7"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
+                onKeyUp={(k) =>
+                  k.key == "Enter"
+                    ? performSearch(
+                        searchValue,
+                        breadcrumbs[breadcrumbs.length - 1],
+                        selectedDataSource
+                      )
+                    : null
+                }
               />
             </label>
             <Button
@@ -559,7 +606,7 @@ export default function SyncedFilesList({
                   ) : null}
                 </tr>
               </thead>
-              {filesLoading ? (
+              {filesLoading && !loadingMore ? (
                 <tbody>
                   <tr>
                     <th>
@@ -567,7 +614,7 @@ export default function SyncedFilesList({
                     </th>
                   </tr>
                 </tbody>
-              ) : !filteredList.length ? (
+              ) : !files.length && !filesLoading ? (
                 <tbody>
                   <tr>
                     <th>
@@ -592,7 +639,7 @@ export default function SyncedFilesList({
                 </tbody>
               ) : (
                 <tbody className="cc-py-2">
-                  {filteredList.map((item) => {
+                  {files.map((item) => {
                     const isChecked = selectedFiles.indexOf(item.id) >= 0;
 
                     return (

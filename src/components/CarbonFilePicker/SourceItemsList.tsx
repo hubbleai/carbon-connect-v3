@@ -105,7 +105,8 @@ export default function SourceItemsList({
       requestBody.filters = {
         name: searchTerm,
       };
-    } else if (parentId) {
+    }
+    if (parentId) {
       requestBody.parent_id = parentId.toString();
     }
 
@@ -182,30 +183,24 @@ export default function SourceItemsList({
   }, [selectedDataSource?.sync_status]);
 
   const performSearch = useCallback(
-    debounce((searchValue) => {
-      setBreadcrumbs([]);
+    debounce((searchValue, parentId) => {
+      // setBreadcrumbs([]);
       setItemsLoading(true);
       setOffset(0);
       setHasMoreItems(true);
       setCurrItems([]);
-      fetchSourceItems(null, 0, searchValue).then(() => setItemsLoading(false));
+      fetchSourceItems(parentId, 0, searchValue).then(() =>
+        setItemsLoading(false)
+      );
     }, 500),
     []
   );
 
   useEffect(() => {
-    if (searchValue) {
-      performSearch(searchValue);
-    } else {
-      setBreadcrumbs([
-        {
-          parentId: null,
-          name: "All Files",
-          accountId: selectedDataSource?.id,
-          refreshes: sourceItemRefreshes,
-          lastSync: selectedDataSource?.source_items_synced_at,
-        },
-      ]);
+    const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
+    // to prevent multiple fetches on initial load
+    if (searchValue || lastBreadcrumb.lastSync) {
+      performSearch(searchValue, parentId);
     }
   }, [searchValue]);
 
@@ -298,6 +293,9 @@ export default function SourceItemsList({
                 className="cc-h-8 cc-text-xs !cc-pl-7"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
+                onKeyUp={(k) =>
+                  k.key == "Enter" ? performSearch(searchValue, parentId) : null
+                }
               />
             </label>
             <Button
