@@ -12,11 +12,12 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
   wasAccountAdded,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 import Loader from "../common/Loader";
 
@@ -47,6 +48,7 @@ export default function ZendeskScreen({
     whiteLabelingData,
     orgName,
     lastModifications,
+    apiURL,
   } = carbonProps;
 
   useEffect(() => {
@@ -111,7 +113,7 @@ export default function ZendeskScreen({
       );
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/oauth_url`,
+        `${getBaseURL(apiURL, environment)}/integrations/oauth_url`,
         {
           method: "POST",
           headers: {

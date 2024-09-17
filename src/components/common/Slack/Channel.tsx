@@ -17,9 +17,10 @@ import { images } from "@assets/index";
 import SlackTab from "./SlackTab";
 import AddAccount from "../AddAccount";
 import { ActiveSlackScreen } from "../../Screens/SlackScreen";
-import { BASE_URL, ENV } from "../../../constants/shared";
+import { ENV } from "../../../constants/shared";
 import Loader from "../Loader";
 import Banner, { BannerState } from "../Banner";
+import { getBaseURL } from "../../../utils/helper-functions";
 
 const Channel: React.FC<{
   setActiveStep: React.Dispatch<React.SetStateAction<ActiveStep>>;
@@ -44,6 +45,7 @@ const Channel: React.FC<{
     authenticatedFetch,
     environment = ENV.PRODUCTION,
     accessToken,
+    apiURL,
   } = useCarbon();
   const { setSlackActive, slackActive } = useCarbon();
   const [showSlackTab, setShowSlackTab] = useState(false);
@@ -73,7 +75,10 @@ const Channel: React.FC<{
     while ((cursor || firstRequest) && totalRequests < 20) {
       firstRequest = false;
       totalRequests += 1;
-      let url = `${BASE_URL[environment]}/integrations/slack/conversations?types=public_channel,private_channel,im,mpim`;
+      let url = `${getBaseURL(
+        apiURL,
+        environment
+      )}/integrations/slack/conversations?types=public_channel,private_channel,im,mpim`;
       if (cursor) {
         url = url + `&cursor=${cursor}`;
       }

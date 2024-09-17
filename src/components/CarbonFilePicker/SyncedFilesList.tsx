@@ -19,7 +19,6 @@ import { Checkbox } from "@components/common/design-system/Checkbox";
 
 import { useCarbon } from "../../context/CarbonContext";
 import {
-  BASE_URL,
   DEFAULT_FILES_TAB_COLUMNS,
   ENV,
   FOLDER_BASED_CONNECTORS,
@@ -37,6 +36,7 @@ import { SyncingModes } from "./CarbonFilePicker";
 import Loader from "../common/Loader";
 import {
   debounce,
+  getBaseURL,
   getFileItemType,
   pluralize,
   truncateString,
@@ -93,6 +93,7 @@ export default function SyncedFilesList({
     sendDeletionWebhooks,
     filesTabColumns,
     lastModifications,
+    apiURL,
   } = useCarbon();
 
   const [files, setFiles] = useState<UserFileApi[]>([]);
@@ -242,7 +243,7 @@ export default function SyncedFilesList({
     };
 
     const userFilesResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/user_files_v2`,
+      `${getBaseURL(apiURL, environment)}/user_files_v2`,
       {
         method: "POST",
         headers: {
@@ -351,7 +352,7 @@ export default function SyncedFilesList({
         false,
     };
     const deleteFileResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/delete_files_v2`,
+      `${getBaseURL(apiURL, environment)}/delete_files_v2`,
       {
         method: "POST",
         headers: {
@@ -380,14 +381,17 @@ export default function SyncedFilesList({
 
   const resyncFile = async (fileId: number) => {
     const requestBody = { file_id: fileId };
-    return await authenticatedFetch(`${BASE_URL[environment]}/resync_file`, {
-      method: "POST",
-      headers: {
-        Authorization: `Token ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+    return await authenticatedFetch(
+      `${getBaseURL(apiURL, environment)}/resync_file`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
   };
 
   const handleResyncFiles = () => {

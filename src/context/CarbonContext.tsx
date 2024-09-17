@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-import { BASE_URL, ENV } from "../constants/shared";
+import { ENV } from "../constants/shared";
 import {
   ActiveStep,
   ProcessedIntegration,
@@ -9,6 +9,7 @@ import {
   CarbonConnectProps,
   OnSuccessData,
 } from "../typing/shared";
+import { getBaseURL } from "../utils/helper-functions";
 import { INTEGRATIONS_LIST } from "../utils/integrationModalconstants";
 
 type CarbonContextValues = CarbonConnectProps & {
@@ -81,7 +82,6 @@ export const CarbonProvider = ({
   navigateBackURL = null,
   backButtonText = "Go Back",
   zIndex = 1000,
-
   embeddingModel = EmbeddingGenerators.OPENAI,
   generateSparseVectors = false,
   prependFilenameToChunks = false,
@@ -97,6 +97,7 @@ export const CarbonProvider = ({
   showFilesTab = true,
   dataSourcePollingInterval,
   openFilesTabTo = "FILES_LIST",
+  apiURL = null,
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -169,7 +170,7 @@ export const CarbonProvider = ({
       setAccessToken(response?.access_token || null);
 
       const whiteLabelingResponse = await authenticatedFetch(
-        `${BASE_URL[environment]}/auth/v1/white_labeling`,
+        `${getBaseURL(apiURL, environment)}/auth/v1/white_labeling`,
         {
           method: "GET",
           headers: {
@@ -279,6 +280,7 @@ export const CarbonProvider = ({
     lastModifications,
     setLastModifications,
     openFilesTabTo,
+    apiURL,
   };
 
   return (

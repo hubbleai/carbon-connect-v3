@@ -14,7 +14,6 @@ import UserPlus from "@assets/svgIcons/user-plus.svg";
 import AddCircleIconWhite from "@assets/svgIcons/add-circle-icon-white.svg";
 import { useTheme } from "next-themes";
 import {
-  BASE_URL,
   ENV,
   FILE_PICKER_SUPPORTED_CONNECTORS,
   SYNC_URL_SUPPORTED_CONNECTORS,
@@ -29,6 +28,7 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getDataSourceDomain,
   getIntegrationName,
@@ -86,6 +86,7 @@ export default function CarbonFilePicker({
     openFilesTabTo,
     lastModifications,
     setSlackActive,
+    apiURL,
   } = carbonProps;
 
   const integrationName = activeStepData?.id;
@@ -253,7 +254,7 @@ export default function CarbonFilePicker({
       );
 
       const oAuthURLResponse = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/oauth_url`,
+        `${getBaseURL(apiURL, environment)}/integrations/oauth_url`,
         {
           method: "POST",
           headers: {
@@ -355,7 +356,7 @@ export default function CarbonFilePicker({
     if (!selectedDataSource && !id) return;
 
     const revokeAccessResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/revoke_access_token`,
+      `${getBaseURL(apiURL, environment)}/revoke_access_token`,
       {
         method: "POST",
         headers: {
@@ -390,7 +391,7 @@ export default function CarbonFilePicker({
       data_source_id: id || selectedDataSource?.id,
     };
     const response = await authenticatedFetch(
-      `${BASE_URL[environment]}/integrations/items/sync/cancel`,
+      `${getBaseURL(apiURL, environment)}/integrations/items/sync/cancel`,
       {
         method: "POST",
         headers: {
@@ -421,7 +422,7 @@ export default function CarbonFilePicker({
     };
 
     const resyncDataSourceResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/integrations/items/sync`,
+      `${getBaseURL(apiURL, environment)}/integrations/items/sync`,
       {
         method: "POST",
         headers: {

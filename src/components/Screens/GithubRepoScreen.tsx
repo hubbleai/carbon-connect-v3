@@ -8,7 +8,7 @@ import SearchIcon from "@assets/svgIcons/search-icon.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 
 import { useCarbon } from "../../context/CarbonContext";
-import { BASE_URL, ENV, LOCAL_FILE_TYPES } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   ActiveStep,
@@ -20,6 +20,7 @@ import Loader from "../common/Loader";
 import Banner, { BannerState } from "../common/Banner";
 import RepoItem from "../CarbonFilePicker/RepoItem";
 import LoaderScroll from "@components/LoaderScroll";
+import { getBaseURL } from "../../utils/helper-functions";
 
 const PER_PAGE = 20;
 
@@ -51,6 +52,7 @@ export default function GithubRepoScreen({
     authenticatedFetch,
     environment = ENV.PRODUCTION,
     accessToken,
+    apiURL,
   } = useCarbon();
 
   const [repos, setRepos] = useState<GithubRepoItem[]>([]);
@@ -80,7 +82,12 @@ export default function GithubRepoScreen({
     if (!dataSource) return;
     try {
       authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/github/repos?data_source_id=${dataSource.id}&page=${page}&per_page=${PER_PAGE}`,
+        `${getBaseURL(
+          apiURL,
+          environment
+        )}/integrations/github/repos?data_source_id=${
+          dataSource.id
+        }&page=${page}&per_page=${PER_PAGE}`,
         {
           method: "GET",
           headers: {
@@ -113,9 +120,12 @@ export default function GithubRepoScreen({
     }
     try {
       const res = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/github/repos?data_source_id=${
-          dataSource.id
-        }&page=${page + 1}&per_page=${PER_PAGE}`,
+        `${getBaseURL(
+          apiURL,
+          environment
+        )}/integrations/github/repos?data_source_id=${dataSource.id}&page=${
+          page + 1
+        }&per_page=${PER_PAGE}`,
         {
           method: "GET",
           headers: {
@@ -151,7 +161,7 @@ export default function GithubRepoScreen({
     setSubmitting(true);
     try {
       const res = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/github/sync_repos`,
+        `${getBaseURL(apiURL, environment)}/integrations/github/sync_repos`,
         {
           method: "POST",
           headers: {

@@ -12,10 +12,11 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 
 export default function GuruScreen({
@@ -44,6 +45,7 @@ export default function GuruScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    apiURL,
   } = carbonProps;
 
   const connectGuru = async () => {
@@ -89,7 +91,7 @@ export default function GuruScreen({
       );
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/guru`,
+        `${getBaseURL(apiURL, environment)}/integrations/guru`,
         {
           method: "POST",
           headers: {

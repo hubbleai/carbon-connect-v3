@@ -1,5 +1,4 @@
 import {
-  BASE_URL,
   DEFAULT_CHUNK_SIZE,
   DEFAULT_OVERLAP_SIZE,
   DEFAULT_SIZE_MB,
@@ -11,6 +10,7 @@ import {
   CarbonConnectProps,
   LocalFilesIntegration,
 } from "../typing/shared";
+import { getBaseURL } from "./helper-functions";
 
 export const generateFileUploadUrl = (
   fileType: string | undefined,
@@ -27,6 +27,7 @@ export const generateFileUploadUrl = (
     generateSparseVectors,
     prependFilenameToChunks,
     environment = ENV.PRODUCTION,
+    apiURL,
   } = carbonProps;
   const allowedFileTypes = filesConfig?.allowedFileTypes || [];
   const fileTypeConfigValue = allowedFileTypes.find(
@@ -92,61 +93,61 @@ export const generateFileUploadUrl = (
     filesConfig?.generateChunksOnly ||
     false;
 
-  const apiUrl = new URL(`${BASE_URL[environment]}/uploadfile`);
+  const endpointUrl = new URL(`${getBaseURL(apiURL, environment)}/uploadfile`);
 
-  apiUrl.searchParams.append(
+  endpointUrl.searchParams.append(
     "set_page_as_boundary",
     setPageAsBoundary.toString()
   );
-  apiUrl.searchParams.append("chunk_size", chunkSizeValue.toString());
-  apiUrl.searchParams.append("chunk_overlap", overlapSizeValue.toString());
-  apiUrl.searchParams.append(
+  endpointUrl.searchParams.append("chunk_size", chunkSizeValue.toString());
+  endpointUrl.searchParams.append("chunk_overlap", overlapSizeValue.toString());
+  endpointUrl.searchParams.append(
     "skip_embedding_generation",
     skipEmbeddingGeneration.toString()
   );
   embeddingModelValue &&
-    apiUrl.searchParams.append("embedding_model", embeddingModelValue);
-  apiUrl.searchParams.append("use_ocr", useOCRValue.toString());
-  apiUrl.searchParams.append(
+    endpointUrl.searchParams.append("embedding_model", embeddingModelValue);
+  endpointUrl.searchParams.append("use_ocr", useOCRValue.toString());
+  endpointUrl.searchParams.append(
     "parse_pdf_tables_with_ocr",
     parsePdfTablesWithOcrValue.toString()
   );
-  apiUrl.searchParams.append(
+  endpointUrl.searchParams.append(
     "generate_sparse_vectors",
     generateSparseVectorsValue.toString()
   );
-  apiUrl.searchParams.append(
+  endpointUrl.searchParams.append(
     "prepend_filename_to_chunks",
     prependFilenameToChunksValue.toString()
   );
-  apiUrl.searchParams.append("split_rows", splitRowsValue.toString());
+  endpointUrl.searchParams.append("split_rows", splitRowsValue.toString());
 
   transcriptionServiceValue &&
-    apiUrl.searchParams.append(
+    endpointUrl.searchParams.append(
       "transcription_service",
       transcriptionServiceValue.toString()
     );
 
-  apiUrl.searchParams.append(
+  endpointUrl.searchParams.append(
     "include_speaker_labels",
     includeSpeakerLabelsValue.toString()
   );
 
   if (maxItemsPerChunkValue) {
-    apiUrl.searchParams.append(
+    endpointUrl.searchParams.append(
       "max_items_per_chunk",
       maxItemsPerChunkValue.toString()
     );
   }
 
   if (generateChunksOnlyValue) {
-    apiUrl.searchParams.append(
+    endpointUrl.searchParams.append(
       "generate_chunks_only",
       generateChunksOnlyValue.toString()
     );
   }
 
-  return apiUrl;
+  return endpointUrl;
 };
 
 export const getFileSizeLimit = (

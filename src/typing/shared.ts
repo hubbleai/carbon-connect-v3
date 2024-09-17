@@ -182,7 +182,6 @@ export type CarbonConnectProps = {
   navigateBackURL?: string | null;
   backButtonText?: string;
   zIndex?: number;
-
   embeddingModel?: EmbeddingGenerators;
   generateSparseVectors?: boolean;
   prependFilenameToChunks?: boolean;
@@ -199,6 +198,7 @@ export type CarbonConnectProps = {
   showFilesTab?: boolean;
   dataSourcePollingInterval?: number;
   openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
+  apiURL?: string | null;
 };
 
 export enum AutoSyncedSourceTypes {

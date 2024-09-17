@@ -1,9 +1,11 @@
 import { Integration, OnSuccessData } from "..";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
+  BASE_URL,
   DEFAULT_CHUNK_SIZE,
   DEFAULT_OVERLAP_SIZE,
   DEFAULT_SIZE_MB,
+  ENV,
   ONE_MB,
   SYNC_FILES_ON_CONNECT,
   SYNC_SOURCE_ITEMS,
@@ -423,4 +425,15 @@ export const getYmdDate = (date: Date) => {
   if (day.length < 2) day = "0" + day;
 
   return [year, month, day].join("/");
+};
+
+export const getBaseURL = (
+  apiUrl: string | null | undefined,
+  env: keyof typeof BASE_URL | null | undefined
+) => {
+  if (apiUrl) {
+    return apiUrl.replace(/\/$/, "");
+  }
+  const environment = env || ENV.PRODUCTION;
+  return BASE_URL[environment];
 };

@@ -16,7 +16,6 @@ import ClickToUpload from "./ClickToUpload";
 import { useCarbon } from "../../context/CarbonContext";
 import { useDropzone, FileRejection } from "react-dropzone";
 import {
-  BASE_URL,
   DEFAULT_MAX_FILES,
   DEFAULT_SIZE_MB,
   ENV,
@@ -35,6 +34,7 @@ import {
   ActionType,
   LocalFilesIntegration,
 } from "../../typing/shared";
+import { getBaseURL } from "../../utils/helper-functions";
 
 export interface UploadFileData {
   lastModified: number;
@@ -106,6 +106,7 @@ export default function SystemFileUpload({
     onSuccess,
     onError,
     entryPoint,
+    apiURL,
   } = carbonProps;
 
   useEffect(() => {
@@ -251,7 +252,7 @@ export default function SystemFileUpload({
               const uploadResponseData = await uploadResponse.json();
 
               const appendTagsResponse = await authenticatedFetch(
-                `${BASE_URL[environment]}/create_user_file_tags`,
+                `${getBaseURL(apiURL, environment)}/create_user_file_tags`,
                 {
                   method: "POST",
                   body: JSON.stringify({

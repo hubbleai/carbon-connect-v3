@@ -10,14 +10,17 @@ import SuccessState from "@components/common/SuccessState";
 import Banner, { BannerState } from "../common/Banner";
 import { useCarbon } from "../../context/CarbonContext";
 import {
-  BASE_URL,
   DEFAULT_CHUNK_SIZE,
   DEFAULT_OVERLAP_SIZE,
   DEFAULT_RECURSION_DEPTH,
   ENV,
   MAX_PAGES_TO_SCRAPE,
 } from "../../constants/shared";
-import { isValidHttpUrl, removeHttp } from "../../utils/helper-functions";
+import {
+  getBaseURL,
+  isValidHttpUrl,
+  removeHttp,
+} from "../../utils/helper-functions";
 import Loader from "../common/Loader";
 
 import {
@@ -61,6 +64,7 @@ export default function SitemapTabContent({
     tags,
     onSuccess,
     onError,
+    apiURL,
   } = useCarbon();
 
   const handleFetchSitemapUrls = async () => {
@@ -74,7 +78,7 @@ export default function SitemapTabContent({
       }
       setUrlsLoading(true);
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/process_sitemap?url=${finalUrl}`,
+        `${getBaseURL(apiURL, environment)}/process_sitemap?url=${finalUrl}`,
         {
           method: "GET",
           headers: {
@@ -165,7 +169,7 @@ export default function SitemapTabContent({
       };
 
       const uploadResponse = await authenticatedFetch(
-        `${BASE_URL[environment]}/scrape_sitemap`,
+        `${getBaseURL(apiURL, environment)}/scrape_sitemap`,
         {
           method: "POST",
           headers: {

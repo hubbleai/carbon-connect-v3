@@ -7,10 +7,11 @@ import { Button } from "@components/common/design-system/Button";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV, SYNC_SOURCE_ITEMS } from "../../constants/shared";
+import { ENV, SYNC_SOURCE_ITEMS } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 import {
   ProcessedIntegration,
@@ -47,6 +48,7 @@ export default function S3Screen({
     whiteLabelingData,
     orgName,
     enabledIntegrations,
+    apiURL,
   } = carbonProps;
 
   const digitalOceanEnabled = processedIntegration.enableDigitalOcean;
@@ -95,7 +97,7 @@ export default function S3Screen({
       };
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/s3`,
+        `${getBaseURL(apiURL, environment)}/integrations/s3`,
         {
           method: "POST",
           headers: {

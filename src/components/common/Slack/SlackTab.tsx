@@ -14,7 +14,8 @@ import CarbonContext from "src/context/CarbonContext";
 import { SlackConversation } from "../../../typing/shared";
 import { SlackConversations } from "../../Screens/SlackScreen";
 import Banner, { BannerState } from "../Banner";
-import { BASE_URL, ENV } from "../../../constants/shared";
+import { ENV } from "../../../constants/shared";
+import { getBaseURL } from "../../../utils/helper-functions";
 
 type PropsInfo = {
   activeTab: string;
@@ -48,6 +49,7 @@ const SlackTab = ({
     environment = ENV.PRODUCTION,
     authenticatedFetch,
     accessToken,
+    apiURL,
   } = useContext(CarbonContext);
   const [performingSync, setPerformingSync] = useState(false);
   const [conversationDates, setConversationDates] = useState<{
@@ -70,7 +72,7 @@ const SlackTab = ({
       filters["after"] = conversationDates[id];
     }
     const slackSyncResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/integrations/slack/sync`,
+      `${getBaseURL(apiURL, environment)}/integrations/slack/sync`,
       {
         method: "POST",
         headers: {

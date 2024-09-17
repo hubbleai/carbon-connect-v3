@@ -8,10 +8,11 @@ import { ProcessedIntegration, ActionType } from "../../typing/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 
 export default function FreshdeskScreen({
@@ -40,6 +41,7 @@ export default function FreshdeskScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    apiURL,
   } = carbonProps;
 
   const connectFreshdesk = async () => {
@@ -95,7 +97,7 @@ export default function FreshdeskScreen({
       );
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/freshdesk`,
+        `${getBaseURL(apiURL, environment)}/integrations/freshdesk`,
         {
           method: "POST",
           headers: {

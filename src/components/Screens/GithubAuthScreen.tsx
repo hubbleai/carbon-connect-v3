@@ -12,10 +12,11 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 
 export default function GitbookScreen({
@@ -45,6 +46,7 @@ export default function GitbookScreen({
     whiteLabelingData,
     orgName,
     showFilesTab,
+    apiURL,
   } = carbonProps;
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -82,7 +84,7 @@ export default function GitbookScreen({
       };
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/github`,
+        `${getBaseURL(apiURL, environment)}/integrations/github`,
         {
           method: "POST",
           headers: {

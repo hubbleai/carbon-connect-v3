@@ -18,12 +18,13 @@ import {
 } from "@components/common/design-system/Breadcrumb";
 import { ProcessedIntegration, UserSourceItemApi } from "../../typing/shared";
 import SourceItem from "./SourceItem";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   debounce,
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
 } from "../../utils/helper-functions";
 import Banner, { BannerState } from "../common/Banner";
@@ -81,6 +82,7 @@ export default function SourceItemsList({
     useRequestIds,
     setRequestIds,
     requestIds,
+    apiURL,
   } = carbonProps;
 
   const loadMoreRows = async () => {
@@ -111,7 +113,7 @@ export default function SourceItemsList({
     }
 
     const sourceItemsResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/integrations/items/list`,
+      `${getBaseURL(apiURL, environment)}/integrations/items/list`,
       {
         method: "POST",
         headers: {
@@ -248,7 +250,7 @@ export default function SourceItemsList({
     );
 
     const syncFilesResponse = await authenticatedFetch(
-      `${BASE_URL[environment]}/integrations/files/sync`,
+      `${getBaseURL(apiURL, environment)}/integrations/files/sync`,
       {
         method: "POST",
         headers: {

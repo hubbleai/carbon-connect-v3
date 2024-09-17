@@ -27,7 +27,6 @@ import {
 } from "@components/common/design-system/Dialog";
 import SuccessState from "@components/common/SuccessState";
 import {
-  BASE_URL,
   DEFAULT_CHUNK_SIZE,
   DEFAULT_OVERLAP_SIZE,
   DEFAULT_RECURSION_DEPTH,
@@ -37,7 +36,11 @@ import {
 } from "../../constants/shared";
 import { useCarbon } from "../../context/CarbonContext";
 import { BannerState } from "../common/Banner";
-import { isValidHttpUrl, removeHttp } from "../../utils/helper-functions";
+import {
+  getBaseURL,
+  isValidHttpUrl,
+  removeHttp,
+} from "../../utils/helper-functions";
 import {
   IntegrationName,
   ActionType,
@@ -86,6 +89,7 @@ export default function WebsiteTabContent({
     accessToken,
     onSuccess,
     onError,
+    apiURL,
   } = useCarbon();
 
   const maxPagesToScrape = service.maxPagesToScrape ?? MAX_PAGES_TO_SCRAPE;
@@ -182,7 +186,7 @@ export default function WebsiteTabContent({
       }));
 
       const uploadResponse = await authenticatedFetch(
-        `${BASE_URL[environment]}/web_scrape`,
+        `${getBaseURL(apiURL, environment)}/web_scrape`,
         {
           method: "POST",
           headers: {

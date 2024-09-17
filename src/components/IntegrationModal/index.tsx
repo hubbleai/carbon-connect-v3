@@ -1,12 +1,11 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent } from "@components/common/design-system/Dialog";
-import { findModifications } from "@utils/helper-functions";
+import { findModifications, getBaseURL } from "@utils/helper-functions";
 import IntegrationList from "@components/IntegrationModal/IntegrationList";
 import WebScraper from "@components/WebScraper/WebScraper";
 import CarbonFilePicker from "@components/CarbonFilePicker/CarbonFilePicker";
 import { INTEGRATIONS_LIST } from "@utils/integrationModalconstants";
 import { useCarbon } from "../../context/CarbonContext";
-import { BASE_URL } from "../../constants/shared";
 import { ActiveStep, IntegrationName } from "../../typing/shared";
 
 import LocalFilesScreen from "../SystemFileUpload/LocalFilesScreen";
@@ -41,11 +40,12 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
     entryPoint,
     whiteLabelingData,
     showModal,
-    environment = "PRODUCTION",
+    environment,
     authenticatedFetch,
     manageModalOpenState,
     dataSourcePollingInterval,
     setLastModifications,
+    apiURL,
   } = useCarbon();
 
   const [activeIntegrations, setActiveIntegrations] = useState<
@@ -64,9 +64,11 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
   const fetchUserIntegrations = async () => {
     try {
       const userIntegrationsResponse = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/?${new URLSearchParams({
-          include_files: "false",
-        })}`,
+        `${getBaseURL(apiURL, environment)}/integrations/?${new URLSearchParams(
+          {
+            include_files: "false",
+          }
+        )}`,
         {
           method: "GET",
           headers: {

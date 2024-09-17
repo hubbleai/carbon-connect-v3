@@ -12,10 +12,11 @@ import {
 import { useCarbon } from "../../context/CarbonContext";
 import {
   generateRequestId,
+  getBaseURL,
   getConnectRequestProps,
   getIntegrationDisclaimer,
 } from "../../utils/helper-functions";
-import { BASE_URL, ENV } from "../../constants/shared";
+import { ENV } from "../../constants/shared";
 import Banner, { BannerState } from "../common/Banner";
 
 export default function GitbookScreen({
@@ -44,6 +45,7 @@ export default function GitbookScreen({
     accessToken,
     whiteLabelingData,
     orgName,
+    apiURL,
   } = carbonProps;
 
   const connectGitbook = async () => {
@@ -89,7 +91,7 @@ export default function GitbookScreen({
       );
 
       const response = await authenticatedFetch(
-        `${BASE_URL[environment]}/integrations/gitbook`,
+        `${getBaseURL(apiURL, environment)}/integrations/gitbook`,
         {
           method: "POST",
           headers: {
