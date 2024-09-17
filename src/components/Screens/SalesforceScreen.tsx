@@ -48,6 +48,7 @@ export default function SalesforceScreen({
     whiteLabelingData,
     orgName,
     lastModifications,
+    apiURL,
   } = carbonProps;
 
   useEffect(() => {
