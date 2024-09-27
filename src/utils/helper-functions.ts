@@ -464,7 +464,7 @@ export const getFileName = (item: UserFileApi) => {
       }
       return `${readableName[0]} to ${readableName[1]}, ${readableName[2]}`;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return item.name || "Untitled";
     }
   }
