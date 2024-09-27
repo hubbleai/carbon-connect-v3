@@ -350,6 +350,10 @@ export const truncateString = (str: string, n: number) => {
   }
 };
 
+export const capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 export const getIntegrationDisclaimer = (
   processedIntegration: ProcessedIntegration,
   whitelabelingData: any,
@@ -458,7 +462,7 @@ export const getFileName = (item: UserFileApi) => {
         );
       }
       if (item.file_metadata?.channel_name) {
-        readableName.push(item.file_metadata?.channel_name);
+        readableName.push(capitalize(item.file_metadata?.channel_name));
       } else {
         readableName.push(jsonName.conversation);
       }
