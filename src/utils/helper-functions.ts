@@ -466,7 +466,7 @@ export const getFileName = (item: UserFileApi) => {
       } else {
         readableName.push(jsonName.conversation);
       }
-      return `${readableName[0]} to ${readableName[1]}, ${readableName[2]}`;
+      return `${readableName[2]} (${readableName[0]} - ${readableName[1]})`;
     } catch (e) {
       console.error(e);
       return item.name || "Untitled";
