@@ -269,6 +269,7 @@ export type UserFileApi = {
     is_feed_url?: boolean;
     is_thread?: boolean;
     max_pages_to_scrape?: number;
+    channel_name?: string;
   };
   sync_error_message: string | null;
 };

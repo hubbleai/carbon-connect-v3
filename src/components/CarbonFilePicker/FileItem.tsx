@@ -3,7 +3,11 @@ import FolderIcon from "@assets/svgIcons/folder.svg";
 import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 import { FileTabColumns, UserFileApi } from "../../typing/shared";
-import { formatDate, getFileItemType } from "../../utils/helper-functions";
+import {
+  formatDate,
+  getFileItemType,
+  getFileName,
+} from "../../utils/helper-functions";
 import ErrorTooltip from "./ErrorTooltip";
 
 type FileListItemProps = {
@@ -60,7 +64,7 @@ export default function FileItem({
                   : "cc-w-[312px]"
               } cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]`}
             >
-              {item.name || "Untitled"}
+              {getFileName(item)}
             </p>
           )}
         </th>

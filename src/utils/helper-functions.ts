@@ -1,4 +1,5 @@
 import { Integration, OnSuccessData } from "..";
+import { FileItemType } from "../components/common/FileListItem";
 import { IntegrationAPIResponse } from "../components/IntegrationModal";
 import {
   BASE_URL,
@@ -436,4 +437,36 @@ export const getBaseURL = (
   }
   const environment = env || ENV.PRODUCTION;
   return BASE_URL[environment];
+};
+
+export const getFileName = (item: UserFileApi) => {
+  if (
+    item.source == IntegrationName.SLACK &&
+    item.file_metadata?.type == "TIME_RANGE"
+  ) {
+    try {
+      const jsonName = JSON.parse(item.name || "");
+      let readableName = [];
+      if (jsonName.after) {
+        readableName.push(
+          formatDate(new Date(parseInt(jsonName.after) * 1000), true)
+        );
+      }
+      if (jsonName.before) {
+        readableName.push(
+          formatDate(new Date(parseInt(jsonName.before) * 1000), true)
+        );
+      }
+      if (item.file_metadata?.channel_name) {
+        readableName.push(item.file_metadata?.channel_name);
+      } else {
+        readableName.push(jsonName.conversation);
+      }
+      return `${readableName[0]} to ${readableName[1]}, ${readableName[2]}`;
+    } catch (e) {
+      console.log(e);
+      return item.name || "Untitled";
+    }
+  }
+  return item.name || "Untitled";
 };
