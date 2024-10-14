@@ -62,7 +62,7 @@ export default function FileItem({
                 columnsToDisplay.includes("external_url")
                   ? "cc-w-auto"
                   : "cc-w-[312px]"
-              } cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]`}
+              } cc-break-all cc-line-clamp-2 cc-text-start cc-text-[#000] dark:cc-text-dark-text-white cc-text-[14px] cc-font-semibold cc-leadind-[24px]`}
             >
               {getFileName(item)}
             </p>
@@ -100,7 +100,7 @@ export default function FileItem({
 
         {columnsToDisplay.includes("created_at") && (
           <td className="cc-py-3 cc-px-2 cc-align-top md:cc-hidden cc-table-cell">
-            <p className="cc-text-[14px] cc-leading-[24px] cc-font-semibold ">
+            <p className="cc-text-[14px] cc-leading-[24px] cc-font-semibold dark:cc-text-dark-text-white">
               {formatDate(item.created_at)}
             </p>
           </td>
@@ -110,7 +110,7 @@ export default function FileItem({
           <td className="cc-py-3 cc-px-2 cc-align-top md:cc-hidden cc-table-cell">
             <p
               title={item.external_url || "NA"}
-              className="cc-w-[250px] cc-break-all cc-text-[14px] cc-leading-[24px] cc-font-semibold cc-line-clamp-3"
+              className="cc-w-[250px] cc-break-all cc-text-[14px] cc-leading-[24px] cc-font-semibold cc-line-clamp-3 dark:cc-text-dark-text-white"
             >
               {item.external_url || "NA"}
             </p>
@@ -121,7 +121,7 @@ export default function FileItem({
 
         <td className="md:!cc-table-cell cc-hidden cc-py-3 cc-px-2 cc-align-top">
           <div>
-            <div className="cc-flex">
+            <div className="cc-flex cc-items-center">
               <Checkbox
                 className="cc-my-0.5 cc-mr-[8px]"
                 checked={isChecked}
@@ -141,7 +141,7 @@ export default function FileItem({
                   className="cc-w-5 cc-shrink-0 cc-mr-[8px]"
                 />
               )}
-              <p className="cc-w-[100%] cc-break-all cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px]">
+              <p className="cc-w-[100%] cc-break-all cc-text-start cc-text-[#000] cc-text-[14px] cc-font-semibold cc-leadind-[24px] dark:cc-text-dark-text-white">
                 {item.name}
               </p>
               <div>
@@ -177,7 +177,7 @@ export default function FileItem({
             <div className="cc-ml-[54px]">
               {columnsToDisplay.includes("created_at") && (
                 <div className="cc-my-[4px] ">
-                  <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] cc-font-semibold">
+                  <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] dark:cc-text-dark-text-white cc-font-semibold">
                     {formatDate(item.created_at)}
                   </p>
                 </div>
@@ -186,7 +186,7 @@ export default function FileItem({
                 <div>
                   <p
                     title={item.external_url || "NA"}
-                    className="cc-w-full cc-break-all cc-text-[#8C8A94] cc-text-[12px] cc-leading-[16px] cc-font-semibold"
+                    className="cc-w-full cc-break-all cc-text-[#8C8A94] cc-text-[12px] dark:cc-text-dark-text-white cc-leading-[16px] cc-font-semibold"
                   >
                     {item.external_url || "NA"}
                   </p>
