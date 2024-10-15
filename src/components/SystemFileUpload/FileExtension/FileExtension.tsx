@@ -26,6 +26,8 @@ const getFileIcon = (fileName: string): string => {
       return images.pdf;
     case "mp4":
       return images.mp4;
+    case "mp3":
+      return images.mp3;
     case "mpeg":
       return images.mp3;
     case "mp2":
