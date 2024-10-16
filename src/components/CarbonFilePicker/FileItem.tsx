@@ -59,7 +59,7 @@ export default function FileItem({
             <p
               className={` ${
                 (columnsToDisplay.includes("created_at") ||
-                  columnsToDisplay.includes("last_sync")) &&
+                  columnsToDisplay.includes("updated_at")) &&
                 columnsToDisplay.includes("external_url")
                   ? "cc-w-auto"
                   : "cc-w-[312px]"
@@ -107,10 +107,10 @@ export default function FileItem({
           </td>
         )}
 
-        {columnsToDisplay.includes("last_sync") && (
+        {columnsToDisplay.includes("updated_at") && (
           <td className="cc-py-3 cc-px-2 cc-align-top md:cc-hidden cc-table-cell">
             <p className="cc-text-[14px] cc-leading-[24px] cc-font-semibold dark:cc-text-dark-text-white">
-              {formatDate(item.last_sync)}
+              {formatDate(item.updated_at)}
             </p>
           </td>
         )}
@@ -191,10 +191,10 @@ export default function FileItem({
                   </p>
                 </div>
               )}
-              {columnsToDisplay.includes("last_sync") && (
+              {columnsToDisplay.includes("updated_at") && (
                 <div className="cc-my-[4px] ">
                   <p className="cc-text-[12px] cc-text-[#8C8A94] cc-leading-[16px] dark:cc-text-dark-text-white cc-font-semibold">
-                    {formatDate(item.last_sync)}
+                    {formatDate(item.updated_at)}
                   </p>
                 </div>
               )}

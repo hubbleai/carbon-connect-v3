@@ -30,6 +30,7 @@ import {
   ProcessedIntegration,
   UserFileApi,
   IntegrationName,
+  SyncStatus,
 } from "../../typing/shared";
 import FileItem from "./FileItem";
 import { SyncingModes } from "./CarbonFilePicker";
@@ -95,6 +96,7 @@ export default function SyncedFilesList({
     lastModifications,
     apiURL,
   } = useCarbon();
+  const pollingRef = useRef<any>(null);
 
   const [files, setFiles] = useState<UserFileApi[]>([]);
   const [hasMoreFiles, setHasMoreFiles] = useState(true);
@@ -238,7 +240,7 @@ export default function SyncedFilesList({
         limit: PER_PAGE,
       },
       filters: getUserFilesFilters(breadcrumb, selectedDataSource, searchValue),
-      order_by: columnsToDisplay.includes("last_sync") ? "last_sync" : "id",
+      order_by: columnsToDisplay.includes("updated_at") ? "updated_at" : "id",
       order_dir: "desc",
     };
 
@@ -379,9 +381,70 @@ export default function SyncedFilesList({
     setActionInProgress(false);
   };
 
+  // auto refetch the files in syncing status and update them
+  const updateFileStatuses = async () => {
+    const syncingFiles = files.filter(
+      (f) =>
+        f.sync_status == SyncStatus.QUEUED_FOR_SYNC ||
+        f.sync_status == SyncStatus.SYNCING
+    );
+    const ids = syncingFiles.map((f) => f.id);
+    const requestBody = {
+      pagination: {
+        limit: 250,
+      },
+      filters: { ids: ids },
+    };
+
+    const filesResponse = await authenticatedFetch(
+      `${getBaseURL(apiURL, environment)}/user_files_v2`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+    if (filesResponse.status == 200) {
+      const data = await filesResponse.json();
+      const updatedFiles: UserFileApi[] = data.results;
+
+      const newFiles = [...files].map((currFile) => {
+        const updatedFile = updatedFiles.find(
+          (file) =>
+            file.id == currFile.id && file.sync_status != currFile.sync_status
+        );
+        if (updatedFile) {
+          return updatedFile;
+        } else {
+          return currFile;
+        }
+      });
+      setFiles(newFiles);
+    }
+  };
+
+  useEffect(() => {
+    const syncingFiles = files.filter(
+      (f) =>
+        f.sync_status == SyncStatus.QUEUED_FOR_SYNC ||
+        f.sync_status == SyncStatus.SYNCING
+    );
+    if (syncingFiles.length && !pollingRef.current) {
+      pollingRef.current = setInterval(updateFileStatuses, 10000);
+    } else if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+    }
+    return () => clearInterval(pollingRef.current);
+  }, [files.map((f) => f.sync_status + f.id).join(",")]);
+
+  // end - auto refetch the files in syncing status and update them
+
   const resyncFile = async (fileId: number) => {
     const requestBody = { file_id: fileId };
-    return await authenticatedFetch(
+    const response = await authenticatedFetch(
       `${getBaseURL(apiURL, environment)}/resync_file`,
       {
         method: "POST",
@@ -392,6 +455,7 @@ export default function SyncedFilesList({
         body: JSON.stringify(requestBody),
       }
     );
+    return response;
   };
 
   const handleResyncFiles = () => {
@@ -408,14 +472,17 @@ export default function SyncedFilesList({
     for (let fileId of selectedFiles) {
       promises.push(resyncFile(fileId));
     }
-    Promise.all(promises).then(function (values) {
+    Promise.all(promises).then(async function (values) {
       let successCount = 0;
       let failedCount = 0;
       let additionalInfo = "";
       let message = "Selected files queued successfully for resync";
+      const fileIds: number[] = [];
       for (let value of values) {
         if (value.status == 200) {
           successCount += 1;
+          const data = await value.json();
+          fileIds.push(data.id);
         } else {
           if (!additionalInfo) {
             additionalInfo =
@@ -432,6 +499,16 @@ export default function SyncedFilesList({
         } else {
           message = `${failedCount} file(s) failed to resync`;
         }
+      }
+      if (fileIds) {
+        const newFiles = [...files];
+        setFiles(
+          newFiles.map((f) =>
+            fileIds.includes(f.id)
+              ? { ...f, sync_status: SyncStatus.QUEUED_FOR_SYNC }
+              : f
+          )
+        );
       }
       const state = failedCount > 0 ? "ERROR" : "SUCCESS";
       setBannerState({
@@ -603,9 +680,9 @@ export default function SyncedFilesList({
                       CREATED AT
                     </th>
                   ) : null}
-                  {columnsToDisplay.includes("last_sync") ? (
+                  {columnsToDisplay.includes("updated_at") ? (
                     <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
-                      LAST SYNC
+                      UPDATED AT
                     </th>
                   ) : null}
                   {columnsToDisplay.includes("external_url") ? (
