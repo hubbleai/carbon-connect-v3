@@ -95,6 +95,7 @@ export default function SyncedFilesList({
     filesTabColumns,
     lastModifications,
     apiURL,
+    dataSourcePollingInterval,
   } = useCarbon();
   const pollingRef = useRef<any>(null);
 
@@ -432,10 +433,14 @@ export default function SyncedFilesList({
         f.sync_status == SyncStatus.QUEUED_FOR_SYNC ||
         f.sync_status == SyncStatus.SYNCING
     );
+    const pollingInterval = dataSourcePollingInterval
+      ? Math.max(dataSourcePollingInterval, 3000)
+      : 8000;
     if (syncingFiles.length && !pollingRef.current) {
-      pollingRef.current = setInterval(updateFileStatuses, 10000);
+      pollingRef.current = setInterval(updateFileStatuses, pollingInterval);
     } else if (pollingRef.current) {
       clearInterval(pollingRef.current);
+      pollingRef.current = null;
     }
     return () => clearInterval(pollingRef.current);
   }, [files.map((f) => f.sync_status + f.id).join(",")]);
