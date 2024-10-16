@@ -414,7 +414,7 @@ export default function SyncedFilesList({
       const newFiles = [...files].map((currFile) => {
         const updatedFile = updatedFiles.find(
           (file) =>
-            file.id == currFile.id && file.sync_status != currFile.sync_status
+            file.id == currFile.id && file.updated_at != currFile.updated_at
         );
         if (updatedFile) {
           return updatedFile;
