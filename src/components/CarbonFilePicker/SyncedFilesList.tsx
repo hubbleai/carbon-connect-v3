@@ -238,7 +238,7 @@ export default function SyncedFilesList({
         limit: PER_PAGE,
       },
       filters: getUserFilesFilters(breadcrumb, selectedDataSource, searchValue),
-      order_by: "id",
+      order_by: columnsToDisplay.includes("last_sync") ? "last_sync" : "id",
       order_dir: "desc",
     };
 
