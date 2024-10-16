@@ -603,6 +603,11 @@ export default function SyncedFilesList({
                       CREATED AT
                     </th>
                   ) : null}
+                  {columnsToDisplay.includes("last_sync") ? (
+                    <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
+                      LAST SYNC
+                    </th>
+                  ) : null}
                   {columnsToDisplay.includes("external_url") ? (
                     <th className="cc-text-start cc-py-2 cc-px-2 cc-text-xs cc-text-disabledtext cc-capitalize cc-font-bold dark:cc-text-dark-input-text">
                       EXTERNAL URL

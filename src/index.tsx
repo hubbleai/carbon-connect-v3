@@ -192,7 +192,12 @@ export type Integration =
   | WebScraperIntegration
   | BaseIntegration;
 
-export type FileTabColumns = "name" | "status" | "created_at" | "external_url";
+export type FileTabColumns =
+  | "name"
+  | "status"
+  | "created_at"
+  | "last_sync"
+  | "external_url";
 
 export type CarbonConnectProps = {
   orgName: string;
