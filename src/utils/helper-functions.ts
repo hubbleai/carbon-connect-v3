@@ -20,6 +20,7 @@ import {
   UserFileApi,
   ActionType,
   CarbonConnectProps,
+  FileFormats,
 } from "../typing/shared";
 import { IntegrationItemType } from "./integrationModalconstants";
 
@@ -473,4 +474,29 @@ export const getFileName = (item: UserFileApi) => {
     }
   }
   return item.name || "Untitled";
+};
+
+const isObjectEmpty = (data: object) => {
+  return Object.keys(data).length === 0;
+};
+
+export const getAllowedFormats = (
+  orgConnectorSettings: any,
+  userConnectorSettings: any,
+  type: IntegrationName | undefined
+): string[] | null => {
+  let settings = null;
+  if (!isObjectEmpty(userConnectorSettings)) {
+    settings =
+      userConnectorSettings[type || "DEFAULT"] ||
+      userConnectorSettings["DEFAULT"];
+  } else if (!isObjectEmpty(orgConnectorSettings)) {
+    settings =
+      orgConnectorSettings[type || "DEFAULT"] ||
+      orgConnectorSettings["DEFAULT"];
+  }
+  if (settings && settings.allowed_file_formats) {
+    return settings.allowed_file_formats;
+  }
+  return Object.keys(FileFormats);
 };

@@ -4,19 +4,35 @@ import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
 import { UserSourceItemApi } from "../../typing/shared";
 import { formatDate, getSourceItemType } from "../../utils/helper-functions";
+import { useCarbon } from "../../context/CarbonContext";
 
 export default function SourceItem({
   item,
   isChecked,
   onSelect,
   onItemClick,
+  allowedFormats,
 }: {
   isChecked: boolean;
   onSelect: () => void;
   item: UserSourceItemApi;
   onItemClick: (item: UserSourceItemApi) => void;
+  allowedFormats: string[] | null;
 }) {
   const itemType = getSourceItemType(item);
+
+  const isItemDisabled = (item: UserSourceItemApi) => {
+    if (!item.is_selectable) return true;
+    if (
+      allowedFormats &&
+      item.file_format &&
+      !allowedFormats.includes(item.file_format)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <li
       key={item.id}
@@ -27,7 +43,7 @@ export default function SourceItem({
           className="cc-my-0.5"
           checked={isChecked}
           onCheckedChange={onSelect}
-          disabled={!item.is_selectable}
+          disabled={isItemDisabled(item)}
         />
 
         {itemType === "FOLDER" && (

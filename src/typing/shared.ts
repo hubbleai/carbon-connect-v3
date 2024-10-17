@@ -299,6 +299,7 @@ export type UserSourceItemApi = {
   item_type: string;
   is_expandable: boolean;
   is_selectable: boolean;
+  file_format: string | null;
 };
 
 export type GithubRepoItem = {
@@ -333,3 +334,62 @@ export type SlackConversation = {
   is_archived: boolean;
   user: string;
 };
+
+// todo - get this via api
+export enum FileFormats {
+  TXT = "TXT",
+  CSV = "CSV",
+  TSV = "TSV",
+  PDF = "PDF",
+  DOCX = "DOCX",
+  PPTX = "PPTX",
+  XLSX = "XLSX",
+  XLSM = "XLSM",
+  MD = "MD",
+  RTF = "RTF",
+  JSON = "JSON",
+  HTM = "HTML",
+  HTML = "HTML",
+  NOTION = "NOTION",
+  GOOGLE_DOCS = "GOOGLE_DOCS",
+  GOOGLE_SHEETS = "GOOGLE_SHEETS",
+  GOOGLE_SLIDES = "GOOGLE_SLIDES",
+  INTERCOM = "INTERCOM",
+  CONFLUENCE = "CONFLUENCE",
+  RSS_FEED = "RSS_FEED",
+  GMAIL = "GMAIL",
+  OUTLOOK = "OUTLOOK",
+  ZENDESK = "ZENDESK",
+  FRESHDESK = "FRESHDESK",
+  WEB_SCRAPE = "WEB_SCRAPE",
+  GITBOOK = "GITBOOK",
+  SALESFORCE = "SALESFORCE",
+  GITHUB = "GITHUB",
+  SLACK = "SLACK",
+  GURU = "GURU",
+  SERVICENOW = "SERVICENOW",
+  GONG = "GONG",
+  JPEG = "JPG",
+  JPG = "JPG",
+  PNG = "PNG",
+  MP3 = "MP3",
+  MP2 = "MP2",
+  AAC = "AAC",
+  WAV = "WAV",
+  FLAC = "FLAC",
+  PCM = "PCM",
+  M4A = "M4A",
+  OGG = "OGG",
+  OPUS = "OPUS",
+  MPEG = "MPEG",
+  MPG = "MPG",
+  MP4 = "MP4",
+  WMV = "WMV",
+  AVI = "AVI",
+  MOV = "MOV",
+  MKV = "MKV",
+  FLV = "FLV",
+  WEBM = "WEBM",
+  EML = "EML",
+  MSG = "MSG",
+}

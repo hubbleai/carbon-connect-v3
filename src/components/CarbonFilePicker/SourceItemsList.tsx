@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import RefreshIcon from "@assets/svgIcons/refresh-icon.svg";
 import { Input } from "@components/common/design-system/Input";
@@ -24,6 +24,7 @@ import { IntegrationAPIResponse } from "../IntegrationModal";
 import {
   debounce,
   generateRequestId,
+  getAllowedFormats,
   getBaseURL,
   getConnectRequestProps,
 } from "../../utils/helper-functions";
@@ -84,6 +85,8 @@ export default function SourceItemsList({
     setRequestIds,
     requestIds,
     apiURL,
+    whiteLabelingData,
+    userData,
   } = carbonProps;
 
   const loadMoreRows = async () => {
@@ -278,6 +281,20 @@ export default function SourceItemsList({
     setSelectedItems([]);
   };
 
+  const allowedFormats = useMemo(
+    () =>
+      getAllowedFormats(
+        whiteLabelingData?.connector_settings,
+        userData?.connector_settings,
+        selectedDataSource?.data_source_type
+      ),
+    [
+      whiteLabelingData?.connector_settings,
+      userData?.connector_settings,
+      selectedDataSource?.data_source_type,
+    ]
+  );
+
   return (
     <>
       <div className="cc-p-4 cc-min-h-0 cc-flex-grow cc-flex cc-flex-col">
@@ -439,6 +456,7 @@ export default function SourceItemsList({
                         });
                       }}
                       onItemClick={onItemClick}
+                      allowedFormats={allowedFormats}
                     />
                   );
                 })}

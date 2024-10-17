@@ -20,6 +20,7 @@ type CarbonContextValues = CarbonConnectProps & {
   setRequestIds?: any;
   requestIds?: object;
   whiteLabelingData?: any;
+  userData?: any;
   entryPointIntegrationObject?: ProcessedIntegration | null;
   loading?: boolean;
   manageModalOpenState?: any;
@@ -111,6 +112,7 @@ export const CarbonProvider = ({
     useState<ProcessedIntegration | null>(null);
   const [whiteLabelingData, setWhiteLabelingData] = useState(null);
   const [requestIds, setRequestIds] = useState({});
+  const [userData, setUserData] = useState(null);
 
   const [slackActive, setSlackActive] = useState(false);
 
@@ -181,6 +183,19 @@ export const CarbonProvider = ({
       );
       const whiteLabelingResponseData = await whiteLabelingResponse?.json();
       setWhiteLabelingData(whiteLabelingResponseData);
+      const userResponse = await authenticatedFetch(
+        `${getBaseURL(apiURL, environment)}/whoami`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Token ${response?.access_token || null}`,
+          },
+        }
+      );
+      if (userResponse?.status == 200) {
+        setUserData(await userResponse.json());
+      }
     } catch (err) {
       setError(true);
       console.error("[CarbonContext.js] Error in fetchTokens: ", err);
@@ -281,6 +296,7 @@ export const CarbonProvider = ({
     setLastModifications,
     openFilesTabTo,
     apiURL,
+    userData,
   };
 
   return (
