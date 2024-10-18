@@ -21,13 +21,18 @@ export default function SourceItem({
 }) {
   const itemType = getSourceItemType(item);
 
+  const getFileFormat = (item: UserSourceItemApi) => {
+    const parts = item.name.split(".")
+    if (parts.length > 1) {
+      return parts[parts.length - 1].toUpperCase();
+    }
+    return null;
+  };
+
   const isItemDisabled = (item: UserSourceItemApi) => {
     if (!item.is_selectable) return true;
-    if (
-      allowedFormats &&
-      item.file_format &&
-      !allowedFormats.includes(item.file_format)
-    ) {
+    const fileFormat = item.file_format || getFileFormat(item);
+    if (allowedFormats && fileFormat && !allowedFormats.includes(fileFormat)) {
       return true;
     }
     return false;
