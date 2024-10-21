@@ -47,6 +47,7 @@ export default function GitbookScreen({
     orgName,
     showFilesTab,
     apiURL,
+    dataSourceTags
   } = carbonProps;
   const shouldShowFilesTab = processedIntegration?.showFilesTab ?? showFilesTab;
 
@@ -81,6 +82,7 @@ export default function GitbookScreen({
         username: username,
         access_token: ghToken,
         sync_source_items: processedIntegration?.syncSourceItems || false,
+        data_source_tags: dataSourceTags
       };
 
       const response = await authenticatedFetch(

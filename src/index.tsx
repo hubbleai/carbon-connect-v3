@@ -248,6 +248,8 @@ export type CarbonConnectProps = {
   dataSourcePollingInterval?: number;
   openFilesTabTo?: "FILE_PICKER" | "FILES_LIST";
   apiURL?: string | null;
+  dataSourceTags?: Record<string, TagValue>;
+  dataSourceTagsFilterQuery?: object;
 };
 
 export enum AutoSyncedSourceTypes {

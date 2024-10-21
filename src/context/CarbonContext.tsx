@@ -99,6 +99,8 @@ export const CarbonProvider = ({
   dataSourcePollingInterval,
   openFilesTabTo = "FILES_LIST",
   apiURL = null,
+  dataSourceTags = {},
+  dataSourceTagsFilterQuery = {},
 }: CarbonConnectProps) => {
   const [showModal, setShowModal] = useState(open);
   const [loading, setLoading] = useState(false);
@@ -297,6 +299,8 @@ export const CarbonProvider = ({
     openFilesTabTo,
     apiURL,
     userData,
+    dataSourceTags,
+    dataSourceTagsFilterQuery,
   };
 
   return (

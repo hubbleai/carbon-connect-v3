@@ -46,6 +46,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
     dataSourcePollingInterval,
     setLastModifications,
     apiURL,
+    dataSourceTagsFilterQuery
   } = useCarbon();
 
   const [activeIntegrations, setActiveIntegrations] = useState<
@@ -63,16 +64,23 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
 
   const fetchUserIntegrations = async () => {
     try {
+      const params: any = {
+        "pagination": {
+          "limit": 250,
+          "offset": 0
+        },
+      }
+      if(dataSourceTagsFilterQuery) {
+        params["filters"] = { "tags": dataSourceTagsFilterQuery }
+      }
       const userIntegrationsResponse = await authenticatedFetch(
-        `${getBaseURL(apiURL, environment)}/integrations/?${new URLSearchParams(
-          {
-            include_files: "false",
-          }
-        )}`,
+        `${getBaseURL(apiURL, environment)}/user_data_sources`,
         {
-          method: "GET",
+          method: "POST",
+          body: JSON.stringify(params),
           headers: {
             Authorization: `Token ${accessToken}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -80,7 +88,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
         const responseBody = await userIntegrationsResponse.json();
         if (firstFetchCompletedRef.current) {
           const integrationModifications = findModifications(
-            responseBody["active_integrations"],
+            responseBody["results"],
             activeIntegrationsRef.current,
             requestIdsRef
           );
@@ -94,8 +102,8 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
         } else {
           firstFetchCompletedRef.current = true;
         }
-        activeIntegrationsRef.current = responseBody["active_integrations"];
-        setActiveIntegrations(responseBody["active_integrations"]);
+        activeIntegrationsRef.current = responseBody["results"];
+        setActiveIntegrations(responseBody["results"]);
         return;
       }
     } catch (error) {
