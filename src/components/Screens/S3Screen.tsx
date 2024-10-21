@@ -49,6 +49,7 @@ export default function S3Screen({
     orgName,
     enabledIntegrations,
     apiURL,
+    dataSourceTags
   } = carbonProps;
 
   const digitalOceanEnabled = processedIntegration.enableDigitalOcean;
@@ -94,6 +95,7 @@ export default function S3Screen({
         sync_source_items:
           processedIntegration?.syncSourceItems ?? SYNC_SOURCE_ITEMS,
         ...(endpointUrl && { endpoint_url: endpointUrl }),
+        data_source_tags: dataSourceTags || {}
       };
 
       const response = await authenticatedFetch(

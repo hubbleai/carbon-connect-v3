@@ -95,6 +95,7 @@ export const generateRequestId = (length: number) => {
   return prefix + result;
 };
 
+// S3, Github, etc are excluded from this
 export const getConnectRequestProps = (
   processedIntegration: ProcessedIntegration,
   requestId: string | null,
@@ -170,7 +171,7 @@ export const getConnectRequestProps = (
     use_ocr: useOcrValue,
     parse_pdf_tables_with_ocr: parsePdfTablesWithOcrValue,
     incremental_sync: incrementalSyncValue,
-    data_source_tags: dataSourceTags
+    data_source_tags: dataSourceTags || {}
   };
 };
 
