@@ -14,7 +14,11 @@ const ErrorTooltip = ({ leftPosTip, message }: PropsInfo) => {
       {message}
       <span
         className={`cc-absolute cc-rotate-180 -cc-top-[8px] ${
-          leftPosTip === "21" ? "cc-left-[21px]" : "cc-left-[116px]"
+          leftPosTip === "21"
+            ? "cc-left-[21px]"
+            : leftPosTip === "12"
+            ? "cc-left-[12px]"
+            : "cc-left-[116px]"
         } cc-flex cc-flex-col-reverse`}
       >
         <svg
