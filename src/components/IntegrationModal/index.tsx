@@ -46,7 +46,7 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
     dataSourcePollingInterval,
     setLastModifications,
     apiURL,
-    dataSourceTagsFilterQuery
+    dataSourceTagsFilterQuery,
   } = useCarbon();
 
   const [activeIntegrations, setActiveIntegrations] = useState<
@@ -65,13 +65,16 @@ export function IntegrationModal({ children }: { children: ReactNode }) {
   const fetchUserIntegrations = async () => {
     try {
       const params: any = {
-        "pagination": {
-          "limit": 250,
-          "offset": 0
+        pagination: {
+          limit: 250,
+          offset: 0,
         },
-      }
-      if(dataSourceTagsFilterQuery) {
-        params["filters"] = { "tags": dataSourceTagsFilterQuery }
+        filters: {
+          revoked_access: false,
+        },
+      };
+      if (dataSourceTagsFilterQuery) {
+        params["filters"]["tags"] = dataSourceTagsFilterQuery;
       }
       const userIntegrationsResponse = await authenticatedFetch(
         `${getBaseURL(apiURL, environment)}/user_data_sources`,
