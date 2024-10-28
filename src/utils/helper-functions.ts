@@ -150,6 +150,7 @@ export const getConnectRequestProps = (
     false;
   const incrementalSyncValue =
     processedIntegration?.incrementalSync || incrementalSync || false;
+  const scopes = processedIntegration?.scopes || [];
 
   return {
     ...additionalProps,
@@ -171,7 +172,8 @@ export const getConnectRequestProps = (
     use_ocr: useOcrValue,
     parse_pdf_tables_with_ocr: parsePdfTablesWithOcrValue,
     incremental_sync: incrementalSyncValue,
-    data_source_tags: dataSourceTags || {}
+    data_source_tags: dataSourceTags || {},
+    scopes: scopes,
   };
 };
 
@@ -200,7 +202,6 @@ export const getFileItemType = (item: UserFileApi) => {
   } else {
     return "FILE";
   }
-
 };
 
 export const getSourceItemType = (item: UserSourceItemApi) => {
@@ -490,8 +491,8 @@ export const getAllowedFormats = (
   type: IntegrationName | undefined
 ): string[] | null => {
   let settings = null;
-  const userSettings = userConnectorSettings || {}
-  const orgSettings = orgConnectorSettings || {}
+  const userSettings = userConnectorSettings || {};
+  const orgSettings = orgConnectorSettings || {};
   if (!isObjectEmpty(userSettings)) {
     settings = userSettings[type || "DEFAULT"] || userSettings["DEFAULT"];
   } else if (!isObjectEmpty(orgSettings)) {

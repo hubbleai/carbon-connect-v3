@@ -50,6 +50,7 @@ import AccountManagement from "@components/common/AccountManagement";
 import SlackScreen from "../Screens/SlackScreen";
 import GuruScreen from "../Screens/GuruScreen";
 import ServiceNowScreen from "../Screens/ServiceNowScreen";
+import AzureScreen from "../Screens/AzureScreen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -697,6 +698,12 @@ export default function CarbonFilePicker({
         )) ||
         (integrationName == IntegrationName.SERVICENOW && (
           <ServiceNowScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
+        )) ||
+        (integrationName == IntegrationName.AZURE_BLOB_STORAGE && (
+          <AzureScreen
             processedIntegration={processedIntegration}
             setShowAdditionalStep={setShowAdditionalStep}
           />

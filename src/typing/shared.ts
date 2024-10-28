@@ -138,6 +138,7 @@ export type BaseIntegration = {
   incrementalSync?: boolean;
   enableDigitalOcean?: boolean;
   showFilesTab?: boolean;
+  scopes?: string[];
 };
 
 export type LocalFilesIntegration = BaseIntegration & {
@@ -264,6 +265,7 @@ export enum IntegrationName {
   GOOGLE_CLOUD_STORAGE = "GOOGLE_CLOUD_STORAGE",
   GURU = "GURU",
   SERVICENOW = "SERVICENOW",
+  AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
 }
 
 export type ProcessedIntegration = IntegrationItemType & Integration;

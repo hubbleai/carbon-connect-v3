@@ -36,6 +36,7 @@ export const TWO_STEP_CONNECTORS = [
   IntegrationName.GITHUB,
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
+  IntegrationName.AZURE_BLOB_STORAGE,
 ];
 
 export const THIRD_PARTY_CONNECTORS = [
@@ -59,6 +60,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.GOOGLE_CLOUD_STORAGE,
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
+  IntegrationName.AZURE_BLOB_STORAGE,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -95,6 +97,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.GOOGLE_CLOUD_STORAGE,
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
+  IntegrationName.AZURE_BLOB_STORAGE,
 ];
 
 // note - this excludes RAW_TEXT

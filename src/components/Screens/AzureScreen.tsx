@@ -18,16 +18,15 @@ import {
   ActionType,
 } from "../../typing/shared";
 
-export default function S3Screen({
+export default function AzureScreen({
   processedIntegration,
   setShowAdditionalStep,
 }: {
   processedIntegration: ProcessedIntegration;
   setShowAdditionalStep: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [accessKey, setAccessKey] = useState("");
-  const [accessKeySecret, setAccessKeySecret] = useState("");
-  const [endpointUrl, setEndpointUrl] = useState<null | string>(null);
+  const [accountName, setAccountName] = useState("");
+  const [accountKey, setAccountKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [bannerState, setBannerState] = useState<BannerState>({
     message: null,
@@ -45,25 +44,22 @@ export default function S3Screen({
     accessToken,
     whiteLabelingData,
     orgName,
-    enabledIntegrations,
     apiURL,
     dataSourceTags,
   } = carbonProps;
 
-  const digitalOceanEnabled = processedIntegration.enableDigitalOcean;
-
-  const connectS3 = async () => {
+  const connectAzure = async () => {
     try {
-      if (!accessKey) {
+      if (!accountKey) {
         setBannerState({
-          message: "Please enter your access key.",
+          message: "Please enter your account key.",
           type: "ERROR",
         });
         return;
       }
-      if (!accessKeySecret) {
+      if (!accountName) {
         setBannerState({
-          message: "Please enter your access key secret.",
+          message: "Please enter your account name.",
           type: "ERROR",
         });
         return;
@@ -74,7 +70,7 @@ export default function S3Screen({
           data: null,
           action: ActionType.INITIATE,
           event: ActionType.INITIATE,
-          integration: IntegrationName.S3,
+          integration: IntegrationName.AZURE_BLOB_STORAGE,
         });
       setIsLoading(true);
 
@@ -88,16 +84,15 @@ export default function S3Screen({
       }
 
       const requestObject = {
-        access_key: accessKey,
-        access_key_secret: accessKeySecret,
+        account_name: accountName,
+        account_key: accountKey,
         sync_source_items:
           processedIntegration?.syncSourceItems ?? SYNC_SOURCE_ITEMS,
-        ...(endpointUrl && { endpoint_url: endpointUrl }),
         data_source_tags: dataSourceTags || {},
       };
 
       const response = await authenticatedFetch(
-        `${getBaseURL(apiURL, environment)}/integrations/s3`,
+        `${getBaseURL(apiURL, environment)}/integrations/azure_blob_storage`,
         {
           method: "POST",
           headers: {
@@ -115,9 +110,8 @@ export default function S3Screen({
           message: `${processedIntegration.name} sync initiated, you will be redirected shortly!`,
           type: "SUCCESS",
         });
-        setAccessKey("");
-        setAccessKeySecret("");
-        setEndpointUrl("");
+        setAccountKey("");
+        setAccountName("");
         setTimeout(() => setShowAdditionalStep(false), 3000);
       } else {
         setBannerState({ type: "ERROR", message: responseData.detail });
@@ -127,7 +121,7 @@ export default function S3Screen({
             data: [{ message: responseData.detail }],
             action: ActionType.ERROR,
             event: ActionType.ERROR,
-            integration: IntegrationName.S3,
+            integration: IntegrationName.AZURE_BLOB_STORAGE,
           });
       }
       setIsLoading(false);
@@ -147,7 +141,7 @@ export default function S3Screen({
           ],
           action: ActionType.ERROR,
           event: ActionType.ERROR,
-          integration: IntegrationName.S3,
+          integration: IntegrationName.AZURE_BLOB_STORAGE,
         });
     }
   };
@@ -166,40 +160,28 @@ export default function S3Screen({
         <div className="cc-text-base cc-font-semibold cc-mb-5 dark:cc-text-dark-text-white">
           Please enter
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
-            access key
+            account name
           </span>
           and
           <span className="cc-px-2 cc-mx-1 cc-bg-surface-info_accent_1 cc-text-info_em cc-rounded-md dark:cc-text-[#88E7FC] dark:cc-bg-[#10284D]">
-            access key secret
+            account key
           </span>
           of the acount you wish to connect.{" "}
-          {digitalOceanEnabled &&
-            `If you are connecting a
-          DigitalOcean Space, please provide the endpoint URL as well.`}
         </div>
         <Input
           type="text"
-          placeholder="Access Key"
-          value={accessKey}
-          onChange={(e) => setAccessKey(e.target.value)}
+          placeholder="Account Name"
+          value={accountName}
+          onChange={(e) => setAccountName(e.target.value)}
           className="cc-mb-4"
         />
         <Input
           type="password"
-          placeholder="Access Key Secret"
-          value={accessKeySecret}
-          onChange={(e) => setAccessKeySecret(e.target.value)}
+          placeholder="Account Key"
+          value={accountKey}
+          onChange={(e) => setAccountKey(e.target.value)}
           className="cc-mb-4"
         />
-        {digitalOceanEnabled ? (
-          <Input
-            type="text"
-            placeholder="Endpoint URL (<region>.digitaloceanspaces.com)"
-            value={endpointUrl || ""}
-            onChange={(e) => setEndpointUrl(e.target.value)}
-            className="cc-mb-32"
-          />
-        ) : null}
       </div>
       <DialogFooter>
         <div className="cc-flex cc-mb-4 cc-gap-2 cc-items-center">
@@ -220,7 +202,7 @@ export default function S3Screen({
           variant="primary"
           size="lg"
           className="cc-w-full"
-          onClick={() => connectS3()}
+          onClick={() => connectAzure()}
           disabled={isLoading}
         >
           Submit

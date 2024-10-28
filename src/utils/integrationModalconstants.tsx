@@ -24,6 +24,7 @@ import SlackLogo from "../assets/logos/slack.svg";
 import GCSLogo from "../assets/logos/gcs-logo.svg";
 import GuruLogo from "../assets/logos/guru-logo.svg";
 import ServiceNowLogo from "../assets/logos/servicenow-logo.svg";
+import AzureLogo from "../assets/logos/storage-blob.svg";
 import { IntegrationName } from "../typing/shared";
 
 export interface IntegrationItemType {
@@ -353,5 +354,18 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     data_source_type: IntegrationName.ZOTERO,
     requiresOAuth: true,
     multiStep: false,
+  },
+  {
+    id: IntegrationName.AZURE_BLOB_STORAGE,
+    subpath: "AzureBlobStorage",
+    name: "Azure Blob Storage",
+    description: "Lets your users connect their Azure Blob Storage to Carbon.",
+    announcementName: "to connect Azure Blob Storage",
+    icon: <img src={AzureLogo} className="cc-w-7 cc-h-7" />,
+    logo: AzureLogo,
+    active: true,
+    data_source_type: IntegrationName.AZURE_BLOB_STORAGE,
+    requiresOAuth: false,
+    multiStep: true,
   },
 ];

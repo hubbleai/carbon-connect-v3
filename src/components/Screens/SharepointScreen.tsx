@@ -69,14 +69,6 @@ export default function SharepointScreen({
         return;
       }
 
-      if (!sharepointSiteName) {
-        setBannerState({
-          type: "ERROR",
-          message: "Please enter a sitename value.",
-        });
-        return;
-      }
-
       setIsLoading(true);
       const oauthWindow = window.open("", "_blank");
 
@@ -195,7 +187,7 @@ export default function SharepointScreen({
         />
         <Input
           type="text"
-          placeholder="Your Site Name"
+          placeholder="Your Site Name (optional)"
           value={sharepointSiteName}
           onChange={(e) => setSharepointSiteName(e.target.value)}
           className="cc-mb-4"
