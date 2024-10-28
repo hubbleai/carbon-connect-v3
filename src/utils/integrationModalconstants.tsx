@@ -358,7 +358,7 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
   {
     id: IntegrationName.AZURE_BLOB_STORAGE,
     subpath: "AzureBlobStorage",
-    name: "Azure Blob Storage",
+    name: "Azure Blob",
     description: "Lets your users connect their Azure Blob Storage to Carbon.",
     announcementName: "to connect Azure Blob Storage",
     icon: <img src={AzureLogo} className="cc-w-7 cc-h-7" />,
