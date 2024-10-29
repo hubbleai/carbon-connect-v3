@@ -30,14 +30,15 @@ export default function SourceItem({
     return null;
   };
 
-  const isItemDisabled = (item: UserSourceItemApi) => {
-    if (!item.is_selectable) return true;
+  const itemDisabledReason = (item: UserSourceItemApi): string | null => {
+    if (!item.is_selectable) return "Syncing this item is not supported";
     const fileFormat = item.file_format || getFileFormat(item);
     if (allowedFormats && fileFormat && !allowedFormats.includes(fileFormat)) {
-      return true;
+      return "This file format is not supported";
     }
-    return false;
+    return null;
   };
+  const disabledReason = itemDisabledReason(item);
 
   return (
     <li
@@ -50,11 +51,13 @@ export default function SourceItem({
             className="cc-my-0.5 "
             checked={isChecked}
             onCheckedChange={onSelect}
-            disabled={isItemDisabled(item)}
+            disabled={Boolean(disabledReason)}
           />
-          <div className="cc-absolute cc-top-[32px] -cc-left-[11px] error-tooltip cc-z-[1]">
-            <ErrorTooltip leftPosTip={"12"} message={"Error Message"} />
-          </div>
+          {Boolean(disabledReason) ? (
+            <div className="cc-absolute cc-top-[32px] -cc-left-[11px] error-tooltip cc-z-[1]">
+              <ErrorTooltip leftPosTip={"12"} message={disabledReason} />
+            </div>
+          ) : null}
         </div>
 
         {itemType === "FOLDER" && (
