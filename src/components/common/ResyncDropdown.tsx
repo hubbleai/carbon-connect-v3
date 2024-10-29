@@ -96,7 +96,7 @@ const ResyncDropdown = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <svg
-            className="cc-cursor-pointer addIconsvg"
+            className="cc-cursor-pointer addIconsvg dark:cc-invert-[1] dark:cc-hue-rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             width="18"
             height="18"
