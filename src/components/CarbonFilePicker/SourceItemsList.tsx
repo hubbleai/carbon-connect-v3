@@ -404,8 +404,8 @@ export default function SourceItemsList({
             <div className="cc-px-4 cc-py-2 cc-text-xs dark:cc-text-dark-input-text cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow">
               FILE NAME
             </div>
-            <div className="cc-py-2 cc-text-xs dark:cc-text-dark-input-text cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px]">
-              <p className="cc-px-4">FILE TYPE</p>
+            <div className="cc-py-2 cc-text-xs dark:cc-text-dark-input-text cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right ">
+              <p >FILE TYPE</p>
             </div>
             <div className="cc-py-2 cc-text-xs dark:cc-text-dark-input-text cc-text-disabledtext cc-capitalize cc-font-bold cc-shrink-0 cc-text-right sm:cc-w-[228px]">
               <p className="cc-px-4">CREATED AT</p>
