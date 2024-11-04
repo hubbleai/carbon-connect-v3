@@ -88,7 +88,9 @@ module.exports = {
         // => @media (max-width: 767px) { ... }
 
         tab:{min: '768px' , max:'783px'},
-        desktop:{min:'1025px' , max:'1280'}
+        desktop:{min:'1025px' , max:'1280'},
+        tabMax:{min:'640px' , max:'710px'},
+        smallMobile:{max:'500px'}
       },
 
     },

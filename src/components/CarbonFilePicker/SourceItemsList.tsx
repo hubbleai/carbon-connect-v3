@@ -400,7 +400,7 @@ export default function SourceItemsList({
           id="scrollableTarget"
           className="cc-border-t cc-flex cc-flex-col dark:cc-border-[#FFFFFF1F] cc-border-outline-low_em cc-overflow-y-auto cc-overflow-x-hidden -cc-mx-4 cc-px-4 sm:cc-mx-0 sm:cc-px-0 cc-flex-grow sm:cc-border sm:cc-rounded-xl cc-relative"
         >
-          <div className="cc-bg-[#F3F3F4] cc-sticky cc-top-0 cc-hidden sm:cc-flex dark:!cc-bg-[#1D1D1D] cc-z-[10]">
+          <div className="cc-bg-[#F3F3F4] cc-sticky cc-top-0 cc-hidden sm:cc-flex dark:!cc-bg-[#1D1D1D] cc-z-[10]  md:cc-hidden">
             <div className="cc-px-4 cc-py-2 cc-text-xs dark:cc-text-dark-input-text cc-text-disabledtext cc-capitalize cc-font-bold cc-flex-grow">
               FILE NAME
             </div>
