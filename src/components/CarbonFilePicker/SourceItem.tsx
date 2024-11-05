@@ -86,7 +86,7 @@ export default function SourceItem({
             {item.name}
           </p>
           <p className=" cc-shrink-0 cc-text-left cc-text-xs  sm:text-sm sm:cc-text-right  cc-truncate dark:cc-text-dark-text-white tabMax:!cc-px-[8px] sm:cc-max-w-[100px] dark:!cc-bg-[#ffffff33] cc-font-semibold  cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg sm:cc-w-fit cc-bg-surface-surface_2">
-            REPOSITORY
+            {item.item_type}
           </p>
           <p className="cc-w-full cc-shrink-0 cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:cc-w-[239px] sm:text-sm sm:cc-text-right sm:cc-text-sm cc-truncate dark:cc-text-dark-text-white tabMax:!cc-text-left">
             {(itemType === "FOLDER" || itemType === "FILE") &&
