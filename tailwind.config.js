@@ -89,7 +89,7 @@ module.exports = {
 
         tab:{min: '768px' , max:'783px'},
         desktop:{min:'1025px' , max:'1280'},
-        tabMax:{min:'640px' , max:'710px'},
+        tabMax:{min:'640px' , max:'751px'},
         smallMobile:{max:'500px'}
       },
 

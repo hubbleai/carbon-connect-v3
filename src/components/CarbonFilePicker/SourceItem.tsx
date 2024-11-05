@@ -75,16 +75,16 @@ export default function SourceItem({
           />
         )}
         <div
-          className="cc-flex cc-flex-grow cc-gap-x-4 cc-gap-y-1 cc-flex-wrap cc-items-start cc-justify-between smallMobile:cc-flex-col"
+          className="cc-flex cc-flex-grow cc-gap-x-[0px] cc-gap-y-1 cc-flex-wrap cc-items-start cc-justify-between smallMobile:cc-flex-col"
           onClick={() => onItemClick(item)}
         >
-          <p className="sm:cc-flex-grow dark:cc-text-dark-text-white sm:cc-w-[350px] sm:cc-max-w-[350px] cc-break-words">
+          <p className="sm:cc-flex-grow dark:cc-text-dark-text-white sm:cc-w-[335px] tab:!cc-max-w-[308px] sm:cc-max-w-[334px] cc-break-words">
             {item.name}
           </p>
-          <p className=" cc-shrink-0 cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:text-sm sm:cc-text-right sm:cc-text-sm cc-truncate dark:cc-text-dark-text-white tabMax:!cc-px-[8px]">
-           pdf
+          <p className=" cc-shrink-0 cc-text-left cc-text-xs  sm:text-sm sm:cc-text-right  cc-truncate dark:cc-text-dark-text-white tabMax:!cc-px-[8px] sm:cc-max-w-[100px] dark:!cc-bg-[#ffffff33] cc-font-semibold  cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg sm:cc-w-fit cc-bg-surface-surface_2">
+           REPOSITORY
           </p>
-          <p className="cc-w-full cc-shrink-0 cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:cc-w-[200px] sm:text-sm sm:cc-text-right sm:cc-text-sm cc-truncate dark:cc-text-dark-text-white tabMax:!cc-text-left">
+          <p className="cc-w-full cc-shrink-0 cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:cc-w-[239px] sm:text-sm sm:cc-text-right sm:cc-text-sm cc-truncate dark:cc-text-dark-text-white tabMax:!cc-text-left">
             {(itemType === "FOLDER" || itemType === "FILE") &&
               formatDate(item.created_at)}
           </p>
