@@ -304,6 +304,7 @@ export type UserSourceItemApi = {
   is_expandable: boolean;
   is_selectable: boolean;
   file_format: string | null;
+  source: IntegrationName;
 };
 
 export type GithubRepoItem = {

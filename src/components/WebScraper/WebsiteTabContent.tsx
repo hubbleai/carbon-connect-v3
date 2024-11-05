@@ -585,7 +585,7 @@ function ConfigureForm({
             className="cc-h-8 cc-text-xs !cc-pl-2"
             value={urlData.recursionDepth || 0}
             onChange={(e) => {
-              if (parseInt(e.target.value) > maxRecursionDepth) return;
+              if (parseInt(e.target.value) > (maxRecursionDepth || 10)) return;
               setUrlData((prev) => ({
                 ...prev,
                 recursionDepth: parseInt(e.target.value) || 0,

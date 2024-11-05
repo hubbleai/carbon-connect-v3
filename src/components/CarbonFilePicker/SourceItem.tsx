@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FolderIcon from "@assets/svgIcons/folder.svg";
 import FIleIcon from "@assets/svgIcons/file.svg";
 import { Checkbox } from "@components/common/design-system/Checkbox";
-import { UserSourceItemApi } from "../../typing/shared";
+import { IntegrationName, UserSourceItemApi } from "../../typing/shared";
 import { formatDate, getSourceItemType } from "../../utils/helper-functions";
 import { useCarbon } from "../../context/CarbonContext";
 import ErrorTooltip from "./ErrorTooltip";
@@ -32,6 +32,10 @@ export default function SourceItem({
 
   const itemDisabledReason = (item: UserSourceItemApi): string | null => {
     if (!item.is_selectable) return "Syncing this item is not supported";
+    // allow all files from github because they don't match our file formats
+    if (item.source == IntegrationName.GITHUB) {
+      return null;
+    }
     const fileFormat = item.file_format || getFileFormat(item);
     if (allowedFormats && fileFormat && !allowedFormats.includes(fileFormat)) {
       return "This file format is not supported";
@@ -82,7 +86,7 @@ export default function SourceItem({
             {item.name}
           </p>
           <p className=" cc-shrink-0 cc-text-left cc-text-xs  sm:text-sm sm:cc-text-right  cc-truncate dark:cc-text-dark-text-white tabMax:!cc-px-[8px] sm:cc-max-w-[100px] dark:!cc-bg-[#ffffff33] cc-font-semibold  cc-py-[3px] cc-text-xs cc-px-2 cc-rounded-lg sm:cc-w-fit cc-bg-surface-surface_2">
-           REPOSITORY
+            REPOSITORY
           </p>
           <p className="cc-w-full cc-shrink-0 cc-text-left cc-text-xs cc-text-low_em sm:cc-text-high_em sm:cc-w-[239px] sm:text-sm sm:cc-text-right sm:cc-text-sm cc-truncate dark:cc-text-dark-text-white tabMax:!cc-text-left">
             {(itemType === "FOLDER" || itemType === "FILE") &&
