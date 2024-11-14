@@ -86,7 +86,7 @@ function IntegrationList({
           </DialogTitle>
         </div>
       </DialogHeader>
-      {!activeIntegrations.length ? (
+      {!activeIntegrations.length && !accessToken ? (
         <div className="cc-h-screen cc-flex cc-items-center cc-justify-center">
           <p>Could not fetch integrations list.</p>
         </div>
