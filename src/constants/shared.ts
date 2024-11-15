@@ -37,6 +37,7 @@ export const TWO_STEP_CONNECTORS = [
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
   IntegrationName.AZURE_BLOB_STORAGE,
+  IntegrationName.DOCUMENT360,
 ];
 
 export const THIRD_PARTY_CONNECTORS = [
@@ -61,6 +62,7 @@ export const THIRD_PARTY_CONNECTORS = [
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
   IntegrationName.AZURE_BLOB_STORAGE,
+  IntegrationName.DOCUMENT360,
 ];
 
 // used to check if we need to generate sync/OAuth URL for syncing files
@@ -98,6 +100,7 @@ export const FILE_PICKER_SUPPORTED_CONNECTORS = [
   IntegrationName.GURU,
   IntegrationName.SERVICENOW,
   IntegrationName.AZURE_BLOB_STORAGE,
+  IntegrationName.DOCUMENT360,
 ];
 
 // note - this excludes RAW_TEXT

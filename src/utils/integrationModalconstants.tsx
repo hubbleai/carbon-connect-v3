@@ -25,6 +25,7 @@ import GCSLogo from "../assets/logos/gcs-logo.svg";
 import GuruLogo from "../assets/logos/guru-logo.svg";
 import ServiceNowLogo from "../assets/logos/servicenow-logo.svg";
 import AzureLogo from "../assets/logos/storage-blob.svg";
+import Document360Logo from "../assets/logos/document360.png";
 import { IntegrationName } from "../typing/shared";
 
 export interface IntegrationItemType {
@@ -365,6 +366,20 @@ export const INTEGRATIONS_LIST: IntegrationItemType[] = [
     logo: AzureLogo,
     active: true,
     data_source_type: IntegrationName.AZURE_BLOB_STORAGE,
+    requiresOAuth: false,
+    multiStep: true,
+  },
+  {
+    id: IntegrationName.DOCUMENT360,
+    subpath: "Document360",
+    name: "Document360",
+    description:
+      "Lets your users connect their Document360 workspaces to Carbon.",
+    announcementName: "to connect Document360",
+    icon: <img src={Document360Logo} className="cc-w-7 cc-h-7" />,
+    logo: Document360Logo,
+    active: true,
+    data_source_type: IntegrationName.DOCUMENT360,
     requiresOAuth: false,
     multiStep: true,
   },

@@ -301,6 +301,7 @@ export enum IntegrationName {
   GURU = "GURU",
   SERVICENOW = "SERVICENOW",
   AZURE_BLOB_STORAGE = "AZURE_BLOB_STORAGE",
+  DOCUMENT360 = "DOCUMENT360",
 }
 
 export enum TranscriptionService {

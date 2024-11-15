@@ -51,6 +51,7 @@ import SlackScreen from "../Screens/SlackScreen";
 import GuruScreen from "../Screens/GuruScreen";
 import ServiceNowScreen from "../Screens/ServiceNowScreen";
 import AzureScreen from "../Screens/AzureScreen";
+import Document360Screen from "../Screens/Document360Screen";
 
 export enum SyncingModes {
   FILE_PICKER = "FILE_PICKER",
@@ -704,6 +705,12 @@ export default function CarbonFilePicker({
         )) ||
         (integrationName == IntegrationName.AZURE_BLOB_STORAGE && (
           <AzureScreen
+            processedIntegration={processedIntegration}
+            setShowAdditionalStep={setShowAdditionalStep}
+          />
+        )) ||
+        (integrationName == IntegrationName.DOCUMENT360 && (
+          <Document360Screen
             processedIntegration={processedIntegration}
             setShowAdditionalStep={setShowAdditionalStep}
           />
