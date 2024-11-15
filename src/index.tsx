@@ -150,6 +150,8 @@ export type FileSyncConfig = {
   transcription_service?: TranscriptionService;
   include_speaker_labels?: boolean;
   generate_chunks_only?: boolean;
+  skip_file_processing?: boolean;
+  store_file_only?: boolean;
 };
 
 export type BaseIntegration = {
